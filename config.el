@@ -43,8 +43,8 @@
 
 ;; Set the default frame size
 (setq default-frame-alist
-      '((width . 180)   ; Width set to 180 columns
-        (height . 45))) ; Height set to 30 lines
+      '((width . 200)   ; Width set to 180 columns
+        (height . 60))) ; Height set to 30 lines
 
 ;; Trun of those ugly squiggly lines
 ;;(setq global-vi-tilde-fringe-mode nil)
@@ -180,3 +180,5 @@
 
 ;; Remove the title bar
 ;;(add-to-list 'default-frame-alist '(undecorated . t))
+;; Remove scroll bar
+(scroll-bar-mode -1)
