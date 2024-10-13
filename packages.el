@@ -49,20 +49,21 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
                                         ;(unpin! t)
                                         ;
-(package! writeroom-mode)
 
 ;; Jupyter Support
-(package! jupyter)
-(package! ein)
+;; (package! jupyter)
+;; (package! ein)
 
 ;; Lsp
-(package! lsp-pyright)
-(package! lsp-jedi)
+;; (package! lsp-pyright)
+;; (package! lsp-jedi)
+
+;; (package! centered-cursor-mode)
+(package! modern-fringes)
 
 ;; Themes
 (package! ef-themes :recipe (:host github :repo "protesilaos/ef-themes" :depth 1))
 (package! gruber-darker-theme)
-(package! kanagawa-theme)
 (package! avk-emacs-themes)
 (package! anti-zenburn-theme)
 (package! catppuccin-theme)
@@ -70,9 +71,126 @@
 (package! inkpot-theme)
 (package! idea-darkula-theme)
 (package! atom-one-dark-theme)
+;; (package! github-modern-theme) ;; Deprecated?
+;; (package! acme-theme)          ;; Deprecated?
+(package! eclipse-theme)
+(package! blackboard-theme)
+(package! borland-blue-theme)
+(package! cloud-theme)
+(package! ahungry-theme)
+(package! color-theme-sanityinc-solarized)
+(package! color-theme-sanityinc-tomorrow)
+(package! commentary-theme)
+(package! professional-theme)
+(package! kanagawa-themes)
+(package! the-matrix-theme)
+(package! nano-theme)
+(package! nubox)
+(package! obsidian-theme)
+(package! rebecca-theme)
+(package! remember-last-theme)
+(package! reykjavik-theme)
+(package! soft-morning-theme)
+(package! spacemacs-theme)
+(package! standard-themes)
+(package! starlit-theme)
+(package! stimmung-themes)
+(package! subatomic-theme)
+(package! subatomic256-theme)
+(package! sweet-theme)
+(package! ubuntu-theme)
+(package! vscdark-theme)
+(package! vscode-dark-plus-theme)
+(package! white-theme)
+(package! xresources-theme)
+(package! yabaki-theme)
+(package! silkworm-theme)
+(package! soft-morning-theme)
+(package! soft-stone-theme)
+(package! spacemacs-theme)
+(package! subatomic-theme)
+
+;; NOT INSTALLED
+;; /////////////////////////////////////////////////////
+(package! gotham-theme)
+;; (package! material-theme)
+;; (package! iosevka-theme)
+;; (package! rimero-theme)
+;; (package! sakura-theme)
+;; (package! seti-theme)
+;; (package! simplicity-theme)
+;; (package! smyx-theme)
+;; (package! sorcery-theme)
+;; (package! sublime-themes)
+;; (package! svg-mode-line-themes)
+;; (package! termbright-theme)
+;; (package! uwu-theme)
+;; (package! arjen-grey-theme)
+;; /////////////////////////////////////////////////////
+
+;; all-the-icons
+;; aircon-theme
+;; alect-themes
+;; almost-mono-themes
+;; ample-theme
+;; ample-zen
+;; ancient-one-dark-emacs
+;; atom-dark-theme-emacs
+;; autothemer
+;; badger-theme
+;; basic-theme
+;; berrys-theme
+;; birds-of-paradise-plus-theme
+;; emacs-afternoon-theme
+;; emacs-bliss-theme
+;; emacs-boron-theme
+;; emacs-cherry-blossom-theme
+;; emacs-clues-theme
+;; emacs-color-theme-autumn-light
+;; emacs-color-themes
+;; emacs-constant-theme
+;; emacs-reformatter
 
 ;; Debuggers
-(package! pytest-pdb-break)
+;; (package! pytest-pdb-break)
 
-;; Transparency
-;;(package! transwin) UNINSTALL IF INSTALLED
+;; MISC
+;; //////////////////////////////////////////////////
+;; (package! writeroom-mode) ;; in init.el :ui zen
+(package! writegood-mode)
+
+(package! code-cells)
+(package! tab-jump-out)
+(package! drag-stuff)
+(package! parrot)
+
+(package! transpose-frame)
+
+(package! vimscript-ts-mode)
+(package! wolfram-mode)
+(package! wolfram)
+(package! gradle-mode)
+(package! docker-compose-mode)
+;; gptel
+
+(package! hackernews)
+(package! leetcode)
+;; //////////////////////////////////////////////////
+
+;; LSPS
+;; (package! lsp-intellij)
+(package! lsp-java)
+
+;; ORG-ROAM
+(package! org-roam-ui) ;; Org-roam visualizer
+        (package! websocket)
+
+;; ORG-MODE
+;; (package! org-journal) ;; Installed [Tue Apr 9 03:46:40 2024]
+(package! org-bullets)
+(package! org-modern) ;; Makes tags look better
+;; (package! org-present)
+
+;; (package! centered-cursor-mode)
+(package! modern-fringes)
+(package! olivetti) ;; Centers Content
