@@ -1,4 +1,3 @@
-
 ;;; init.el -*- lexical-binding: t; -*-
 
 ;; This file controls what Doom modules are enabled and what order they load
@@ -24,17 +23,17 @@
        :completion
        ;;(company +childframe)           ; the ultimate code completion backend
        (corfu
-        +orderless)
+        +orderless
         ;; +icons
-        ;; +dabbrev)
-                                        ; complete with cap(f), cape and a flying feather!
+        ;; +dabbrev
+        )                ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
        (vertico
-        +icons)
+        +icons
         ;; +childframe
-                                        ; the search engine of the future
+        )                               ; the search engine of the future
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -54,9 +53,9 @@
        ;;tabs              ; a tab bar for Emacs
        (treemacs +lsp)          ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
-       ;;(vc-gutter
-       ;;+pretty
-       ;; ) ; vcs diff in the fringe
+       (vc-gutter
+        +pretty
+        )                  ; vcs diff in the fringe
        ;;vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        ;;window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
@@ -66,23 +65,23 @@
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       (format)
+       (format
         ;; +onsave
-                        ; automated prettiness
+        )                  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
-       parinfer          ; turn lisp into python, sort of
+       ;;parinfer          ; turn lisp into python, sort of
        rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
        (dired
-        +icons)
-        ;; +dirvish)
-        ;;  making dired pretty [functional])
+        +icons
+        ;; +dirvish
+        )              ; making dired pretty [functional])
        electric          ; smarter, keyword-based electric-indent
        ;;eww               ; the internet is gross
        (ibuffer +icons)           ; interactive buffer management
@@ -96,8 +95,14 @@
        vterm             ; the best terminal emulation in Emacs
 
        :checkers
-       (syntax +childframe +icons)              ; tasing you for every semicolon you forget
-       (spell +aspell) ; tasing you for misspelling mispelling
+       (syntax
+        +childframe
+        ;; +icons
+        )                ; tasing you for every semicolon you forget
+       (spell
+        +aspell
+        +flyspell
+        ) ; tasing you for misspelling mispelling
        ;;grammar           ; tasing grammar mistake every you make
 
        :tools
@@ -110,10 +115,13 @@
        editorconfig      ; let someone else argue about tabs vs spaces
        ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
-       (lookup +docsets +dictionary)            ; navigate your code and its documentation
+       (lookup
+        +docsets
+        +dictionary
+        )                             ; navigate your code and its documentation
        (lsp
-        +peek)
-         ; M-x vscode
+        +peek
+        )                 ; M-x vscode
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
@@ -126,21 +134,23 @@
 
        :os
        (:if (featurep :system 'macos) macos)  ; improve compatibility with macOS
-       (tty +osc)               ; improve the terminal Emacs experience
+       (tty
+        +osc
+        )               ; improve the terminal Emacs experience
 
        :lang
        ;;agda              ; types of types of types of types...
        ;;beancount         ; mind the GAAP
-       (cc)
+       (cc
         ;; +lsp
-                 ; C > C++ == 1
+        )                  ; C > C++ == 1
        ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
        (csharp          ; dotnet CLI wrapper, using Transient
-        +dotnet)
-                        ; unity, .NET, and mono shenanigans
+        +dotnet
+        )                ; unity, .NET, and mono shenanigans
        data              ; config/data formats
        (dart +flutter)   ; paint ui and not much else
        ;;dhall
@@ -155,7 +165,9 @@
        ;;fsharp            ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;gdscript          ; the language you waited for
-       ;;(go +lsp)         ; the hipster dialect
+       (go
+        ;; +lsp
+        ) ; the hipster dialect
        ;;(graphql +lsp)    ; Give queries a REST
        ;;(haskell +lsp)    ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python

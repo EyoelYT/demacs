@@ -142,7 +142,7 @@
                 ;; (undecorated . t) ;; remove title bar
                 ;;
                 ;; (fullscreen . fullwidth) ;; start emacs in full screen
-                (fullscreen . fullboth)
+                ;; (fullscreen . fullboth) ;; Window frame (outside of view)
 
                 ;; (alpha . 50)
                 )))
@@ -181,6 +181,14 @@
 ;; Turn off spell checker globally when first loading doom
 ;; (remove-hook 'doom-first-buffer-hook #'spell-fu-global-mode) ;? Works or not? If not, remove line
 (remove-hook 'text-mode-hook #'spell-fu-mode)
+
+(remove-hook 'org-mode-hook #'flyspell-mode)
+(remove-hook 'markdown-mode-hook #'flyspell-mode)
+(remove-hook 'TeX-mode-hook #'flyspell-mode)
+(remove-hook 'rst-mode-hook #'flyspell-mode)
+(remove-hook 'mu4e-compose-mode-hook #'flyspell-mode)
+(remove-hook 'message-mode-hook #'flyspell-mode)
+(remove-hook 'git-commit-mode-hook #'flyspell-mode)
 
 ;; Turn off highlighting the whole line the cursor is at
 (after! hl-line
@@ -605,6 +613,7 @@
 (setq org-agenda-files '("/mnt/c/Users/Eyu/AllMyFilesArch/org/agenda.org"
                          "/mnt/c/Users/Eyu/AllMyFilesArch/org/roam/20240822232750-being_both_productive_and_having_fun_in_programming.org"
                          "/mnt/c/Users/Eyu/AllMyFilesArch/org/roam/20240904214224-checklist_for_leetcode_topic_mastery.org"
+                         "/mnt/c/Users/Eyu/AllMyFilesArch/org/roam/20241014000641-job_application_tracking.org"
                          "/home/eyu/current.org"))
 (setq org-edit-src-content-indentation 0)
 (setq org-archive-location ".archive/%s::")
@@ -756,8 +765,19 @@
 ;; Set evil mode in minibuffers
 (setq evil-want-minibuffer t)
 
+;; (doom-require 'bookmark+)
+
+;; (use-package! bookmark+
+;;   :demand t
+;;   )
+  ;; (load "/home/eyu/.config/emacs/.local/straight/repos/bookmark-plus/bookmark+-mac.el")
+;; (require 'bookmark+-mac nil t)
+
+
 ;; Set insert evil mode to box
 (setq evil-insert-state-cursor '(hollow))
+(if (not(display-graphic-p))
+    (setq evil-insert-state-cursor '(hbar)))
 ;; (setq evil-insert-state-cursor '(box +evil-emacs-cursor-fn))
 ;; (setq evil-normal-state-cursor '(box))
 
@@ -973,8 +993,11 @@ insert it into the current buffer."
 (global-subword-mode 1)
 
 ;; Read Escape seq from Alacritty (C-i)
-(define-key input-decode-map "\e[105;5u" [C-i])
-;; (define-key input-decode-map "\C-@" "\C- ")
+(define-key input-decode-map "\C-@"      (kbd "C-SPC"))
+(define-key input-decode-map "\e[105;5u" (kbd "<C-i>"))
+(define-key input-decode-map "\e[105;6u" (kbd "C-S-a"))
+(define-key input-decode-map "\e[100;6u" (kbd "C-S-d"))
+(define-key input-decode-map "\e[73;6u"  (kbd "C-S-i"))
 
 ;; (desktop-save-mode 1) ;: Enable desktop saving state here
 ;; (setq desktop-restore-eager 1
@@ -1103,3 +1126,11 @@ See minad/consult#770."
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
 ;; (set-background-color "#181818")
+
+(defun ey/consult-ripgrep-with-live-preview ()
+  "Search using consult-ripgrep with live preview in the buffer above the minibuffer."
+  (interactive)
+  ;; Run consult-ripgrep with live preview enabled
+  (consult-ripgrep default-directory))
+
+(map! :leader "r g" #'ey/consult-ripgrep-with-live-preview)
