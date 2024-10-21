@@ -989,23 +989,36 @@ insert it into the current buffer."
   )
 
 ;; (diff-hl-margin-local-mode 0)
-;; (global-diff-hl-mode 0)
+
+;; Remove automatic diff-hl mode
+(remove-hook! vc-dir-mode #'turn-on-diff-hl-mode)
+(remove-hook! 'doom-first-file-hook #'global-diff-hl-mode)
+
 (global-subword-mode 1)
 
 ;; Read Escape seq from Alacritty (C-i)
-(define-key input-decode-map "\C-@"      (kbd "C-SPC"))
-(define-key input-decode-map "\e[105;5u" (kbd "<C-i>"))
-(define-key input-decode-map "\e[105;6u" (kbd "C-S-a"))
-(define-key input-decode-map "\e[100;6u" (kbd "C-S-d"))
-(define-key input-decode-map "\e[73;6u"  (kbd "C-S-i"))
+(defun ey/set-input-decoder-mappings ()
+  (define-key input-decode-map "\C-@"      (kbd "C-SPC"))
+  (define-key input-decode-map "\e[105;5u" (kbd "<C-i>"))
+  (define-key input-decode-map "\e[105;6u" (kbd "C-S-a"))
+  (define-key input-decode-map "\e[100;6u" (kbd "C-S-d"))
+  (define-key input-decode-map "\e[73;6u"  (kbd "C-S-i"))
+  )
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (with-selected-frame frame
+                  (ey/set-input-decoder-mappings))))
+  (ey/set-input-decoder-mappings))
 
 ;; (desktop-save-mode 1) ;: Enable desktop saving state here
 ;; (setq desktop-restore-eager 1
 ;;       desktop-restore-forces-onscreen 'all
 ;;       desktop-restore-frames t)
-;; (setq treemacs-persist-file nil)
 ;; (setq desktop-restore-eager 10) ; Number of buffers to restore immediately
 ;; (setq desktop-save 'if-exists) ; Save desktop without asking if it already exists
+(setq treemacs-persist-file nil)
 
 
 (use-package! drag-stuff
@@ -1131,6 +1144,17 @@ See minad/consult#770."
   "Search using consult-ripgrep with live preview in the buffer above the minibuffer."
   (interactive)
   ;; Run consult-ripgrep with live preview enabled
-  (consult-ripgrep default-directory))
+  (let ((selected-text (when (use-region-p)
+                         (buffer-substring-no-properties (region-beginning) (region-end)))))
+    (if selected-text
+        (progn
+          (deactivate-mark)
+          (minibuffer-with-setup-hook
+              (lambda () (insert selected-text))
+            (consult-ripgrep default-directory)))
+      (consult-ripgrep default-directory))))
 
 (map! :leader "r g" #'ey/consult-ripgrep-with-live-preview)
+
+(after! better-jumper
+  (setq better-jumper-context 'buffer))

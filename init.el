@@ -24,8 +24,8 @@
        ;;(company +childframe)           ; the ultimate code completion backend
        (corfu
         +orderless
-        ;; +icons
-        ;; +dabbrev
+        +icons
+        +dabbrev
         )                ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
