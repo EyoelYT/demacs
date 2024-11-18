@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: job-application
+# uuid:
+# key: job
+# condition: t
+# --
+* $1
+** APPLY ${2:Company}: ${3:Experience} - ${4:Position}
+*** Description
+$5
+*** Experience Table
+$6
+*** About the Company
+*** LINKS
+*** COVER LETTER

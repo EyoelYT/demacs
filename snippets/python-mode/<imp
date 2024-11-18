@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: import leetcode python collection
+# uuid:
+# key: <imp
+# condition: t
+# --
+from collections import List, deque

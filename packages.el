@@ -54,15 +54,9 @@
 ;; (package! jupyter)
 ;; (package! ein)
 
-;; Lsp
-;; (package! lsp-pyright)
-;; (package! lsp-jedi)
-
-;; (package! centered-cursor-mode)
-(package! modern-fringes)
-
 ;; Themes
 (package! ef-themes :recipe (:host github :repo "protesilaos/ef-themes" :depth 1))
+(package! naysayer-theme)
 (package! gruber-darker-theme)
 (package! avk-emacs-themes)
 (package! anti-zenburn-theme)
@@ -84,7 +78,7 @@
 (package! professional-theme)
 (package! kanagawa-themes)
 (package! the-matrix-theme)
-(package! nano-theme)
+;; (package! nano-theme)
 (package! nubox)
 (package! obsidian-theme)
 (package! rebecca-theme)
@@ -109,10 +103,24 @@
 (package! soft-stone-theme)
 (package! spacemacs-theme)
 (package! subatomic-theme)
-
-;; NOT INSTALLED
-;; /////////////////////////////////////////////////////
+(package! moe-theme)
+(package! kaolin-themes)
 (package! gotham-theme)
+(package! stimmung-themes)
+(package! paper-theme)
+(package! grey-paper-theme)
+(package! jazz-theme)
+(package! kuronami-theme)
+(package! dape)
+(package! expreg)
+(package! page-break-lines)
+(package! eat)
+(package! apropospriate-theme)
+;; (package! danneskjold-theme) ; org mode looks bad atm
+(package! codex-theme)
+
+;;                NOT INSTALLED
+;; /////////////////////////////////////////////////////
 ;; (package! material-theme)
 ;; (package! iosevka-theme)
 ;; (package! rimero-theme)
@@ -126,8 +134,6 @@
 ;; (package! termbright-theme)
 ;; (package! uwu-theme)
 ;; (package! arjen-grey-theme)
-;; /////////////////////////////////////////////////////
-
 ;; all-the-icons
 ;; aircon-theme
 ;; alect-themes
@@ -136,7 +142,6 @@
 ;; ample-zen
 ;; ancient-one-dark-emacs
 ;; atom-dark-theme-emacs
-;; autothemer
 ;; badger-theme
 ;; basic-theme
 ;; berrys-theme
@@ -147,17 +152,21 @@
 ;; emacs-cherry-blossom-theme
 ;; emacs-clues-theme
 ;; emacs-color-theme-autumn-light
-;; emacs-color-themes
 ;; emacs-constant-theme
 ;; emacs-reformatter
+;; /////////////////////////////////////////////////////
 
-;; Debuggers
-;; (package! pytest-pdb-break)
+;;               INSTALLED (How tho??)
+;; /////////////////////////////////////////////////////
+;; autothemer
+;; (package! emacs-color-themes)
+;; /////////////////////////////////////////////////////
 
-;; MISC
+;;                MISC
 ;; //////////////////////////////////////////////////
 ;; (package! writeroom-mode) ;; in init.el :ui zen
 (package! writegood-mode)
+(package! keycast)
 
 (package! code-cells)
 (package! tab-jump-out)
@@ -175,11 +184,18 @@
 
 (package! hackernews)
 (package! leetcode)
+(package! fzf)
+(package! exec-path-from-shell)
 ;; //////////////////////////////////////////////////
 
 ;; LSPS
 ;; (package! lsp-intellij)
+;; (package! lsp-pyright)
+;; (package! lsp-jedi)
 (package! lsp-java)
+
+;; DEBUGGERS
+;; (package! pytest-pdb-break)
 
 ;; ORG-ROAM
 (package! org-roam-ui) ;; Org-roam visualizer
