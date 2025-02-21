@@ -1,5 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+
+
 (setq user-full-name "Eyoel Tesfu")
 (setq user-mail-address "eyoelytesfu@gmail.com")
 
@@ -18,7 +20,7 @@
 (setq comment-empty-lines t)
 (setq recentf-max-saved-items 1000)
 (setq load-prefer-newer t)
-(setq scroll-conservatively 5
+(setq scroll-conservatively 5)
 (setq scroll-step 0)
 (setq scroll-preserve-screen-position 'always)
 (setq scroll-margin 0)
@@ -28,9 +30,6 @@
 (pixel-scroll-precision-mode 1)
 (global-page-break-lines-mode 1)
 
-(setq-default left-margin-width 1
-              right-margin-width nil)
-
 (setq doom-leader-alt-key-states '(normal visual motion insert emacs))
 
 (setq auto-save-default nil)
@@ -39,6 +38,11 @@
 (auto-save-visited-mode 1)
 
 (setq find-function-C-source-directory "/mnt/c/Users/Eyu/Projects/probe/emacs/src")
+
+(setq tab-always-indent t)
+(setq tab-first-completion nil)
+
+
 
 (setq
  doom-theme 'doom-old-hope
@@ -67,23 +71,26 @@
                          )
  )
 
-(setq projectile-project-search-path '(
-                                       "/mnt/c/Users/Eyu/Projects/"
+
+
+(setq projectile-project-search-path '("/mnt/c/Users/Eyu/Projects/"
                                        "/mnt/c/Users/Eyu/AndroidStudioProjects/"
-                                       "/mnt/c/Users/Eyu/RustroverProjects/"
-                                       ))
+                                       "/mnt/c/Users/Eyu/RustroverProjects/"))
 
 (after! doom-themes
   (setq doom-themes-enable-bold nil   ; if nil, bold is universally disabled
         doom-themes-enable-italic nil ; if nil, italics is universally disabled
-        doom-font-increment 1
-        ))
+        doom-font-increment 1))
+
+
 
 (setq global-text-scale-adjust--increment-factor 1 ; default = 5
       text-scale-mode-step 1.04)
 
 (fringe-mode 0)
 (set-fringe-mode 0)
+
+
 
 ;; Search accurately for # and * symbols
 (use-package evil
@@ -97,8 +104,9 @@
         evil-respect-visual-line-mode nil
         evil-kill-on-visual-paste nil
         evil-move-cursor-back t
-        evil-want-fine-undo t
-        ))
+        evil-want-fine-undo t))
+
+
 
 (map!
  :nvm "<up>"   #'evil-previous-visual-line
@@ -162,6 +170,8 @@
   (add-to-list 'default-frame-alist '(inhibit-double-buffering . t)) ; TODO: check if it makes a difference
   (add-to-list 'default-frame-alist '(alpha . 50)))
 
+
+
 ;; Put all backup files into a separate place
 (setq backup-by-copying t)
 (make-directory "~/.emacs_backups/" t)
@@ -175,6 +185,8 @@
 
 (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
 ;; (setq eldoc-documentation-strategy 'eldoc-documentation-default)
+
+
 
 ;;; Dirvish Dired Mode
 (after! dirvish
@@ -194,9 +206,7 @@
         :gm [left]  nil
         :gm [right] nil
         :gm "g <left>" #'dirvish-subtree-up
-        :n  "z" nil
-        )
-  )
+        :n  "z" nil))
 
 ;;; Dired Customizations
 (after! dired
@@ -205,12 +215,12 @@
 
 (after! diredfl
   (remove-hook 'dired-mode-hook #'diredfl-mode)
-  (remove-hook 'dirvish-directory-view-mode-hook #'diredfl-mode)
-  )
+  (remove-hook 'dirvish-directory-view-mode-hook #'diredfl-mode))
 
 (after! dired-x ; provides dired omit mode
   (remove-hook! 'dired-mode-hook #'dired-omit-mode))
 
+
 
 ;;; Turn off highlighting the whole line the cursor is at
 (remove-hook 'doom-first-buffer-hook #'global-hl-line-mode)
@@ -256,6 +266,8 @@
 ;; (setq pop-up-frames nil)
 ;; (setq pop-up-windows nil)
 
+
+
 (use-package! websocket
     :after org-roam)
 
@@ -270,6 +282,8 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+
+
 
 (setq org-agenda-custom-commands
       '(
@@ -357,6 +371,8 @@
          )
         ))
 
+
+
 (setq org-agenda-prefix-format
 
       ;; What works = (%) + (s/T/t/b) (scheduled/deadline string | TAGS | time | title of higher level)
@@ -387,6 +403,8 @@
       ;;   (todo . " %-6e| ")
       ;;   (tags . " %-6e| ")
       ;;   (search . " %-6e| ")))
+
+
 
 ;;; Time stamp done todos
 (setq org-log-done 'time)
@@ -442,6 +460,8 @@
                                     (search category-keep))
       )
 
+
+
 (setq org-capture-templates
       '(
 
@@ -489,9 +509,9 @@
         ;; ("l" "ledger" plain (file "ledger/personal.gpg")
         ;;  "%(+beancount/clone-transaction)")
 
-        )
+        ))
 
-      )
+
 
 ;;; Org-Journal
 (setq org-journal-dir "/mnt/c/Users/Eyu/AllMyFilesArch/journal/"
@@ -500,6 +520,8 @@
       org-journal-file-format "%Y.org"
       org-journal-file-type 'yearly
       org-journal-created-property-timestamp-format "%Y%m%d")
+
+
 
 ;;; HOW TO MANUALLY OPEN LSPs
 ;; - Remove lang "+lsp" in init.el (otherwise the config of the lsp for that language is going to be automatically defined by doom)
@@ -513,12 +535,10 @@
    lsp-enable-symbol-highlighting nil
    ;; lsp-enable-suggest-server-download t
    lsp-modeline-diagnostics-scope :file
-   lsp-use-plists t
-   )
+   lsp-use-plists t)
   (map! :leader
         :desc "lsp symbol highlight"
-        "t h" #'lsp-toggle-symbol-highlight)
-  )
+        "t h" #'lsp-toggle-symbol-highlight))
 
 ;;; Remove opening automatic tide server when opening rjsx/tsx/web-mode files
 (remove-hook! '(typescript-mode-local-vars-hook
@@ -557,8 +577,7 @@
   (setq lsp-java-references-code-lens-enabled t
         lsp-java-progress-reports-enabled t
         lsp-java-import-gradle-enabled t
-        lsp-java-import-maven-enabled t)
-  )
+        lsp-java-import-maven-enabled t))
 
 (use-package! dap-java
   ;; :when (modulep! :tools debugger +lsp)
@@ -571,24 +590,22 @@
          :desc "Run test class or method"   "t" #'+java/run-test
          :desc "Run all tests in class"     "a" #'dap-java-run-test-class
          :desc "Debug test class or method" "d" #'+java/debug-test
-         :desc "Debug all tests in class"   "D" #'dap-java-debug-test-class))
-  )
+         :desc "Debug all tests in class"   "D" #'dap-java-debug-test-class)))
 
 (after! lsp-ui
   (setq
-   lsp-ui-sideline-enable nil           ; no more useful than flycheck
-   lsp-ui-doc-enable nil                ; redundant with K
-   lsp-ui-sideline-show-code-actions t  ; default: nil
+   lsp-ui-sideline-enable nil             ; no more useful than flycheck
+   lsp-ui-doc-enable nil                  ; redundant with K
+   lsp-ui-sideline-show-code-actions t    ; default: nil
    ;; lsp-signature-auto-activate
-   lsp-signature-render-documentation t ; default: t
-   )
-  )
+   lsp-signature-render-documentation t)) ; default: t
+
+
 
 ;;; Make company mode completion faster
 (after! company
   (setq company-idle-delay nil) ; default was 0.2 ; value of nil means no idle completion
-  (setq company-tooltip-idle-delay 0.5) ; default was 0.5
-  )
+  (setq company-tooltip-idle-delay 0.5)) ; default was 0.5
 
 ;;; Corfu completion
 (after! corfu
@@ -605,8 +622,7 @@
    corfu-quit-no-match nil
    corfu-min-width 30
    global-corfu-modes '((not erc-mode circe-mode help-mode gud-mode vterm-mode)
-                        t)
-   ))
+                        t)))
 
 (add-hook! 'org-load-hook :append
   (defun +org-fix-keybindings ()
@@ -621,16 +637,13 @@
 (map!
  :i "C-u" #'evil-scroll-up
  :i "C-d" #'evil-scroll-down
- :nvi "C-t" #'+workspace/display
- )
+ :nvi "C-t" #'+workspace/display)
 
 (map!
  "S-<up>" #'scroll-down-line
  "S-<down>" #'scroll-up-line
  "S-<left>" #'evil-scroll-left
- "S-<right>" #'evil-scroll-right
- )
-
+ "S-<right>" #'evil-scroll-right)
 
 ;;; Window Selection mapping
 (map! :leader
@@ -638,6 +651,8 @@
  :nm "<right>"     #'evil-window-right
  :nm "<up>"        #'evil-window-up
  :nm "<down>"      #'evil-window-down
+
+ :nm "w M"         #'doom/window-maximize-buffer
 
  ;; Workspace Switcher, esp useful in tty mode
  :nm "TAB <left>"  #'+workspace/switch-left
@@ -652,8 +667,7 @@
  :nm "3"           #'+workspace/switch-to-2
  :nm "4"           #'+workspace/switch-to-3
  :nm "5"           #'+workspace/switch-to-4
- :nm "6"           #'+workspace/switch-to-5
-)
+ :nm "6"           #'+workspace/switch-to-5)
 
 (map!
  :nm "M-1"             #'+workspace/switch-to-0
@@ -665,8 +679,7 @@
  :nm "M-7"             #'+workspace/switch-to-6
  :nm "M-8"             #'+workspace/switch-to-7
  :nm "M-9"             #'+workspace/switch-to-8
- :nm "M-0"             #'+workspace/switch-to-final
- )
+ :nm "M-0"             #'+workspace/switch-to-final)
 
 ;;; Buffer Selection mapping
 ;; Remap SPC ` to Ctrl-Tab for switching buffers
@@ -687,20 +700,17 @@
  :nvm "SPC w C-h" nil
 
  :map magit-mode-map
- :nv "C-w C-h" nil
- )
+ :nv "C-w C-h" nil)
 
 ;; S-<arrows> to move windows around
 (map! :map doom-leader-map
       "w S-<up>"    #'+evil/window-move-up
       "w S-<down>"  #'+evil/window-move-down
       "w S-<left>"  #'+evil/window-move-left
-      "w S-<right>" #'+evil/window-move-right
-      )
+      "w S-<right>" #'+evil/window-move-right)
 
 (map! :leader
-      "`" #'+popup/toggle ; Global leader binding
-      )
+      "`" #'+popup/toggle) ; Global leader binding
 
 (map! :leader
       :map general-override-mode-map
@@ -732,8 +742,7 @@
   (map!
    :map evil-org-mode-map
    :mnv "g l" nil ; I want evil-lion-left to work
-   :i "C-h" nil     ; Disable annoying org-beginning-of-line ; TODO: Working?
-   ))
+   :i "C-h" nil)) ; Disable annoying org-beginning-of-line ; TODO: Working?
 
 (after! org
   (setq org-startup-folded 'fold)
@@ -742,8 +751,7 @@
 
   (map!
    :map org-mode-map
-   :mnv "g l" nil ; I want evil-lion-left to work
-   ))
+   :mnv "g l" nil)) ; I want evil-lion-left to work
 
 (after! org-cycle
   ;; (setq org-cycle-emulate-tab nil)
@@ -759,14 +767,12 @@
 
 ; Which-key configuration
 (after! which-key
-  (setq which-key-allow-imprecise-window-fit nil  ; Ensures that which-key suggestions are fully visible
-        which-key-side-window-max-height 0.99) ; Maximizes the height of the which-key window to 99%
-  )
+  (setq which-key-allow-imprecise-window-fit nil ; Ensures that which-key suggestions are fully visible
+        which-key-side-window-max-height 0.99)) ; Maximizes the height of the which-key window to 99%
 
 (defun ey/disable-which-key ()
   (which-key-mode -1) ; Use `(kbd "C-h")' instead
-  (setq echo-keystrokes 0) ; echoing keybinds in minibuffer area
-  )
+  (setq echo-keystrokes 0)) ; echoing keybinds in minibuffer area
 
 (add-hook 'doom-first-file-hook #'ey/disable-which-key)
 
@@ -787,8 +793,7 @@
   (require 'dap-python)
   (require 'dap-lldb)
   (require 'dap-gdb-lldb)
-  (setq dap-python-debugger 'debugpy)
-  )
+  (setq dap-python-debugger 'debugpy))
 
 ;; (setq python-shell-interpreter "ipython"
 ;;       python-shell-interpreter-args "-i --simple-prompt")
@@ -810,9 +815,7 @@
   (evil-visual-char)
   (doom/forward-to-last-non-comment-or-eol)
   (if (looking-at "[ \t\n]")
-      (evil-backward-char)
-    )
-  )
+      (evil-backward-char)))
 
 (defun ey/visual-to-first-non-blank-in-current-line ()
   "Visual mode and extend selection to the first non-blank char in the current line."
@@ -833,16 +836,14 @@
  :nvim "C-S-i" #'ey/visual-to-first-non-blank-in-current-line
 
  :map vterm-mode-map
- :nvm "C-a" #'doom/backward-to-bol-or-indent
- )
+ :nvm "C-a" #'doom/backward-to-bol-or-indent)
 
 
 
 ;; Persp mode
 (after! persp-mode
   (setq persp-auto-save-opt 0      ; 0 means no save, 1 means save on Emacs kill
-        persp-auto-save-num-of-backups 7
-        ))
+        persp-auto-save-num-of-backups 7))
 
 
 
@@ -854,12 +855,11 @@
 ;; Set Clipboards
 (setq save-interprogram-paste-before-kill t
 
-      select-active-regions nil
-      select-enable-clipboard t
-      select-enable-primary nil
       ;; interprogram-cut-function #'gui-select-text
       ;; interprogram-paste-function #'gui-sele
-      )
+      select-active-regions nil
+      select-enable-clipboard t
+      select-enable-primary nil)
 
 
 
@@ -981,8 +981,7 @@ This gets tacked on the end of the generated expressions.")
       :ni "M-<down>"        #'compilation-next-error
 
       :ni "M-<right>"       #'compilation-next-file
-      :ni "M-<left>"        #'compilation-previous-file
-      )
+      :ni "M-<left>"        #'compilation-previous-file)
 
 
 
@@ -993,8 +992,7 @@ This gets tacked on the end of the generated expressions.")
   :quit nil
   :ttl nil
   :side 'bottom
-  :modeline t
-  )
+  :modeline t)
 
 (set-popup-rule! "^\\*helpful .*"
   :size 0.5
@@ -1003,8 +1001,7 @@ This gets tacked on the end of the generated expressions.")
   :quit nil
   :ttl 0
   :side 'bottom
-  :modeline t
-  )
+  :modeline t)
 
 ;; Rustic compilation mode popup
 (set-popup-rule!
@@ -1049,11 +1046,10 @@ This gets tacked on the end of the generated expressions.")
    doom-modeline-time-live-icon nil
    doom-modeline-time-icon nil          ; the small analogue icon
    doom-modeline-major-mode-icon nil
-   doom-modeline-vcs-max-length 60
    ;; (doom-modeline-def-modeline 'main
    ;;   '(matches bar modals workspace-name window-number persp-name selection-info buffer-info remote-host debug vcs matches)
    ;;   '(github mu4e grip gnus check misc-info repl lsp " "))) ; TODO: Experiment with this later
-   ))
+   doom-modeline-vcs-max-length 60))
 
 
 
@@ -1223,9 +1219,7 @@ insert it into the current buffer."
                             (lambda ()
                               (when selection
                                 (goto-char (point-max))))
-                          (read-file-name "Find file: " nil nil nil selection)
-                          )
-                        ))
+                          (read-file-name "Find file: " nil nil nil selection))))
     (message "%s" file-location)
     (if (file-exists-p file-location)
         (find-file-other-window file-location)
@@ -1263,11 +1257,10 @@ After search term is found, jump back"
 (defun ey/find-all-dirs-and-files-recursively ()
   "List all files and dirs under the current directory and its subdirs."
   (interactive)
-  (find-name-dired default-directory "*")
   ;; (find-dired default-directory (concat find-name-arg " " (shell-quote-argument "*")))
   ;; (find-dired-with-command default-directory "find . -name \\* -fls")
   ;; (find-dired-with-command default-directory "fd . -l")
-  )
+  (find-name-dired default-directory "*"))
 
 (map! :leader
       :desc "Find all files"
@@ -1368,11 +1361,10 @@ See minad/consult#770."
 
 
 (after! better-jumper
-  (setq better-jumper-context 'window)
   ;; (setq better-jumper-use-savehist nil)
   ;; (setq better-jumper-savehist t) ; Gives sequence-p ERROR
   ;; (remove-hook! 'better-jumper-pre-jump-hook #'better-jumper-set-jump)
-  )
+  (setq better-jumper-context 'window))
 
 
 
@@ -1450,13 +1442,12 @@ See minad/consult#770."
     ;; (set-face-attribute 'org-block nil :foreground (face-attribute 'default :foreground))
     )
   (after! hl-line
-    ;; (set-face-attribute 'hl-line nil :background nil)
+    (set-face-attribute 'hl-line nil :background nil)
     )
   (after! faces
-    (set-face-attribute 'bold nil :weight 'normal) ; for package ef-themes
-    ;; (set-face-attribute 'line-number-current-line nil :background nil) ; FIXME: This doesn't evaluate automatically. I have to evaluate it
+    (set-face-attribute 'line-number-current-line nil :background nil) ; FIXME: This doesn't evaluate automatically. I have to evaluate it
     ;; (set-face-attribute 'line-number-current-line nil :inherit nil) ; FIXME: This doesn't evaluate automatically. I have to evaluate it
-    ))
+    (set-face-attribute 'bold nil :weight 'normal))) ; for package ef-themes
 
 (defun ey/reload-theme (&optional _theme)
   "Reload the current Emacs theme."
@@ -1491,8 +1482,7 @@ See minad/consult#770."
 
 (map! :map doom-leader-map
       :desc "Insert nerd icon"
-      "i n" #'nerd-icons-insert
-      )
+      "i n" #'nerd-icons-insert)
 
 
 
@@ -1718,20 +1708,17 @@ and display them in a unique interactive buffer."
 
 (elfeed-org)
 (setq rmh-elfeed-org-files (list
-                            (concat org-directory "org/elfeed.org")
-                            ))
+                            (concat org-directory "org/elfeed.org")))
 
 
 
 (if (modulep! :completion vertico)
     (use-package! vertico-posframe
-      :init (remove-hook 'vertico-mode-hook 'vertico-posframe-mode))
-    )
+      :init (remove-hook 'vertico-mode-hook 'vertico-posframe-mode)))
 
 (after! vertico
-  (setq vertico-count 17) ; default
   ;; (setq vertico-count 4)
-  )
+  (setq vertico-count 17)) ; default
 
 
 
@@ -2068,8 +2055,7 @@ With a universal argument, it includes hidden files and files in hidden director
 
 (map! :map minibuffer-local-shell-command-map
       "C-SPC" #'completion-at-point
-      "TAB" #'completion-at-point
-      )
+      "TAB" #'completion-at-point)
 
 
 
