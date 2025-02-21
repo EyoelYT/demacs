@@ -29,11 +29,15 @@
         )                ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       ;;ivy               ; a search engine for love and life
+       ;;(ivy               ; a search engine for love and life
+       ;;+fuzzy
+       ;;+icons
+       ;;+prescient
+       ;;)
        (vertico
-        +icons
-        ;; +childframe
-        )                               ; the search engine of the future
+       +icons
+       +childframe
+       )                               ; the search engine of the future
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -66,7 +70,7 @@
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        (format
-        ;; +onsave
+        ;;+onsave
         )                  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
@@ -90,19 +94,19 @@
 
        :term
        eshell            ; the elisp shell that works everywhere
-       shell             ; simple shell REPL for Emacs
-       term              ; basic terminal emulator for Emacs
+       ;;shell             ; simple shell REPL for Emacs
+       ;;term              ; basic terminal emulator for Emacs
        vterm             ; the best terminal emulation in Emacs
 
-       :checkers
+       :checkers         ; tasing you for every semicolon you forget
        (syntax
         +childframe
-        ;; +icons
-        )                ; tasing you for every semicolon you forget
-       (spell
+        ;;+icons
+        )
+       (spell            ; tasing you for misspelling mispelling
         +aspell
         +flyspell
-        ) ; tasing you for misspelling mispelling
+        )
        ;;grammar           ; tasing grammar mistake every you make
 
        :tools
@@ -122,8 +126,8 @@
        (lsp
         +peek
         )                 ; M-x vscode
-       magit             ; a git porcelain for Emacs
-       ;;make              ; run make tasks from Emacs
+       (magit +forge)     ; a git porcelain for Emacs
+       make               ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
@@ -142,14 +146,15 @@
        ;;agda              ; types of types of types of types...
        ;;beancount         ; mind the GAAP
        (cc
-        ;; +lsp
+        ;;+lsp
         )                  ; C > C++ == 1
        ;;clojure           ; java with a lisp
-       ;;common-lisp       ; if you've seen one lisp, you've seen them all
+       common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
        (csharp          ; dotnet CLI wrapper, using Transient
-        +dotnet
+        ;;+dotnet
+        ;;+unity
         )                ; unity, .NET, and mono shenanigans
        data              ; config/data formats
        (dart +flutter)   ; paint ui and not much else
@@ -165,17 +170,19 @@
        ;;fsharp            ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;gdscript          ; the language you waited for
-       (go
-        ;; +lsp
-        ) ; the hipster dialect
+       (go                 ; the hipster dialect
+        ;;+lsp
+        )
        ;;(graphql +lsp)    ; Give queries a REST
-       ;;(haskell +lsp)    ; a language that's lazier than I am
+       (haskell      ; a language that's lazier than I am
+        ;;+lsp
+        )
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
        json                ; At least it ain't XML
        java                ; the poster child for carpal tunnel syndrome
        javascript        ; all(hope(abandon(ye(who(enter(here))))))
-       ;;julia             ; a better, faster MATLAB
+       julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        latex             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
@@ -208,7 +215,7 @@
        ;;rst               ; ReST in peace
        ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        (rust
-        ;; +lsp
+        ;;+lsp
         )                  ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps

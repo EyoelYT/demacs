@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: <div id="..."> ... </div>
+# key: divid
+# condition: t
+# --
+<div id="$1">$2</div>

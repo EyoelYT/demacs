@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: <div> ... </div>
+# key: div
+# condition: t
+# --
+<div>$1</div>

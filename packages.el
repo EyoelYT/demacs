@@ -67,6 +67,7 @@
 (package! atom-one-dark-theme)
 ;; (package! github-modern-theme) ;; Deprecated?
 ;; (package! acme-theme)          ;; Deprecated?
+(package! github-dark-vscode-theme)
 (package! eclipse-theme)
 (package! blackboard-theme)
 (package! borland-blue-theme)
@@ -111,13 +112,27 @@
 (package! grey-paper-theme)
 (package! jazz-theme)
 (package! kuronami-theme)
-(package! dape)
-(package! expreg)
-(package! page-break-lines)
-(package! eat)
 (package! apropospriate-theme)
 ;; (package! danneskjold-theme) ; org mode looks bad atm
 (package! codex-theme)
+(package! helix-theme)
+(package! doom-nano-themes :recipe (:host github :repo "ronisbr/doom-nano-themes" :depth 1))
+(package! busybee-theme)
+(package! nofrils-acme-theme)
+(package! wildcharm-light-theme)
+(package! wildcharm-theme)
+(package! grandshell-theme)
+(package! tron-legacy-theme)
+(package! hemisu-theme)
+(package! cyberpunk-theme)
+(package! haki-theme)
+(package! hc-zenburn-theme)
+(package! prassee-theme)
+(package! grayscale-theme)
+(package! kosmos-theme)
+(package! basic-theme)
+(package! hima-theme)
+(package! simplicity-theme)
 
 ;;                NOT INSTALLED
 ;; /////////////////////////////////////////////////////
@@ -134,32 +149,31 @@
 ;; (package! termbright-theme)
 ;; (package! uwu-theme)
 ;; (package! arjen-grey-theme)
-;; all-the-icons
-;; aircon-theme
-;; alect-themes
-;; almost-mono-themes
-;; ample-theme
-;; ample-zen
-;; ancient-one-dark-emacs
-;; atom-dark-theme-emacs
-;; badger-theme
-;; basic-theme
-;; berrys-theme
-;; birds-of-paradise-plus-theme
-;; emacs-afternoon-theme
-;; emacs-bliss-theme
-;; emacs-boron-theme
-;; emacs-cherry-blossom-theme
-;; emacs-clues-theme
-;; emacs-color-theme-autumn-light
-;; emacs-constant-theme
-;; emacs-reformatter
+;; (package! aircon-theme)
+;; (package! alect-themes)
+;; (package! almost-mono-themes)
+;; (package! ample-theme)
+;; (package! ample-zen)
+;; (package! ancient-one-dark-emacs)
+;; (package! atom-dark-theme-emacs)
+;; (package! badger-theme)
+;; (package! basic-theme)
+;; (package! berrys-theme)
+;; (package! birds-of-paradise-plus-theme)
+;; (package! emacs-afternoon-theme)
+;; (package! emacs-bliss-theme)
+;; (package! emacs-boron-theme)
+;; (package! emacs-cherry-blossom-theme)
+;; (package! emacs-clues-theme)
+;; (package! emacs-color-theme-autumn-light)
+;; (package! emacs-constant-theme)
+;; (package! emacs-reformatter)
+;; (package! emacs-color-themes)
 ;; /////////////////////////////////////////////////////
 
 ;;               INSTALLED (How tho??)
 ;; /////////////////////////////////////////////////////
 ;; autothemer
-;; (package! emacs-color-themes)
 ;; /////////////////////////////////////////////////////
 
 ;;                MISC
@@ -167,46 +181,66 @@
 ;; (package! writeroom-mode) ;; in init.el :ui zen
 (package! writegood-mode)
 (package! keycast)
+(package! minions)
 
-(package! code-cells)
+;; (package! code-cells)
 (package! tab-jump-out)
+(package! dumb-jump)
 (package! drag-stuff)
 (package! parrot)
 
 (package! transpose-frame)
 
+(package! expreg)
+(package! page-break-lines)
+(package! eat)
+(package! tldr)
+
+;;; Lang-Syntax-Hl
 (package! vimscript-ts-mode)
 (package! wolfram-mode)
 (package! wolfram)
 (package! gradle-mode)
+(package! elf-mode)
 (package! docker-compose-mode)
-;; gptel
+(package! julia-vterm)
+(package! ob-julia-vterm)
 
+(package! gptel)
+(package! chatgpt-shell)
 (package! hackernews)
 (package! leetcode)
 (package! fzf)
 (package! exec-path-from-shell)
+(package! stillness-mode :recipe (:host github :repo "neeasade/stillness-mode.el" :branch "main"))
+
 ;; //////////////////////////////////////////////////
 
-;; LSPS
+;;; LSPS
 ;; (package! lsp-intellij)
-;; (package! lsp-pyright)
-;; (package! lsp-jedi)
 (package! lsp-java)
+;; (package! lsp-jedi)
+(package! lsp-pyright)
 
 ;; DEBUGGERS
 ;; (package! pytest-pdb-break)
+(package! dape)
 
 ;; ORG-ROAM
-(package! org-roam-ui) ;; Org-roam visualizer
+(package! org-roam-ui) ; Org-roam visualizer
         (package! websocket)
 
 ;; ORG-MODE
-;; (package! org-journal) ;; Installed [Tue Apr 9 03:46:40 2024]
+;; (package! org-journal) ; Installed [Tue Apr 9 03:46:40 2024]
 (package! org-bullets)
-(package! org-modern) ;; Makes tags look better
+(package! org-modern) ; Makes tags look better
 ;; (package! org-present)
 
 ;; (package! centered-cursor-mode)
 (package! modern-fringes)
-(package! olivetti) ;; Centers Content
+(package! olivetti) ; Centers Content
+(package! hydra)
+(package! pulsar)
+;; (package! embrace)
+(package! evil-escape :disable t)
+;; (package! proof-general :recipe (:host github :repo "ProofGeneral/PG"))

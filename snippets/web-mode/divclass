@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: <div class="...">...</div>
+# key: divclass
+# condition: t
+# --
+<div class="$1">$2</div>
