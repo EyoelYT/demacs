@@ -9,9 +9,11 @@
   (add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/")))
 
 ;;; Better defaults
+(mouse-avoidance-mode 'banish)
+(setq make-pointer-invisible t)
 (setq line-spacing nil)
 (setq read-process-output-max (* 1024 1024)) ; 1mb
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
 (setq-default display-line-numbers-width 4)  ; min default width
 (setq display-line-numbers-width-start nil)  ; automatically calculate the `display-line-numbers-width' on buffer start
                                              ; width (empty space) grows to the left of the numbers
@@ -28,7 +30,6 @@
 ;; (display-time-mode 1)
 (global-subword-mode 1)
 (pixel-scroll-precision-mode 1)
-(global-page-break-lines-mode 1)
 
 (setq doom-leader-alt-key-states '(normal visual motion insert emacs))
 
@@ -49,27 +50,22 @@
  doom-font (font-spec
             :family "JetBrainsMono Nerd Font"
             :size 19
-            :weight 'regular
-            )
+            :weight 'regular)
 
  doom-variable-pitch-font (font-spec
                            :family (font-get doom-font :family)
                            :size (font-get doom-font :size)
-                           :weight (font-get doom-font :weight)
-                           )
+                           :weight (font-get doom-font :weight))
 
  ;;; sans-serif font to use wherever the `fixed-pitch-serif' face is used
  doom-serif-font (font-spec
                   :family (font-get doom-variable-pitch-font :family)
                   :size (font-get doom-variable-pitch-font :size)
-                  :weight (font-get doom-variable-pitch-font :weight)
-                  )
+                  :weight (font-get doom-variable-pitch-font :weight))
 
- nerd-icons-font-names '(
-                         "NFM.ttf"
+ nerd-icons-font-names '("NFM.ttf"
                          ;; "Symbols Nerd Font Mono.ttf"
-                         )
- )
+                         ))
 
 
 
@@ -92,8 +88,15 @@
 
 
 
+(use-package! page-break-lines
+  :config
+  (add-to-list 'page-break-lines-modes 'emacs-news-mode)
+  (global-page-break-lines-mode 1))
+
+
+
 ;; Search accurately for # and * symbols
-(use-package evil
+(use-package! evil
   :init
   (setq evil-symbol-word-search t
         evil-ex-search-case 'insensitive ; was 'smart
@@ -235,8 +238,6 @@
 (remove-hook 'mu4e-compose-mode-hook #'flyspell-mode)
 (remove-hook 'message-mode-hook      #'flyspell-mode)
 (remove-hook 'git-commit-mode-hook   #'flyspell-mode)
-
-(add-hook 'doom-first-buffer-hook #'(global-flycheck-mode -1))
 
 ;; Custom font and background colors
 (custom-set-faces!
@@ -647,43 +648,45 @@
 
 ;;; Window Selection mapping
 (map! :leader
- :nm "<left>"      #'evil-window-left
- :nm "<right>"     #'evil-window-right
- :nm "<up>"        #'evil-window-up
- :nm "<down>"      #'evil-window-down
+ :nm "<left>"        #'evil-window-left
+ :nm "<right>"       #'evil-window-right
+ :nm "<up>"          #'evil-window-up
+ :nm "<down>"        #'evil-window-down
 
- :nm "w M"         #'doom/window-maximize-buffer
+ :nm "w M"           #'doom/window-maximize-buffer
 
  ;; Workspace Switcher, esp useful in tty mode
- :nm "TAB <left>"  #'+workspace/switch-left
- :nm "TAB <right>" #'+workspace/switch-right
+ :nm "TAB <left>"    #'+workspace/switch-left
+ :nm "TAB <right>"   #'+workspace/switch-right
 
  ;; Workspace Swapper
- :nm "TAB S-<left>" #'+workspace/swap-left
+ :nm "TAB S-<left>"  #'+workspace/swap-left
  :nm "TAB S-<right>" #'+workspace/swap-right
 
- :nm "1"           #'+workspace/switch-to-0
- :nm "2"           #'+workspace/switch-to-1
- :nm "3"           #'+workspace/switch-to-2
- :nm "4"           #'+workspace/switch-to-3
- :nm "5"           #'+workspace/switch-to-4
- :nm "6"           #'+workspace/switch-to-5)
+ :nm "1"             #'+workspace/switch-to-0
+ :nm "2"             #'+workspace/switch-to-1
+ :nm "3"             #'+workspace/switch-to-2
+ :nm "4"             #'+workspace/switch-to-3
+ :nm "5"             #'+workspace/switch-to-4
+ :nm "6"             #'+workspace/switch-to-5)
 
 (map!
- :nm "M-1"             #'+workspace/switch-to-0
- :nm "M-2"             #'+workspace/switch-to-1
- :nm "M-3"             #'+workspace/switch-to-2
- :nm "M-4"             #'+workspace/switch-to-3
- :nm "M-5"             #'+workspace/switch-to-4
- :nm "M-6"             #'+workspace/switch-to-5
- :nm "M-7"             #'+workspace/switch-to-6
- :nm "M-8"             #'+workspace/switch-to-7
- :nm "M-9"             #'+workspace/switch-to-8
- :nm "M-0"             #'+workspace/switch-to-final)
+ :nm "M-1"           #'+workspace/switch-to-0
+ :nm "M-2"           #'+workspace/switch-to-1
+ :nm "M-3"           #'+workspace/switch-to-2
+ :nm "M-4"           #'+workspace/switch-to-3
+ :nm "M-5"           #'+workspace/switch-to-4
+ :nm "M-6"           #'+workspace/switch-to-5
+ :nm "M-7"           #'+workspace/switch-to-6
+ :nm "M-8"           #'+workspace/switch-to-7
+ :nm "M-9"           #'+workspace/switch-to-8
+ :nm "M-0"           #'+workspace/switch-to-final)
 
 ;;; Buffer Selection mapping
 ;; Remap SPC ` to Ctrl-Tab for switching buffers
 (map! :nvi "C-<tab>" #'evil-switch-to-windows-last-buffer)
+
+(map! :map embark-buffer-map "s" #'save-buffer)
 
 ;; remove C-h to give space for 'embark-prefix-help-command'
 (map!
@@ -704,10 +707,13 @@
 
 ;; S-<arrows> to move windows around
 (map! :map doom-leader-map
-      "w S-<up>"    #'+evil/window-move-up
-      "w S-<down>"  #'+evil/window-move-down
-      "w S-<left>"  #'+evil/window-move-left
-      "w S-<right>" #'+evil/window-move-right)
+      "w S-<up>"      #'+evil/window-move-up
+      "w S-<down>"    #'+evil/window-move-down
+      "w S-<left>"    #'+evil/window-move-left
+      "w S-<right>"   #'+evil/window-move-right
+      "w C-S-<left>"  #'winner-undo
+      "w C-S-<right>" #'winner-redo
+      )
 
 (map! :leader
       "`" #'+popup/toggle) ; Global leader binding
@@ -2123,3 +2129,65 @@ end of the workspace list."
   (setq evil-snipe-repeat-scope 'whole-buffer))
 
 
+
+;;; Setup the doom dashboard
+(defun ey/doom-dashboard-draw-emacs-ascii-banner-fn ()
+  (let* ((banner
+          '(
+
+            "████████╗██╗  ██╗███████╗    ██╗  ██╗ ██████╗ ██╗  ██╗   ██╗"
+            "╚══██╔══╝██║  ██║██╔════╝    ██║  ██║██╔═══██╗██║  ╚██╗ ██╔╝"
+            "   ██║   ███████║█████╗      ███████║██║   ██║██║   ╚████╔╝ "
+            "   ██║   ██╔══██║██╔══╝      ██╔══██║██║   ██║██║    ╚██╔╝  "
+            "   ██║   ██║  ██║███████╗    ██║  ██║╚██████╔╝███████╗██║   "
+            "   ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝   "
+            "                                                            "
+            "        ███████╗███╗   ███╗ █████╗  ██████╗███████╗         "
+            "        ██╔════╝████╗ ████║██╔══██╗██╔════╝██╔════╝         "
+            "        █████╗  ██╔████╔██║███████║██║     ███████╗         "
+            "        ██╔══╝  ██║╚██╔╝██║██╔══██║██║     ╚════██║         "
+            "        ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║         "
+            "        ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝         "
+            "                                                            "
+
+            ))
+         (longest-line (apply #'max (mapcar #'length banner))))
+    (put-text-property
+     (point)
+     (dolist (line banner (point))
+       (insert (+doom-dashboard--center
+                +doom-dashboard--width
+                (concat
+                 line (make-string (max 0 (- longest-line (length line)))
+                                   32)))
+               "\n"))
+     'face 'doom-dashboard-banner)))
+
+(setq +doom-dashboard-ascii-banner-fn #'ey/doom-dashboard-draw-emacs-ascii-banner-fn)
+
+(setq +doom-dashboard-functions
+      '(doom-dashboard-widget-banner
+        doom-dashboard-widget-loaded
+        doom-dashboard-widget-footer))
+
+
+
+(use-package! spacious-padding
+  :config
+  (setq spacious-padding-widths
+        '(:internal-border-width 20
+          :mode-line-width 6
+          :right-divider-width 30
+          :fringe-width 10))
+  (setq spacious-padding-subtle-mode-line
+      '(:mode-line-active error :mode-line-inactive shadow))
+  (spacious-padding-mode 1))
+
+
+
+(use-package! stillness-mode
+  :config
+  (stillness-mode 1))
+
+
+

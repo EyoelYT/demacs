@@ -240,7 +240,8 @@
 (package! modern-fringes)
 (package! olivetti) ; Centers Content
 (package! hydra)
-(package! pulsar)
+;; (package! pulsar)
 ;; (package! embrace)
 (package! evil-escape :disable t)
 ;; (package! proof-general :recipe (:host github :repo "ProofGeneral/PG"))
+(package! spacious-padding)
