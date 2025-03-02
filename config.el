@@ -2191,3 +2191,9 @@ end of the workspace list."
 
 
 
+(defun ey/evil-do-normal-state-w/o-cursor-jumpback (&rest _)
+  (let ((evil-move-cursor-back nil))
+    (if (not(evil-visual-state-p))
+        (evil-normal-state))))
+
+(advice-add 'mark-sexp :after #'ey/evil-do-normal-state-w/o-cursor-jumpback)
