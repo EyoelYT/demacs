@@ -46,7 +46,7 @@
 
 
 (setq
- doom-theme 'doom-old-hope
+ doom-theme 'eyth-doom-vibrant
  doom-font (font-spec
             :family "JetBrainsMono Nerd Font"
             :size 19
@@ -712,8 +712,7 @@
       "w S-<left>"    #'+evil/window-move-left
       "w S-<right>"   #'+evil/window-move-right
       "w C-S-<left>"  #'winner-undo
-      "w C-S-<right>" #'winner-redo
-      )
+      "w C-S-<right>" #'winner-redo)
 
 (map! :leader
       "`" #'+popup/toggle) ; Global leader binding
@@ -874,7 +873,7 @@
 
 ;; Number of blinks, infinite blinks for blink cursor mode when -1
 (setq blink-cursor-blinks -1 ; my default -1
-      blink-cursor-delay 0.0001 ; my default 0.001
+      blink-cursor-delay 0.2
       blink-cursor-interval 0.7) ; my default 0.7
 
 ;; Ensure blinking is disabled globally by default
@@ -1207,8 +1206,7 @@ insert it into the current buffer."
         :n "C-S-<iso-lefttab>" #'magit-section-cycle-global
         :map magit-status-mode-map
         :n "M-RET"   #'magit-diff-visit-worktree-file-other-window
-        :n "S-<return>"   #'magit-diff-visit-worktree-file-other-window
-        ))
+        :n "S-<return>"   #'magit-diff-visit-worktree-file-other-window))
 
 (setq code-review-auth-login-marker 'forge)
 
@@ -1288,8 +1286,7 @@ See minad/consult#770."
   (interactive "P")
   (let* ((selection (if (use-region-p)
                         (buffer-substring-no-properties (region-beginning) (region-end))
-                      nil
-                      ))
+                      nil))
          (initial-input (cond
                          (selection selection)
                          (initial initial)
