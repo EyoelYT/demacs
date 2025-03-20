@@ -819,7 +819,7 @@
       (evil-normal-state 1)))
   (evil-visual-char)
   (doom/forward-to-last-non-comment-or-eol)
-  (if (looking-at "[ \t\n]")
+  (if (or (looking-at "[ \t\n]") (eobp))
       (evil-backward-char)))
 
 (defun ey/visual-to-first-non-blank-in-current-line ()
