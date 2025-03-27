@@ -119,59 +119,41 @@
  :nvm "<home>" #'evil-beginning-of-visual-line
  :nvm "<end>"  #'evil-end-of-visual-line)
 
-(map! "C-<backspace>" #'doom/delete-backward-word)
+
+
+(defun ey/evil-do-insert-state--advice (&rest _)
+  (if (not (evil-insert-state-p))
+      (evil-insert-state)))
+
+(defun doom/delete-forward-word (arg)
+  "Like `kill-word', but doesn't affect the kill-ring."
+  (interactive "p")
+  (let ((kill-ring nil) (kill-ring-yank-pointer nil))
+    (ignore-errors (kill-word arg))))
+
+(map! "C-<backspace>" #'doom/delete-backward-word
+      "<backspace>" #'evil-delete-backward-char-and-join
+      "C-S-<backspace>" #'doom/delete-forward-word)
+
+(advice-add 'doom/delete-forward-word :after #'ey/evil-do-insert-state--advice)
+(advice-add 'doom/delete-backward-word :after #'ey/evil-do-insert-state--advice)
+(advice-add 'evil-delete-backward-char-and-join :before #'ey/evil-do-insert-state--advice)
+
+
 
 ;;; Disable the evil-mode line indicator in the ex section
 (setq evil-echo-state nil)
 
-; Set the default frame size
-(after! frame
-  (setq frame-inhibit-implied-resize t)
-  (add-to-list 'default-frame-alist '(width . 210))
-  (add-to-list 'default-frame-alist '(height . 57)) ; Jetbrains Mono Font with size 19
-  (add-to-list 'default-frame-alist '(top . 0))
-  (add-to-list 'default-frame-alist '(left . 0))
-
-  ;; (add-to-list 'default-frame-alist '(width . 210)) ; Iosevka Nerd Font with size 22
-  ;; (add-to-list 'default-frame-alist '(height . 51))
-  ;; (add-to-list 'default-frame-alist '(top . 0))
-  ;; (add-to-list 'default-frame-alist '(left . 0))
-
-  ;; (add-to-list 'default-frame-alist '(width . 105)) ; Half width of screen
-  ;; (add-to-list 'default-frame-alist '(height . 51))
-  ;; (add-to-list 'default-frame-alist '(top . 0))
-  ;; (add-to-list 'default-frame-alist '(left . 1100))
-
-  (add-to-list 'default-frame-alist '(internal-border-width . 20))
-  (add-to-list 'default-frame-alist '(undecorated . t))
-  (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-  (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-  ;; (add-to-list 'default-frame-alist '(fullscreen . fullwidth))
-  ;; (add-to-list 'default-frame-alist '(fullscreen . fullboth))
-  (add-to-list 'default-frame-alist '(alpha . 50)))
-
 (defun ey/add-stuff-to-default-buffer-alist ()
   "Add values to `default-frame-alist'"
-  (add-to-list 'default-frame-alist '(width . 210))
-  (add-to-list 'default-frame-alist '(height . 57))
+  (add-to-list 'default-frame-alist '(width . (text-pixels . 2200)))
+  (add-to-list 'default-frame-alist '(height . (text-pixels . 1500)))
   (add-to-list 'default-frame-alist '(top . 0))
   (add-to-list 'default-frame-alist '(left . 0))
-
-  ;; (add-to-list 'default-frame-alist '(width . 210))
-  ;; (add-to-list 'default-frame-alist '(height . 51))
-  ;; (add-to-list 'default-frame-alist '(top . 0))
-  ;; (add-to-list 'default-frame-alist '(left . 0))
-
-  ;; (add-to-list 'default-frame-alist '(width . 105))
-  ;; (add-to-list 'default-frame-alist '(height . 51))
-  ;; (add-to-list 'default-frame-alist '(top . 0))
-  ;; (add-to-list 'default-frame-alist '(left . 1100))
-
   (add-to-list 'default-frame-alist '(internal-border-width . 20))
   (add-to-list 'default-frame-alist '(undecorated . t))
   (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-  (add-to-list 'default-frame-alist '(inhibit-double-buffering . t)) ; TODO: check if it makes a difference
-  (add-to-list 'default-frame-alist '(alpha . 50)))
+  (add-to-list 'default-frame-alist '(alpha . 90)))
 
 
 
