@@ -2176,3 +2176,7 @@ end of the workspace list."
         (evil-normal-state))))
 
 (advice-add 'mark-sexp :after #'ey/evil-do-normal-state-w/o-cursor-jumpback)
+
+
+(after! visual-fill-column
+  (setq visual-fill-column-enable-sensible-window-split t))
