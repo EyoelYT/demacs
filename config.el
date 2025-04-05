@@ -2180,3 +2180,17 @@ end of the workspace list."
 
 (after! visual-fill-column
   (setq visual-fill-column-enable-sensible-window-split t))
+
+(defun ey/toggle-center-buffer-content ()
+  "Center the contents of the buffer"
+  (interactive)
+  (require 'visual-fill-column)
+  (if visual-line-fill-column-mode
+      (progn
+        (setq-local visual-fill-column-center-text nil)
+        (visual-line-fill-column-mode -1))
+    (progn
+      (setq-local visual-fill-column-center-text t)
+      (visual-line-fill-column-mode 1))))
+
+
