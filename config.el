@@ -2193,4 +2193,6 @@ end of the workspace list."
       (setq-local visual-fill-column-center-text t)
       (visual-line-fill-column-mode 1))))
 
+(map! :leader "t C" #'ey/toggle-center-buffer-content)
+
 
