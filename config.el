@@ -5,28 +5,34 @@
 (setq user-full-name "Eyoel Tesfu")
 (setq user-mail-address "eyoelytesfu@gmail.com")
 
-(after! 'package
-  (add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/")))
+(add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/"))
 
 ;;; Better defaults
 (mouse-avoidance-mode 'banish)
+(setq bookmark-default-file (concat doom-user-dir "bookmarks"))
+(setq bookmark-fringe-mark nil)
+(setq history-delete-duplicates t)
+(setq bookmark-save-flag 1)
 (setq make-pointer-invisible t)
 (setq line-spacing nil)
 (setq read-process-output-max (* 1024 1024)) ; 1mb
 (setq display-line-numbers-type nil)
+(setq display-time-day-and-date t)
 (setq-default display-line-numbers-width 4)  ; min default width
 (setq display-line-numbers-width-start nil)  ; automatically calculate the `display-line-numbers-width' on buffer start
                                              ; width (empty space) grows to the left of the numbers
 (setq-default cursor-in-non-selected-windows nil)
 (setq insert-default-directory t)
+(setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 (setq comment-empty-lines t)
-(setq recentf-max-saved-items 1000)
+(setq-default truncate-lines t)
+
 (setq load-prefer-newer t)
 (setq scroll-conservatively 5)
 (setq scroll-step 0)
 (setq scroll-preserve-screen-position 'always)
 (setq scroll-margin 0)
-(setq jit-lock-defer-time 0)
+(setq jit-lock-defer-time nil) ; don't defer fontification
 ;; (display-time-mode 1)
 (global-subword-mode 1)
 (pixel-scroll-precision-mode 1)
@@ -82,9 +88,6 @@
 
 (setq global-text-scale-adjust--increment-factor 1 ; default = 5
       text-scale-mode-step 1.04)
-
-(fringe-mode 0)
-(set-fringe-mode 0)
 
 
 
