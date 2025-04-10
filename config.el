@@ -2199,3 +2199,20 @@ end of the workspace list."
 (map! :leader "t C" #'ey/toggle-center-buffer-content)
 
 
+
+
+(defvar streamer-mode nil
+  "Whether streamer mode is on")
+
+(defun ey/streamer-mode ()
+  "Before streaming, to privatize the display"
+  (interactive)
+  (if (not streamer-mode)
+      (progn
+        (global-blamer-mode -1)
+        (setq streamer-mode t)
+        (message "Streamer Mode enabled"))
+    (progn
+      (global-blamer-mode 1)
+      (setq streamer-mode nil)
+      (message "Streamer Mode disabled"))))
