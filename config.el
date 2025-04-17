@@ -2,52 +2,53 @@
 
 
 
-(setq user-full-name "Eyoel Tesfu")
-(setq user-mail-address "eyoelytesfu@gmail.com")
+(setopt user-full-name "Eyoel Tesfu")
+(setopt user-mail-address "eyoelytesfu@gmail.com")
 
-(add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/"))
+(after! package
+  (add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/")))
 
 ;;; Better defaults
 (mouse-avoidance-mode 'banish)
-(setq bookmark-default-file (concat doom-user-dir "bookmarks"))
-(setq bookmark-fringe-mark nil)
-(setq history-delete-duplicates t)
-(setq bookmark-save-flag 1)
-(setq make-pointer-invisible t)
-(setq line-spacing nil)
-(setq read-process-output-max (* 1024 1024)) ; 1mb
-(setq display-line-numbers-type nil)
-(setq display-time-day-and-date t)
+(setopt bookmark-default-file (concat doom-user-dir "bookmarks"))
+(setopt bookmark-fringe-mark nil)
+(setopt history-delete-duplicates t)
+(setopt bookmark-save-flag 1)
+(setopt make-pointer-invisible t)
+(setopt line-spacing nil)
+(setopt read-process-output-max (* 1024 1024)) ; 1mb
+(setopt display-line-numbers-type nil)
+(setopt display-time-day-and-date t)
 (setq-default display-line-numbers-width 4)  ; min default width
-(setq display-line-numbers-width-start nil)  ; automatically calculate the `display-line-numbers-width' on buffer start
-                                             ; width (empty space) grows to the left of the numbers
+(setopt display-line-numbers-width-start nil)  ; automatically calculate the `display-line-numbers-width' on buffer start
+                                        ; width (empty space) grows to the left of the numbers
 (setq-default cursor-in-non-selected-windows nil)
-(setq insert-default-directory t)
-(setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
-(setq comment-empty-lines t)
+(setopt insert-default-directory t)
+(setopt auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
+(setopt comment-empty-lines t)
 (setq-default truncate-lines t)
 
-(setq load-prefer-newer t)
-(setq scroll-conservatively 5)
-(setq scroll-step 0)
-(setq scroll-preserve-screen-position 'always)
-(setq scroll-margin 0)
-(setq jit-lock-defer-time nil) ; don't defer fontification
+(setopt load-prefer-newer t)
+(setopt scroll-conservatively 0)
+(setopt scroll-step 0)
+(setopt scroll-preserve-screen-position 'always)
+(setopt scroll-margin 0)
+(setopt jit-lock-defer-time nil) ; don't defer fontification
 ;; (display-time-mode 1)
 (global-subword-mode 1)
 (pixel-scroll-precision-mode 1)
+(repeat-mode 1)
 
-(setq doom-leader-alt-key-states '(normal visual motion insert emacs))
+(setopt doom-leader-alt-key-states '(normal visual motion insert emacs))
 
-(setq auto-save-default nil)
+(setopt auto-save-default nil)
 
-(setq auto-save-visited-interval 10)
+(setopt auto-save-visited-interval 10)
 (auto-save-visited-mode 1)
 
-(setq find-function-C-source-directory "/mnt/c/Users/Eyu/Projects/probe/emacs/src")
+(setopt find-function-C-source-directory "/mnt/c/Users/Eyu/Projects/probe/emacs/src")
 
-(setq tab-always-indent t)
-(setq tab-first-completion nil)
+(setopt tab-first-completion nil)
 
 
 
