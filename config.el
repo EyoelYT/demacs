@@ -626,9 +626,21 @@
  :i "C-d" #'evil-scroll-down
  :nvi "C-t" #'+workspace/display)
 
+(defun ey/scroll-line-and-window-up ()
+  "TODO"
+  (interactive)
+  (evil-scroll-line-up 1)
+  (evil-previous-visual-line 1))
+
+(defun ey/scroll-line-and-window-down ()
+  "TODO"
+  (interactive)
+  (evil-scroll-line-down 1)
+  (evil-next-visual-line 1))
+
 (map!
- "S-<up>" #'scroll-down-line
- "S-<down>" #'scroll-up-line
+ "S-<up>" #'ey/scroll-line-and-window-up
+ "S-<down>" #'ey/scroll-line-and-window-down
  "S-<left>" #'evil-scroll-left
  "S-<right>" #'evil-scroll-right)
 
@@ -1485,6 +1497,8 @@ See minad/consult#770."
  :map org-agenda-keymap
  :m "C-<return>" #'ey/org-agenda-goto-subtree
  :map org-agenda-mode-map
+ :m "S-<up>"     #'ey/scroll-line-and-window-up
+ :m "S-<down>"   #'ey/scroll-line-and-window-down
  :m "C-<return>" #'ey/org-agenda-goto-subtree)
 
 
