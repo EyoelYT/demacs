@@ -45,6 +45,7 @@
 
 ;; (display-time-mode 1)
 (global-subword-mode 1)
+(global-display-line-numbers-mode -1)
 (repeat-mode 1)
 
 (setopt doom-leader-alt-key-states '(normal visual motion insert emacs))
