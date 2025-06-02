@@ -9,7 +9,6 @@
   (add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/")))
 
 ;;; Better defaults
-(mouse-avoidance-mode 'banish)
 (setopt bookmark-default-file (concat doom-user-dir "bookmarks"))
 (setopt bookmark-fringe-mark nil)
 (setopt history-delete-duplicates t)
