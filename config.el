@@ -18,21 +18,31 @@
 (setopt read-process-output-max (* 1024 1024)) ; 1mb
 (setopt display-line-numbers-type nil)
 (setopt display-time-day-and-date t)
+(setopt garbage-collection-messages nil)
+(setopt echo-keystrokes 0)
 (setq-default display-line-numbers-width 4)  ; min default width
 (setopt display-line-numbers-width-start nil)  ; automatically calculate the `display-line-numbers-width' on buffer start
                                         ; width (empty space) grows to the left of the numbers
 (setq-default cursor-in-non-selected-windows nil)
+(setq-default left-margin-width 1)
+(setq-default right-margin-width 0)
+(setq-default fringes-outside-margins t)
 (setopt insert-default-directory t)
 (setopt auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
 (setopt comment-empty-lines t)
 (setq-default truncate-lines t)
 
 (setopt load-prefer-newer t)
+(setopt xref-search-program 'ripgrep)
 (setopt scroll-conservatively 0)
 (setopt scroll-step 0)
 (setopt scroll-preserve-screen-position 'always)
 (setopt scroll-margin 0)
 (setopt jit-lock-defer-time nil) ; don't defer fontification
+
+(setopt pop-up-frames nil)
+(setopt pop-up-windows t)
+
 ;; (display-time-mode 1)
 (global-subword-mode 1)
 (pixel-scroll-precision-mode 1)
