@@ -56,6 +56,7 @@
 
 ;; Themes
 (package! ef-themes :recipe (:host github :repo "protesilaos/ef-themes" :depth 1))
+(package! doric-themes :recipe (:host github :repo "protesilaos/doric-themes" :depth 1))
 (package! naysayer-theme)
 (package! gruber-darker-theme)
 (package! avk-emacs-themes)
@@ -65,6 +66,11 @@
 (package! inkpot-theme)
 (package! idea-darkula-theme)
 (package! atom-one-dark-theme)
+(package! kanagawa-themes :recipe (:host github :repo "EyoelYT/kanagawa-emacs"))
+(package! the-matrix-theme)
+(package! vscdark-theme :recipe (:host github :repo "EyoelYT/vscdark-theme"))
+(package! ubuntu-theme)
+
 ;; (package! github-modern-theme) ;; Deprecated?
 ;; (package! acme-theme)          ;; Deprecated?
 (package! github-dark-vscode-theme)
@@ -77,8 +83,6 @@
 (package! color-theme-sanityinc-tomorrow)
 (package! commentary-theme)
 (package! professional-theme)
-(package! kanagawa-themes)
-(package! the-matrix-theme)
 ;; (package! nano-theme)
 (package! nubox)
 (package! obsidian-theme)
@@ -93,9 +97,7 @@
 (package! subatomic-theme)
 (package! subatomic256-theme)
 (package! sweet-theme)
-(package! ubuntu-theme)
-(package! vscdark-theme)
-(package! vscode-dark-plus-theme)
+;; (package! vscode-dark-plus-theme) ; Error: Invalid face box
 (package! white-theme)
 (package! xresources-theme)
 (package! yabaki-theme)
@@ -133,6 +135,7 @@
 (package! basic-theme)
 (package! hima-theme)
 (package! simplicity-theme)
+(package! tangonov-theme)
 
 ;;                NOT INSTALLED
 ;; /////////////////////////////////////////////////////
@@ -183,9 +186,8 @@
 (package! keycast)
 (package! minions)
 
-;; (package! code-cells)
+(package! code-cells)
 (package! tab-jump-out)
-(package! dumb-jump)
 (package! drag-stuff)
 (package! parrot)
 
@@ -198,6 +200,7 @@
 
 ;;; Lang-Syntax-Hl
 (package! vimscript-ts-mode)
+(package! jai-mode :recipe (:host github :repo "elp-revive/jai-mode"))
 (package! wolfram-mode)
 (package! wolfram)
 (package! gradle-mode)
@@ -206,7 +209,7 @@
 (package! julia-vterm)
 (package! ob-julia-vterm)
 
-(package! gptel)
+;; (package! gptel :recipe (:nonrecursive t)) ; integrated into doom now
 (package! chatgpt-shell)
 (package! hackernews)
 (package! leetcode)
@@ -224,7 +227,7 @@
 
 ;; DEBUGGERS
 ;; (package! pytest-pdb-break)
-(package! dape)
+;; (package! dape)
 
 ;; ORG-ROAM
 (package! org-roam-ui) ; Org-roam visualizer
@@ -245,3 +248,31 @@
 (package! evil-escape :disable t)
 ;; (package! proof-general :recipe (:host github :repo "ProofGeneral/PG"))
 (package! spacious-padding)
+(package! ox-gfm) ; TODO: remove this as it does the same thing as blackfriday ??
+(package! dired-du)
+(package! org-appear)
+(package! inhibit-mouse)
+(package! bookmark-plus :recipe (:host github :repo "/emacsmirror/bookmark-plus"))
+;; (package! ultra-scroll  :recipe (:host github :repo "/jdtsmith/ultra-scroll" :files ("*.el"))) ; integrated into doom now
+(package! topspace)
+;; (package! dmenu) ; blocks emacs on a timer (when it's idle). When you come back, everything is blocked
+(package! imenu-list)
+;; (package! org-alert)
+(package! blamer)
+;; (package! ws-butler
+;;   :recipe (:host github
+;;            :repo "emacsmirror/nongnu_elpa"
+;;            :branch "elpa/ws-butler"
+;;            :local-repo "ws-butler")
+;;   :pin "9ee5a7657a22e836618813c2e2b64a548d27d2ff")
+;; (package! vw-mode :recipe (:host github :repo "some/place"))
+;; (package! sweeprolog :recipe (:files (:defaults "*.pl")))
+(package! stock-tracker)
+(package! trashed)
+(package! emacs-mini-frame :recipe (:host github :repo "/muffinmad/emacs-mini-frame"))
+;; (package! leetcode-emacs :recipe (:host github :repo "/ginqi7/leetcode-emacs")
+;; (package! tab-bar-echo-area)
+
+(package! eglot :pin "6a9e0c76b9a7a4bf03a7fc91a02b826df507e3ce")
+(package! consult-eglot :pin "b71499f4b93bfea4e2005564c25c5bb0f9e73199")
+(package! flycheck-eglot :pin "18d0c9869585e6a9ea5c40678f266cf7f5bb2d2e")
