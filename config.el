@@ -180,9 +180,11 @@
   (let ((kill-ring nil) (kill-ring-yank-pointer nil))
     (ignore-errors (kill-word arg))))
 
-(map! "C-<backspace>" #'doom/delete-backward-word
-      "<backspace>" #'evil-delete-backward-char-and-join
-      "C-S-<backspace>" #'doom/delete-forward-word)
+(map! "C-<backspace>"   #'doom/delete-backward-word
+      "C-S-<delete>"    #'doom/delete-forward-word
+      "C-S-<backspace>" #'doom/delete-forward-word
+      "<backspace>"     #'evil-delete-backward-char-and-join
+      :n "DEL"          #'evil-delete-backward-char-and-join)
 
 (advice-add 'doom/delete-forward-word :after #'ey/evil-do-insert-state--advice)
 (advice-add 'doom/delete-backward-word :after #'ey/evil-do-insert-state--advice)
