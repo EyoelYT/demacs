@@ -61,8 +61,21 @@
 
 
 
+(after!
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
+
 
+(after! recentf
+  (add-to-list 'recentf-exclude "^/\\(?:ssh\\|su\\|sudo\\)?:")
+  (setopt recentf-max-saved-items 1000))
+
+
+
+(after! hl-todo
+  (setopt hl-todo-require-punctuation t))
+
+
 
 (setopt doom-theme 'tangonov
         doom-font (font-spec
