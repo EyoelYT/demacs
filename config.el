@@ -132,18 +132,33 @@
 ;; Search accurately for # and * symbols
 (use-package! evil
   :init
-  (setq evil-symbol-word-search t
-        evil-ex-search-case 'insensitive ; was 'smart
-        +evil-want-o/O-to-continue-comments nil
-        ;; evil-want-C-i-jump t
-        evil-want-C-u-delete nil
-        evil-want-minibuffer t
-        evil-respect-visual-line-mode nil
-        evil-kill-on-visual-paste nil
-        evil-move-cursor-back t
-        evil-want-fine-undo t))
+  (setopt evil-symbol-word-search t
+          evil-ex-search-case 'insensitive ; was 'smart
+          +evil-want-o/O-to-continue-comments nil
+          ;; evil-want-C-i-jump t
+          evil-want-C-u-delete nil
+          evil-want-minibuffer t
+          evil-ex-substitute-global t
+          evil-respect-visual-line-mode t
+          evil-echo-state nil ; Disable the evil-mode line indicator in the ex section
+          evil-kill-on-visual-paste nil
+          evil-move-cursor-back t
+          evil-want-fine-undo t)
+  :config
+  (setopt evil-insert-state-cursor '(box)
+          evil-motion-state-cursor '(box))
+  (map! :map minibuffer-mode-map :n "RET"    #'exit-minibuffer
+        ;; :n "<down>" #'vertico-next
+        ;; :n "<up>"   #'vertico-previous
+        ))
 
-
+(after! evil-integration
+  (map! "C-S-s" #'evil-avy-goto-char-timer)
+  (setopt avy-all-windows t))
+
+(after! evil-visualstar
+  (global-evil-visualstar-mode -1)
+  (setopt evil-visualstar/persistent t))
 
 (map!
  :nvm "<up>"   #'evil-previous-visual-line
