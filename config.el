@@ -226,28 +226,29 @@
 
 ;;; Dirvish Dired Mode
 (after! dirvish
-  (setq dirvish-reuse-session t) ; MAY BREAK???
-  (setq dirvish-subtree-always-show-state nil)
-  ;; (setq dirvish-override-dired-mode t)
-  (setq dirvish-attributes '(file-size nerd-icons))
-  ;; (setq dirvish-attributes (remove-from-list dirvish-attributes '(subtree-state vc-state)))
-  (setq dirvish-mode-line-format
-            '(:left (sort file-time symlink) :right (omit yank index))
-            ;; '(:left (sort omit symlink) :right (index)) ; default
-  )
-  (setq dirvish-use-header-line nil
-        dirvish-use-mode-line t)
+  ;; (setopt dirvish-reuse-session 'open) ; MAY BREAK???
+  (setopt dirvish-override-dired-mode t)
+  (setopt dirvish-subtree-always-show-state nil)
+  (setopt dirvish-subtree-prefix "   ")
+  (setopt dirvish-attributes '(file-size nerd-icons))
+  (setopt dirvish-mode-line-format
+          '(:left (sort file-time symlink) :right (omit yank index)))
+  (setopt dirvish-use-header-line nil
+          dirvish-use-mode-line nil)
 
   (map! :map dirvish-mode-map
         :gm [left]  nil
         :gm [right] nil
         :gm "g <left>" #'dirvish-subtree-up
+        "C-c C-p" #'dirvish-subtree-up
+        "C-c C-u" #'dirvish-subtree-up
         :n  "z" nil))
 
 ;;; Dired Customizations
 (after! dired
-  (setq dired-free-space 'first)
-  (setq dired-kill-when-opening-new-dired-buffer t))
+  ;; (add-hook 'dired-mode-hook #'dired-hide-details-mode)
+  (setopt dired-free-space 'first)
+  (setopt dired-kill-when-opening-new-dired-buffer t))
 
 (after! diredfl
   (remove-hook 'dired-mode-hook #'diredfl-mode)
