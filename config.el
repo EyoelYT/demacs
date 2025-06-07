@@ -61,27 +61,31 @@
 
 
 
-(setq
- doom-theme 'eyth-doom-vibrant
- doom-font (font-spec
-            :family "JetBrainsMono Nerd Font"
-            :size 19
-            :weight 'regular)
 
- doom-variable-pitch-font (font-spec
-                           :family (font-get doom-font :family)
-                           :size (font-get doom-font :size)
-                           :weight (font-get doom-font :weight))
 
- ;;; sans-serif font to use wherever the `fixed-pitch-serif' face is used
- doom-serif-font (font-spec
-                  :family (font-get doom-variable-pitch-font :family)
-                  :size (font-get doom-variable-pitch-font :size)
-                  :weight (font-get doom-variable-pitch-font :weight))
 
- nerd-icons-font-names '("NFM.ttf"
-                         ;; "Symbols Nerd Font Mono.ttf"
-                         ))
+(setopt doom-theme 'tangonov
+        doom-font (font-spec
+                   ;; :family "Comic Shanns Mono"
+                   :family "JetBrainsMono Nerd Font"
+                   :size 19
+                   :weight 'regular)
+
+        doom-variable-pitch-font (font-spec
+                                  :family (font-get doom-font :family)
+                                  :size (font-get doom-font :size)
+                                  :weight (font-get doom-font :weight))
+
+        ;; sans-serif font to use wherever the `fixed-pitch-serif' face is used
+        doom-serif-font (font-spec
+                         :family (font-get doom-variable-pitch-font :family)
+                         :size (font-get doom-variable-pitch-font :size)
+                         :weight (font-get doom-variable-pitch-font :weight))
+
+        nerd-icons-font-names '("NFM.ttf")) ; "Symbols Nerd Font Mono.ttf"
+
+(after! unicode-fonts
+  (push "Symbola" (cadr (assoc "Miscellaneous Symbols" unicode-fonts-block-font-mapping))))
 
 
 
@@ -90,14 +94,14 @@
                                        "/mnt/c/Users/Eyu/RustroverProjects/"))
 
 (after! doom-themes
-  (setq doom-themes-enable-bold nil   ; if nil, bold is universally disabled
-        doom-themes-enable-italic nil ; if nil, italics is universally disabled
-        doom-font-increment 1))
+  (setopt doom-themes-enable-bold t   ; if nil, bold is universally disabled
+          doom-themes-enable-italic t ; if nil, italics is universally disabled
+          doom-font-increment 1))
 
 
 
-(setq global-text-scale-adjust--increment-factor 1 ; default = 5
-      text-scale-mode-step 1.04)
+(setopt global-text-scale-adjust--increment-factor 1 ; default = 5
+        text-scale-mode-step 1.04)
 
 
 
