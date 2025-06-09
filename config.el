@@ -61,7 +61,7 @@
 
 
 
-(after!
+(after! tree-sitter
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 
