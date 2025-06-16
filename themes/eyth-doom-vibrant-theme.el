@@ -44,7 +44,8 @@ Can be an integer to determine the exact padding."
   :background-mode 'light
 
   ;; name        gui       256           16
-  ((bg         '("#000000" "black"       "black" ))
+  (
+   (bg         '("#1a1b26" "black"       "black" ))    ; tokyo night bg
    (fg         '("#bbc2cf" "#bfbfbf"     "brightwhite" ))
 
    ;; These are off-color variants of bg/fg, used primarily for `solaire-mode',
@@ -157,7 +158,12 @@ Can be an integer to determine the exact padding."
    (css-selector             :foreground blue)
    ;;;; doom-modeline
    (doom-modeline-bar          :background bg)
-   (doom-modeline-bar-inactive :background bg)
+   (doom-modeline-bar          :background (if (and (bound-and-true-p spacious-padding-mode) (not (bound-and-true-p spacious-padding-subtle-mode-line)))
+                                               modeline-bg-inactive
+                                             bg))
+   (doom-modeline-bar-inactive :background (if (and (bound-and-true-p spacious-padding-mode) (not (bound-and-true-p spacious-padding-subtle-mode-line)))
+                                               modeline-bg-inactive
+                                             bg))
    (doom-modeline-buffer-path
     :foreground (if eyth-doom-vibrant-brighter-modeline base8 blue) :bold bold)
    ;;;; elscreen
@@ -179,14 +185,16 @@ Can be an integer to determine the exact padding."
    (solaire-default-face :background bg)
    (solaire-mode-line-inactive-face
     :inherit 'mode-line-inactive
-    :background modeline-bg-alt-inactive
+    :background (if (and (bound-and-true-p spacious-padding-mode) (not (bound-and-true-p spacious-padding-subtle-mode-line)))
+                                             'unspecified
+                                           modeline-bg-alt-inactive)
     :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-alt-inactive)))
    ;;;; whitespace <built-in>
    ;; (whitespace-empty :background base4)
    (whitespace-space   :foreground base3)
    (whitespace-newline :foreground bg)
    ;;;; corfu
-   (corfu-current :background yellow-yellow)
+   (corfu-current :background dark-cyan)
    ;;;; eldoc
    (eldoc-highlight-function-argument :foreground fg :bold bold)
    ;;;; ediff
