@@ -142,7 +142,7 @@ Can be an integer to determine the exact padding."
     :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive)))
    (mode-line-emphasis :foreground (if eyth-doom-vibrant-brighter-modeline base8 highlight))
    (org-block :background (doom-darken base3 0.1))
-   (org-column :weight normal :slant normal :background bg :underline nil :strike-through nil)
+   ;; (org-column :weight normal :slant normal :background bg :underline nil :strike-through nil) ; FIXME: :weight normal -> giving "Debugger entered--Lisp error: (void-variable normal)" errors
    (+org-todo-onhold :foreground yellow-yellow :bold bold)
    (+org-todo-cancel :foreground red :bold bold)
    (+org-todo-project :foreground blue :bold bold)
@@ -192,7 +192,7 @@ Can be an integer to determine the exact padding."
    ;;;; ediff
    ;; (ediff-fine-diff-C )
    ;; (ediff-fine-diff-B )
-   (ediff-fine-diff-A :weight normal :background dark-green :extend t)
+   ;; (ediff-fine-diff-A :weight normal :background dark-green :extend t) ; FIXME: :weight normal -> giving "Debugger entered--Lisp error: (void-variable normal)" errors
    )
 
   ;;;; Base theme variable overrides
