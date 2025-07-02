@@ -3,7 +3,7 @@
 
 
 (setopt user-full-name "Eyoel Tesfu")
-(setopt user-mail-address "eyoelytesfu@gmail.com")
+(setopt user-mail-address "EyoelYTesfu@gmail.com")
 
 (after! package
   (add-to-list 'package-archives '("gnu-devel" . "https://elpa.gnu.org/devel/")))
@@ -79,9 +79,10 @@
 
 (setopt doom-theme 'tangonov
         doom-font (font-spec
-                   ;; :family "Comic Shanns Mono"
-                   :family "JetBrainsMono Nerd Font"
-                   :size 19
+                   :family (if (getenv "WSLENV")
+                               "FantasqueSansM Nerd Font"
+                             "Iosevka Nerd Font")
+                   :size (if (getenv "WSLENV") 26 14)
                    :weight 'regular)
 
         doom-variable-pitch-font (font-spec
@@ -192,35 +193,24 @@
 
 
 
-;;; Disable the evil-mode line indicator in the ex section
-(setq evil-echo-state nil)
-
 (defun ey/add-stuff-to-default-buffer-alist ()
   "Add values to `default-frame-alist'"
-  (add-to-list 'default-frame-alist '(width . (text-pixels . 2200)))
-  (add-to-list 'default-frame-alist '(height . (text-pixels . 1500)))
-  (add-to-list 'default-frame-alist '(top . 0))
-  (add-to-list 'default-frame-alist '(left . 0))
-  (add-to-list 'default-frame-alist '(internal-border-width . 20))
-  (add-to-list 'default-frame-alist '(undecorated . t))
-  (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-  (add-to-list 'default-frame-alist '(alpha . 90)))
+  (if (getenv "WSLENV")
+      (progn
+        (add-to-list 'default-frame-alist `(width . (text-pixels . 2300))) ; 2145
+        (if (string-match-p (regexp-quote "LUCID") system-configuration-features)
+            (add-to-list 'default-frame-alist `(height . (text-pixels . 1480)))
+          (add-to-list 'default-frame-alist `(height . (text-pixels . 1490))))
+        (add-to-list 'default-frame-alist '(top . 15))
+        (add-to-list 'default-frame-alist '(left . 15))
+        (add-to-list 'default-frame-alist '(internal-border-width . 20))
+        (add-to-list 'default-frame-alist '(undecorated . t))
+        (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
+        (add-to-list 'default-frame-alist '(alpha . 90)))
+    (add-to-list 'default-frame-alist '(undecorated . t))
+    (add-to-list 'default-frame-alist '(alpha . 90))))
 
-
-
-;; Put all backup files into a separate place
-(setq backup-by-copying t)
-(make-directory "~/.emacs_backups/" t)
-(make-directory "~/.emacs_autosave/" t)
-(setq backup-directory-alist '(("." . "~/.emacs_backups/")))
-(setq auto-save-file-name-transforms '((".*" "~/.emacs_autosave/" t)))
-(setq vc-make-backup-files t)
-
-(setq trash-directory "~/.local/share/trash/")
-(setq delete-by-moving-to-trash (not noninteractive))
-
-(setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
-;; (setq eldoc-documentation-strategy 'eldoc-documentation-default)
+(ey/add-stuff-to-default-buffer-alist)
 
 
 
@@ -262,16 +252,19 @@
 ;;; Turn off highlighting the whole line the cursor is at
 (remove-hook 'doom-first-buffer-hook #'global-hl-line-mode)
 
-;;; Turn off automatic spell checker
-(remove-hook 'text-mode-hook         #'spell-fu-mode)
+
 
-(remove-hook 'org-mode-hook          #'flyspell-mode)
-(remove-hook 'markdown-mode-hook     #'flyspell-mode)
-(remove-hook 'TeX-mode-hook          #'flyspell-mode)
-(remove-hook 'rst-mode-hook          #'flyspell-mode)
-(remove-hook 'mu4e-compose-mode-hook #'flyspell-mode)
-(remove-hook 'message-mode-hook      #'flyspell-mode)
-(remove-hook 'git-commit-mode-hook   #'flyspell-mode)
+;;; Turn off automatic spell checker
+(remove-hook 'text-mode-hook #'spell-fu-mode)
+(remove-hook! '(org-mode-hook
+                markdown-mode-hook
+                TeX-mode-hook
+                rst-mode-hook
+                mu4e-compose-mode-hook
+                message-mode-hook
+                git-commit-mode-hook) #'flyspell-mode)
+
+
 
 ;; Custom font and background colors
 (custom-set-faces!
