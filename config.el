@@ -39,6 +39,8 @@
 (setopt scroll-preserve-screen-position 'always)
 (setopt scroll-margin 0)
 (setopt jit-lock-defer-time nil) ; don't defer fontification
+(setopt trash-directory "~/.local/share/Trash/")
+(setopt delete-by-moving-to-trash (not noninteractive))
 
 (setopt pop-up-frames nil)
 (setopt pop-up-windows t)
