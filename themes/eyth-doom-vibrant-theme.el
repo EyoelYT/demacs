@@ -45,6 +45,7 @@ Can be an integer to determine the exact padding."
 
   ;; name        gui       256           16
   (
+   ;; (bg         '("#242730" "black"       "black" )) ; original doom vibrant bg
    (bg         '("#1a1b26" "black"       "black" ))    ; tokyo night bg
    (fg         '("#bbc2cf" "#bfbfbf"     "brightwhite" ))
 

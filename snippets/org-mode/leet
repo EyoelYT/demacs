@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: leet-org-entry
+# uuid: leet-org-entry
+# key: leet
+# condition: t
+# --
+** TODO Leetcode: ${1:leet_id} ${2:leet|algo-title}
+   :PROPERTIES:
+   :Difficulty:
+   :Time_Taken:
+   :Success_Status:
+   :Confidence: /5
+   :Revisit: Yes
+   :Last_Reviewed_Time:
+   :Times_Done_Now:
+   :Leet_Tags:
+   :File_Link: [[file:/path/to/file.py]]
+   :Web_Links: [[https://leet.com/problems/your-problem]], [[https://algo.monster/liteproblems/334]]
+   :END:
+
+- My Thinking Process
+- The Stuff I Learned
+- What Else Could I Have Done Better?
+- One liner small note of how to solve it:

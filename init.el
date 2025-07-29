@@ -12,7 +12,7 @@
 ;;      flags as well (those symbols that start with a plus).
 ;;
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
-;;      directory (for easy access to its source code).
+;;      directory (for easy access to its source code.
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
@@ -43,8 +43,7 @@
        ;;deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
-       ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
-       (emoji +ascii +github +unicode)  ; 🙂
+       doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +github +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;indent-guides     ; highlighted indent columns
@@ -70,7 +69,8 @@
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
        (format
-        ;;+onsave
+        ;; +lsp
+        ;; +onsave ; FIXME: remove both of these
         )                  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
@@ -243,4 +243,4 @@
 
        :config
        ;;literate
-       (default +bindings +smartparens))
+       (default +bindings +smartparens +gnupg))

@@ -69,7 +69,9 @@
 (package! kanagawa-themes :recipe (:host github :repo "EyoelYT/kanagawa-emacs"))
 (package! the-matrix-theme)
 (package! vscdark-theme :recipe (:host github :repo "EyoelYT/vscdark-theme"))
+(package! hercules-theme :recipe (:host github :repo "0xcefaedfe/hercules-theme"))
 (package! ubuntu-theme)
+(package! nordic-night-theme :recipe (:host github :repo "EyoelYT/nordic-night"))
 
 ;; (package! github-modern-theme) ;; Deprecated?
 ;; (package! acme-theme)          ;; Deprecated?
@@ -120,7 +122,7 @@
 (package! helix-theme)
 (package! doom-nano-themes :recipe (:host github :repo "ronisbr/doom-nano-themes" :depth 1))
 (package! busybee-theme)
-(package! nofrils-acme-theme)
+;; (package! nofrils-acme-theme) ; git fetch returns 503 url error
 (package! wildcharm-light-theme)
 (package! wildcharm-theme)
 (package! grandshell-theme)
@@ -136,6 +138,14 @@
 (package! hima-theme)
 (package! simplicity-theme)
 (package! tangonov-theme)
+(package! doom-two-tone-themes
+  :recipe (:host github
+           :repo "eliraz-refael/doom-two-tone-themes"
+           :files ("doom-two-tone-themes.el" "themes/*.el")))
+(package! south-theme
+  :recipe (:host github
+           :repo "SophieBosio/south"
+           :files ("south-theme.el")))
 
 ;;                NOT INSTALLED
 ;; /////////////////////////////////////////////////////
@@ -210,6 +220,9 @@
 (package! ob-julia-vterm)
 
 ;; (package! gptel :recipe (:nonrecursive t)) ; integrated into doom now
+(package! gptel
+  :recipe (:host github :repo "EyoelYT/gptel" :branch "fix-support-evil-regions" :nonrecursive t))
+(unpin! gptel)
 (package! chatgpt-shell)
 (package! hackernews)
 (package! leetcode)
@@ -248,6 +261,7 @@
 (package! evil-escape :disable t)
 ;; (package! proof-general :recipe (:host github :repo "ProofGeneral/PG"))
 (package! spacious-padding)
+(package! bluetooth)
 (package! ox-gfm) ; TODO: remove this as it does the same thing as blackfriday ??
 (package! dired-du)
 (package! org-appear)
@@ -276,3 +290,16 @@
 (package! eglot :pin "6a9e0c76b9a7a4bf03a7fc91a02b826df507e3ce")
 (package! consult-eglot :pin "b71499f4b93bfea4e2005564c25c5bb0f9e73199")
 (package! flycheck-eglot :pin "18d0c9869585e6a9ea5c40678f266cf7f5bb2d2e")
+
+(package! nov)
+(package! calibredb)
+;; (package! nov :pin "b3c7cc28e95fe25ce7b443e5f49e2e45360944a3")
+;; (package! calibredb
+;;   :recipe (:host github :repo "chenyanming/calibredb.el")
+;;   :pin "a3b04c0c37b1e8ceff2472e21a3579e64e944528")
+
+(package! magit-todos
+  ;; :pin "bd27c57eada0fda1cc0a813db04731a9bcc51b7b"
+  )
+(package! vdiff)
+(package! vdiff-magit)

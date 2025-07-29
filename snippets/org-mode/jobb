@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: job-app
+# uuid:
+# key: jobb
+# condition: t
+# --
+* TODO Company: Job_Title(Position)
+:PROPERTIES:
+:LOCATION: ?
+:END:
+- What they are looking for? [/]
+- Job Status: link?
