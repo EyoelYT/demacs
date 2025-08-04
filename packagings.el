@@ -60,7 +60,7 @@
         evil-want-C-u-delete nil
         evil-want-minibuffer t
         evil-ex-substitute-global t
-        evil-respect-visual-line-mode t
+        evil-respect-visual-line-mode nil ; I handle this myself
         evil-echo-state nil ; Disable the evil-mode line indicator in the ex section
         evil-kill-on-visual-paste nil
         evil-move-cursor-back t
@@ -69,7 +69,9 @@
   (setq evil-insert-state-cursor '(box)
         evil-motion-state-cursor '(box)
         evil-split-window-below t
-        evil-vsplit-window-right t))
+        evil-vsplit-window-right t)
+  (evil-set-initial-state 'shell-command-mode 'normal) ; for `async-shell-command'
+  (evil-set-initial-state 'comint-mode 'normal))
 
 (after! evil-integration
   (setq avy-all-windows t))
@@ -413,6 +415,7 @@
 (after! lsp-mode
   (setq lsp-enable-symbol-highlighting nil
         ;; lsp-enable-suggest-server-download t
+        lsp-eldoc-enable-hover nil ; Performance!
         lsp-modeline-diagnostics-scope :file
         lsp-signature-render-documentation nil ; don't show verbose documentation in eldoc
         lsp-use-plists t))

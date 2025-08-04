@@ -5,3 +5,4 @@
 ;; `org-roam-directory'
 ;; `org-journal-dir',
 ;; `projectile-project-search-path'
+;; `find-function-C-source-directory'

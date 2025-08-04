@@ -52,7 +52,6 @@
 (setq auto-save-default nil)
 (setq doom-leader-alt-key-states '(normal visual motion insert emacs)) ; want to use M-SPC everywhere
 (setq tab-first-completion nil)
-(setq find-function-C-source-directory "/mnt/c/Users/Eyu/Projects/probe/emacs/src")
 (setq dabbrev-case-replace nil)
 (setq blink-cursor-blinks 10 ; my default -1
       blink-cursor-delay 0.5 ; my default 0.2
@@ -173,7 +172,6 @@
   )
 
 
-
 
 ;;; Override/Custom FACES
 (custom-set-faces!
