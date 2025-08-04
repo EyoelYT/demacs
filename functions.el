@@ -1636,3 +1636,43 @@ the beginning of the line."
 ;;         (message-log-max))
 ;;     (apply fn args)))
 ;; (advice-add #'repeat-mode :around #'shut-up--advice)
+
+
+
+;;; Focused Window Automatic Resize; Ref: https://www.reddit.com/r/emacs/comments/1mf3cmk/autoresizing_on_focused_windows
+;; The desired ratio of the focused window's size.
+(setq auto-resize-ratio 0.6)
+;; (setq window-min-height 10)
+;; (setq window-min-width 10)
+
+(defun win/auto-resize (&rest args)
+  (cond ((string-match "MiniBuf" (buffer-name (window-buffer (selected-window)))))
+        (t (let* ((height (floor (* auto-resize-ratio (frame-height))))
+                  (width (floor (* auto-resize-ratio (frame-width))))
+                  ;; INFO We need to calculate by how much we should enlarge
+                  ;; focused window because Emacs does not allow setting the
+                  ;; window dimensions directly.
+                  (h-diff (max 0 (- height (window-height))))
+                  (w-diff (max 0 (- width (window-width)))))
+             (enlarge-window h-diff)
+             (enlarge-window w-diff t)))))
+
+
+(define-minor-mode win-auto-resize-mode
+  "Remap the face variables so they are not too shiny."
+  :global t
+  :init-value nil
+  (if win-auto-resize-mode
+      (progn
+        (advice-add 'evil-window-up    :after 'win/auto-resize)
+        (advice-add 'evil-window-down  :after 'win/auto-resize)
+        (advice-add 'evil-window-right :after 'win/auto-resize)
+        (advice-add 'evil-window-left  :after 'win/auto-resize)
+        (advice-add 'select-window    'win/auto-resize))
+    (advice-remove 'evil-window-up    'win/auto-resize)
+    (advice-remove 'evil-window-down  'win/auto-resize)
+    (advice-remove 'evil-window-right 'win/auto-resize)
+    (advice-remove 'evil-window-left  'win/auto-resizebp)
+    (advice-remove 'select-window     'win/auto-resize)))
+
+

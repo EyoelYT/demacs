@@ -23,6 +23,7 @@
 (setq-default display-line-numbers-width 4)  ; min default width
 (setq display-line-numbers-width-start nil)  ; automatically calculate the `display-line-numbers-width' on buffer start
                                         ; width (empty space) grows to the left of the numbers
+(setq split-width-threshold 160)
 (setq-default cursor-in-non-selected-windows nil)
 (setq-default left-margin-width 1)
 (setq-default right-margin-width 0)
