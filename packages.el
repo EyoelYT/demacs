@@ -229,6 +229,8 @@
 (package! fzf)
 (package! exec-path-from-shell)
 (package! stillness-mode :recipe (:host github :repo "neeasade/stillness-mode.el" :branch "main"))
+(package! rainbow-delimiters)
+(package! highlight-numbers)
 
 ;; //////////////////////////////////////////////////
 

@@ -57,6 +57,8 @@
 (setq blink-cursor-blinks 10 ; my default -1
       blink-cursor-delay 0.5 ; my default 0.2
       blink-cursor-interval 0.5) ; my default 0.7
+(setq rainbow-delimiters-max-face-count 4)
+
 ;; (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
 
 ;; (setq python-shell-interpreter "ipython"
@@ -219,6 +221,10 @@
 (add-hook! 'doom-first-file-hook
   (defun ey/disable-global-flycheck-mode ()
     (global-flycheck-mode -1)))
+
+;;; Rainbow delimiters mode (colored brackets) and Highlighted numbers
+(add-hook! '(prog-mode-hook conf-mode-hook) #'rainbow-delimiters-mode)
+(add-hook! '(prog-mode-hook conf-mode-hook) #'highlight-numbers-mode)
 
 ;;; Turn off automatic spell checker
 (remove-hook 'text-mode-hook #'spell-fu-mode)
