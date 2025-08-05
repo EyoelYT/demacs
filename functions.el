@@ -1730,3 +1730,146 @@ Also add the value to the front of the list in the variable `values'."
     (advice-remove 'select-window     'win/auto-resize)))
 
 
+
+(defun ey/set-frame-font (font &optional keep-size frames)
+  "This is a customized variant of `set-frame-font', which covers more
+faces.
+
+Set the default font to FONT.
+When called interactively, prompt for the name of a font, and use that
+font on the selected frame. When called from Lisp, FONT should be a font
+name (a string), a font object, font entity, or font spec.
+
+If KEEP-SIZE is nil, keep the number of frame lines and columns fixed.
+If KEEP-SIZE is non-nil (or with a prefix argument), try to keep the
+current frame size fixed (in pixels) by adjusting the number of lines
+and columns.
+
+If FRAMES is nil, apply the font to the selected frame only. If FRAMES
+is non-nil, it should be a list of frames to act upon, or t meaning all
+existing graphical frames. Also, if FRAMES is non-nil, alter the user's
+Customization settings as though the font-related attributes of the
+`default' face had been \"set in this session\", so that the font is
+applied to future frames.
+"
+  (interactive
+   (let* ((completion-ignore-case t)
+          (default (frame-parameter nil 'font))
+          (font (completing-read (format-prompt "Font name" default)
+                                 ;; x-list-fonts will fail with an error
+                                 ;; if this frame doesn't support fonts.
+                                 (x-list-fonts "*" nil (selected-frame))
+                                 nil nil nil nil default)))
+     (list font current-prefix-arg nil)))
+  (when (or (stringp font) (fontp font))
+    (let* ((this-frame (selected-frame))
+           ;; FRAMES nil means affect the selected frame.
+           (frame-list (cond ((null frames)
+                              (list this-frame))
+                             ((eq frames t)
+                              (frame-list))
+                             (t frames)))
+           height width)
+      (dolist (f frame-list)
+        (when (display-multi-font-p f)
+          (if keep-size
+              (setq height (* (frame-parameter f 'height)
+                              (frame-char-height f))
+                    width  (* (frame-parameter f 'width)
+                              (frame-char-width f))))
+          ;; When set-face-attribute is called for :font, Emacs
+          ;; guesses the best font according to other face attributes
+          ;; (:width, :weight, etc.) so reset them too (Bug#2476).
+          (set-face-attribute 'default f
+                              :width 'normal :weight 'normal
+                              :slant 'normal :font font)
+          (set-face-attribute 'variable-pitch f
+                              :width 'normal :weight 'normal
+                              :slant 'normal :font font)
+          (set-face-attribute 'fixed-pitch f ; this is the one for keybinds
+                              :width 'normal :weight 'normal
+                              :slant 'normal :font font)
+          (set-face-attribute 'fixed-pitch-serif f
+                              :width 'normal :weight 'normal
+                              :slant 'normal :font font)
+          (if keep-size
+              (modify-frame-parameters
+               f
+               (list (cons 'height (round height (frame-char-height f)))
+                     (cons 'width  (round width  (frame-char-width f)))))))))
+    (run-hooks 'after-setting-font-hook 'after-setting-font-hooks)))
+
+
+
+(after! face-remap
+  ;; Patch this function to cover more fonts
+  (defun global-text-scale-adjust (increment)
+  "Change (a.k.a. \"adjust\") the font size of all faces by INCREMENT.
+
+Interactively, INCREMENT is the prefix numeric argument, and defaults
+to 1.  Positive values of INCREMENT increase the font size, negative
+values decrease it.
+
+When you invoke this command, it performs the initial change of the
+font size, and after that allows further changes by typing one of the
+following keys immediately after invoking the command:
+
+   \\`+', \\`='   Globally increase the height of the default face
+   \\`-'      Globally decrease the height of the default face
+   \\`0'      Globally reset the height of the default face
+
+(The change of the font size produced by these keys depends on the
+final component of the key sequence, with all modifiers removed.)
+
+Buffer-local face adjustments have higher priority than global
+face adjustments.
+
+The variable `global-text-scale-adjust-resizes-frames' controls
+whether the frames are resized to keep the same number of lines
+and characters per line when the font size is adjusted.
+
+See also the related command `text-scale-adjust'.  Unlike that
+command, which scales the font size with a factor,
+`global-text-scale-adjust' scales the font size with an
+increment."
+  (interactive "p")
+  (when (display-graphic-p)
+    (unless global-text-scale-adjust--default-height
+      (setq global-text-scale-adjust--default-height
+            (face-attribute 'default :height)))
+    (let* ((key (event-basic-type last-command-event))
+           (echo-keystrokes nil)
+           (cur-def (face-attribute 'default :height))
+           (inc
+            (pcase key
+              (?- (* (- increment)
+                     global-text-scale-adjust--increment-factor))
+              (?0 (- global-text-scale-adjust--default-height cur-def))
+              (_ (* increment
+                    global-text-scale-adjust--increment-factor))))
+           (new (+ cur-def inc)))
+      (when (< (car global-text-scale-adjust-limits)
+               new
+               (cdr global-text-scale-adjust-limits))
+        (let ((frame-inhibit-implied-resize
+               (not global-text-scale-adjust-resizes-frames)))
+          (set-face-attribute 'default nil :height new)
+          (set-face-attribute 'variable-pitch nil :height new)
+          (set-face-attribute 'fixed-pitch nil :height new)
+          (set-face-attribute 'fixed-pitch-serif nil :height new)
+          (redisplay 'force)
+          (when (and (not (and (characterp key) (= key ?0)))
+                     (= cur-def (face-attribute 'default :height)))
+            (setq global-text-scale-adjust--increment-factor
+                  (1+ global-text-scale-adjust--increment-factor))
+            (global-text-scale-adjust increment))))
+      (when (characterp key)
+        (set-transient-map
+         (let ((map (make-sparse-keymap)))
+           (dolist (mod '(() (control meta)))
+             (dolist (key '(?+ ?= ?- ?0))
+               (define-key map (vector (append mod (list key)))
+                 'global-text-scale-adjust)))
+           map)
+       nil nil
+       "Use %k for further adjustment"))))))
