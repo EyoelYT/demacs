@@ -176,20 +176,19 @@
 ;;; Override/Custom FACES
 (custom-set-faces!
   '(tree-sitter-hl-face:variable :inherit default) ; Variable Initialization Faces
-  '(org-ellipsis :underline nil)
   '(separator-line :background unspecified) ; TODO: kanagawa doesn't react to this
   '(org-done :foreground "#5B6268" :strike-through unspecified)
-  ;; '(marginalia-documentation :foreground "#FB6268" :strike-through unspecified)
   '(org-agenda-done :foreground "#5B6268" :strike-through unspecified)
   '(org-headline-done :foreground "#5B6268" :strike-through unspecified)
-  '(+org-todo-onhold :foreground "#E0D063" :weight bold :inherit org-todo)
-  '(+org-todo-active :foreground "#FB6268" :weight bold :inherit org-todo)
-  '(+org-todo-project :weight bold :inherit org-todo)
+  '(+org-todo-onhold :foreground "#E0D063" :inherit org-todo)
+  '(+org-todo-active :foreground "#FB6268" :inherit org-todo)
+  '(+org-todo-cancel :inherit (error org-todo))
+  '(+org-todo-project :inherit org-todo)
   ;; '(fringe nil) ; fg: #484854 :bg #1a1b26 :inherit default
-  ;; '(italic :slant normal) ; Disable italics
-  '(italic nil) ; Enable italics
-  '(bold :weight normal) ; Disable bold
-  ;; '(bold nil) ; Enable bold
+  '(italic :slant normal) ; Disable italics (when inherited)
+  ;; '(italic nil) ; Enable italics (when inherited)
+  '(bold :weight normal) ; Disable bold (when inherited)
+  ;; '(bold nil) ; Enable bold (when inherited)
   ;; BLEND THE DOOM MODELINE BAR WITH THE BACKGROUND
   `(doom-modeline-bar
     :foreground ,(face-attribute 'mode-line :background nil nil)
