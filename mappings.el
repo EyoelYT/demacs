@@ -429,4 +429,5 @@
 (map! "C-," #'+default/search-buffer)
 
 (map! :leader "s m" #'ey/show-modeline-in-echo-area)
+(map! :leader "s M" #'global-hide-mode-line-mode)
 (map! :map org-mode-map [remap doom/backward-to-bol-or-indent] nil) ; Use `doom/backward-to-bol-or-indent' in org-mode
