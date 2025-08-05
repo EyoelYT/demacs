@@ -311,3 +311,5 @@
 ;; (advice-remove 'helpful-variable #'+vterm-incite-copy-mode--a)
 ;; (advice-add 'describe-variable :around #'+vterm-incite-copy-mode--a)
 ;; (advice-remove 'describe-variable #'+vterm-incite-copy-mode--a)
+
+(advice-add #'+default/search-buffer :around #'doom-set-jump-a)

@@ -515,37 +515,6 @@ See minad/consult#770."
             (consult-ripgrep default-directory)))
       (consult-ripgrep default-directory))))
 
-;; Add jumper position after search ; FIXME: I think this is not working correctly!!
-(defun +default/search-buffer ()
-  "Conduct a text search on the current buffer."
-  (interactive)
-  (better-jumper-set-jump)
-  (let (start end multiline-p)
-    (save-restriction
-      (when (ey/region-active-p)
-        (setq start (ey/region-beginning)
-                end   (ey/region-end)
-                multiline-p (/= (line-number-at-pos start)
-                                (line-number-at-pos end)))
-        (deactivate-mark)
-        (when multiline-p
-          (narrow-to-region start end)))
-      (cond ((or (modulep! :completion helm)
-                 (modulep! :completion ivy))
-             (call-interactively
-              (if (and start end (not multiline-p))
-                  #'swiper-isearch-thing-at-point
-                #'swiper-isearch)))
-            ((modulep! :completion vertico)
-             (if (and start end (not multiline-p))
-                 (consult-line
-                  (replace-regexp-in-string
-                   " " "\\\\ "
-                   (doom-pcre-quote
-                    (buffer-substring-no-properties start end))))
-               (call-interactively #'consult-line))))
-      (better-jumper-set-jump))))
-
 
 
 (defun ey/set-doom-theme (theme)
