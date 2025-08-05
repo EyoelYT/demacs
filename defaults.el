@@ -235,6 +235,9 @@
                 message-mode-hook
                 git-commit-mode-hook) #'flyspell-mode)
 
+;; eshell married with `compilation-shell-minor-mode'
+(add-hook 'eshell-mode-hook #'compilation-shell-minor-mode)
+
 ;;; Remove opening automatic tide server when opening rjsx/tsx/web-mode files
 (remove-hook! '(typescript-mode-local-vars-hook
                 typescript-tsx-mode-local-vars-hook
