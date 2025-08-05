@@ -82,7 +82,18 @@ just a number, like 1"
                      (cl-subseq persps (+ curr-index 1))))))
       (if persps-cache (setq persp-names-cache persps-cache))
       (when (called-interactively-p 'any)
-        (+workspace/display))))))
+        (+workspace/display)))))
+
+  (defun +workspace/yank-current-workspace-name ()
+    "Copy the current workspace's name to the kill ring."
+    (interactive)
+    (if-let* ((workspace-name (+workspace-current-name)))
+        (progn
+          (kill-new workspace-name)
+          (if (string= workspace-name (car kill-ring))
+              (message "Copied workspace name: \"%s\"" workspace-name)
+            (user-error "Couldn't copy workspace name")))
+      (error "Couldn't find workspace name"))))
 
 (defun ey/disable-which-key ()
   (which-key-mode -1) ; Use `(kbd "C-h")' instead (`embark-prefix-help-command')

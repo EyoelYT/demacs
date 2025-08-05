@@ -89,6 +89,7 @@
 
       ;; Workspace Swapper
       :nm "TAB S"         #'+workspace/swap-this-and-other
+      :nm "TAB y"         #'+workspace/yank-current-workspace-name
       :nm "TAB S-<left>"  #'+workspace/swap-left
       :nm "TAB S-<right>" #'+workspace/swap-right
       :nm "TAB ,"         #'+workspace/switch-to
