@@ -86,15 +86,16 @@
 (after! dirvish
   ;; (setq dirvish-reuse-session 'open) ; MAY BREAK???
   (setq dirvish-override-dired-mode t)
-  (setq dirvish-subtree-always-show-state nil)
-  (setq dirvish-subtree-prefix "   ")
   (setq dirvish-attributes '(file-size nerd-icons))
   (setq dirvish-mode-line-format
         '(:left (sort file-time symlink) :right (omit yank index)))
   (setq dirvish-use-header-line nil
-        dirvish-use-mode-line nil)
+        dirvish-use-mode-line nil))
 
-  (defcustom +dirvish-enable-subtree--view-file t
+(after! dirvish-subtree
+  (setq dirvish-subtree-always-show-state nil)
+  (setq dirvish-subtree-prefix "   ")
+  (defcustom +dirvish-enable-subtree--view-file nil
     "Non-nil means fall back to `dirvish-subtree--view-file' on file errors."
     :type 'boolean
     :group 'dirvish)
