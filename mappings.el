@@ -355,7 +355,10 @@
  :map org-agenda-mode-map
  :m "S-<up>"     #'ey/scroll-line-and-window-up
  :m "S-<down>"   #'ey/scroll-line-and-window-down
- :m "C-<return>" #'ey/org-agenda-goto-narrowed-subtree)
+ :m "C-<return>" #'ey/org-agenda-goto-narrowed-subtree
+ :map org-mode-map
+ :m "S-<up>"     #'ey/scroll-line-and-window-up
+ :m "S-<down>"   #'ey/scroll-line-and-window-down)
 
 (after! vertico
   (map! :map vertico-map
