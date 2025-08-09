@@ -403,7 +403,8 @@
 
 (after! helpful (global-set-key [remap describe-symbol] #'helpful-symbol))
 
-(map! "C-s" #'ey/window-search)
+(map! "C-s" #'ey/window-search
+      :map vterm-mode-map :n "C-s" #'ey/window-search)
 (map! :map isearch-mode-map "<tab>"     #'isearch-repeat-forward)
 (map! :map isearch-mode-map "TAB"       #'isearch-repeat-forward) ; needed when in terminal
 (map! :map isearch-mode-map "<escape>"  #'isearch-cancel)
