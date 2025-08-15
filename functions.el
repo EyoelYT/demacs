@@ -1873,3 +1873,46 @@ increment."
            map)
        nil nil
        "Use %k for further adjustment"))))))
+
+
+
+(defcustom doom-session-autosave-interval 60
+  "Interval in seconds to save the current doom session. Define this before
+`doom-session-autosave-minor-mode' is initialized"
+  :type 'integer
+  :group 'doom)
+
+(defvar doom-session-autosave--timer-obj nil
+  "Variable that stores a Timer Object")
+
+(defcustom doom-session-autosave-function #'doom-session-incite-quicksave
+  "Function to automatically run to save the current session" ; TODO: define the type
+  :group 'doom)
+
+(defun doom-session-autosave--clean-idle-timers (fn-to-clean)
+  "TODO"
+  (dolist (timer-vec-obj timer-idle-list)
+    (let* ((timer-list-obj (append timer-vec-obj nil))
+           (fn (nth 5 timer-list-obj)))
+      (when (and (eq fn fn-to-clean) (timer--check timer-vec-obj))
+        (cancel-timer timer-vec-obj)))))
+
+(defun doom-session-incite-quicksave ()
+  "Incite a doom session quicksave and send notification"
+  (let* ((inhibit-message t)
+         (message-log-max))
+    (doom/quicksave-session))
+  (message "Session saved at %sth second of idle time." (cadr (current-idle-time))))
+
+(define-minor-mode doom-session-autosave-minor-mode
+  "Save doom sessions in a timer on intervals"
+  :global t
+  :init-value nil
+  (if doom-session-autosave-minor-mode
+      (setq doom-session-autosave--timer-obj
+            (run-with-idle-timer doom-session-autosave-interval t
+                                 doom-session-autosave-function))
+    (when (timerp doom-session-autosave--timer-obj)
+      (cancel-timer doom-session-autosave--timer-obj)
+      (doom-session-autosave--clean-idle-timers doom-session-autosave-function))
+    (setq doom-session-autosave--timer-obj nil)))
