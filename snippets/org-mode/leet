@@ -6,7 +6,7 @@
 # --
 ** TODO Leetcode: ${1:leet_id} ${2:leet|algo-title}
    :PROPERTIES:
-   :Difficulty:
+   :Difficulty: $0
    :Time_Taken:
    :Success_Status:
    :Confidence: /5
