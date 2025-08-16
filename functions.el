@@ -24,65 +24,63 @@
 
 (after! persp-mode
   (defun +workspace/swap-this-and-other (other-persp)
-  "Swap the current workspace with the Nth workspace. OTHER-PERSP could be
+    "Swap the current workspace with the Nth workspace. OTHER-PERSP could be
 a string containing a number, like \"5\", or \"[1] main \", or could be
 just a number, like 1"
-  (interactive
-   (let* ((persps (+workspace-list-names))
-          (curr-name (+workspace-current-name))
-          (curr-index (cl-position curr-name persps :test #'equal))
-          (curr-pos (1+ curr-index)))
-     (list (completing-read
-            (concat
-             "Swap workspace "
-             (propertize (format " [%s] %s " curr-pos curr-name)
-                         'face
-                         '+workspace-tab-selected-face)
-             " with: ")
-            (lambda (string pred action)
-              (if (eq action 'metadata)
-                  `(metadata (display-sort-function . ,#'identity))
-                (complete-with-action
-                 action
-                 (remove (format "[%s] %s" curr-pos curr-name)
-                         (cl-loop for persp in persps
-                                  for i to (length persps)
-                                  collect (format "[%d] %s" (1+ i) persp)))
-                 string pred)))
-            nil t))))
-  (let* ((other-pos (cond ((integerp other-persp) other-persp)
-                          ((string-match "\\[\\([0-9]+\\)\\]" other-persp)
-                           (string-to-number (match-string 1 other-persp)))
-                          ((string-match "\\([0-9]+\\)" other-persp)
-                           (string-to-number (match-string 1 other-persp)))
-                          (t (user-error "Entry must resemble a number"))))
-         (other-index (- other-pos 1))
-         (persps (+workspace-list-names))
-         (curr-name (+workspace-current-name))
-         (curr-index (cl-position curr-name persps :test #'equal))
-         (other-name (elt persps other-index))
-         (others (remove curr-name persps))
-         (same-persp (eq curr-index other-index))
-         (out-of-bounds (or (< other-index 0) (> other-index (- (length persps) 1))))
-         (swapping-left-to-right (< curr-index other-index)))
-    (cond (same-persp (user-error "Can't swap with same workspace"))
-          ((not others) (user-error "Only one workspace"))
-          (out-of-bounds (user-error "Workspace [%s] doesn't exist" other-pos)))
-    (let ((persps-cache
-           (if swapping-left-to-right
-               (append (cl-subseq persps 0 curr-index)
-                       (list other-name)
-                       (cl-subseq persps (+ curr-index 1) other-index)
+    (interactive
+     (let* ((persps (+workspace-list-names))
+            (curr-name (+workspace-current-name))
+            (curr-pos (1+ (cl-position curr-name persps :test #'equal)))
+            (prompt (concat
+                     "Swap workspace "
+                     (propertize (format " [%s] %s " curr-pos curr-name)
+                                 'face
+                                 '+workspace-tab-selected-face)
+                     " with: "))
+            (collection (lambda (string pred action)
+                          (if (eq action 'metadata)
+                              `(metadata (display-sort-function . ,#'identity))
+                            (complete-with-action
+                             action
+                             (remove (format "[%s] %s" curr-pos curr-name)
+                                     (cl-loop for persp in persps
+                                              for i to (length persps)
+                                              collect (format "[%d] %s" (1+ i) persp)))
+                             string pred)))))
+       (list (completing-read prompt collection nil t))))
+    (let* ((other-pos (cond ((integerp other-persp) other-persp)
+                            ((string-match "\\[\\([0-9]+\\)\\]" other-persp)
+                             (string-to-number (match-string 1 other-persp)))
+                            ((string-match "\\([0-9]+\\)" other-persp)
+                             (string-to-number (match-string 1 other-persp)))
+                            (t (user-error "Entry must resemble a number"))))
+           (other-index (- other-pos 1))
+           (persps (+workspace-list-names))
+           (curr-name (+workspace-current-name))
+           (curr-index (cl-position curr-name persps :test #'equal))
+           (other-name (elt persps other-index))
+           (others (remove curr-name persps))
+           (same-persp (eq curr-index other-index))
+           (out-of-bounds (or (< other-index 0) (> other-index (- (length persps) 1))))
+           (swapping-left-to-right (< curr-index other-index)))
+      (cond (same-persp (user-error "Can't swap with same workspace"))
+            ((not others) (user-error "Only one workspace"))
+            (out-of-bounds (user-error "Workspace [%s] doesn't exist" other-pos)))
+      (let ((persps-cache
+             (if swapping-left-to-right
+                 (append (cl-subseq persps 0 curr-index)
+                         (list other-name)
+                         (cl-subseq persps (+ curr-index 1) other-index)
+                         (list curr-name)
+                         (cl-subseq persps (+ other-index 1)))
+               (append (cl-subseq persps 0 other-index)
                        (list curr-name)
-                       (cl-subseq persps (+ other-index 1)))
-             (append (cl-subseq persps 0 other-index)
-                     (list curr-name)
-                     (cl-subseq persps (+ other-index 1) curr-index)
-                     (list other-name)
-                     (cl-subseq persps (+ curr-index 1))))))
-      (if persps-cache (setq persp-names-cache persps-cache))
-      (when (called-interactively-p 'any)
-        (+workspace/display)))))
+                       (cl-subseq persps (+ other-index 1) curr-index)
+                       (list other-name)
+                       (cl-subseq persps (+ curr-index 1))))))
+        (if persps-cache (setq persp-names-cache persps-cache))
+        (when (called-interactively-p 'any)
+          (+workspace/display)))))
 
   (defun +workspace/yank-current-workspace-name ()
     "Copy the current workspace's name to the kill ring."
