@@ -1110,7 +1110,7 @@ the PARAMS alist."
           (apply orig-fun args)))
     (apply orig-fun args)))
 
-;;; Remove workspace names when switching workspaces (Overrides some doom code here)
+;;; Remove workspace names when switching workspaces (Override some doom code)
 (defun ey/+workspace/switch-to (index)
   "Switch to a workspace at a given INDEX. A negative number will start from the
 end of the workspace list."
@@ -1133,9 +1133,14 @@ end of the workspace list."
               (t
                (error "Not a valid index: %s" index))))))
 
-(defun ey/workspace-behavior-advices ()
-  "I want to override some of doom's +workspace functions"
-  (advice-add '+workspace/switch-to :override #'ey/+workspace/switch-to))
+;;; Override `+workspace/new-named' function to enter selection
+(defun ey/+workspace/new-named (name)
+  "Create a new workspace with a given NAME."
+  (interactive
+   (let ((selected-text (if (ey/region-active-p)
+                            (buffer-substring-no-properties (ey/region-beginning) (ey/region-end)))))
+     (list (read-string "Workspace Name: " selected-text))))
+  (+workspace/new name))
 
 (defun ey/start-tide-mode-interactively ()
   "Enable `tide-mode' for TS/JS"

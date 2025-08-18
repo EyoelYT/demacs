@@ -212,7 +212,6 @@
 ;;; Global HOOKS!
 ;; Turn off highlighting the whole line the cursor is at
 (remove-hook 'doom-first-buffer-hook #'global-hl-line-mode)
-(add-hook 'doom-first-file-hook #'ey/workspace-behavior-advices)
 (add-hook 'doom-first-file-hook #'ey/disable-which-key)
 (add-hook 'doom-first-file-hook #'ey/toggle-mark-all-buffers-as-real)
 (add-hook! 'doom-first-file-hook
@@ -279,6 +278,9 @@
 
 
 ;;; ADVICES!
+;; Workspace functions overrides
+(advice-add '+workspace/switch-to :override #'ey/+workspace/switch-to)
+(advice-add '+workspace/new-named :override #'ey/+workspace/new-named)
 
 ;; Fixes Bug where `doom-theme' doesn't get updated after interactively changing themes
 (advice-add 'consult-theme :after #'ey/set-doom-theme)
