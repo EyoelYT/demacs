@@ -1483,32 +1483,34 @@ Try, in order:
          (choice (completing-read "Windows Terminal Profile: " commands)))
     (start-process-shell-command "Windows Terminal Preview" nil choice)))
 
-(defun doom/backward-to-bol-or-indent (&optional point)
-  "Jump between the indentation column (first non-whitespace character) and
+(after! doom-lib
+  (defun doom/backward-to-bol-or-indent (&optional point)
+    "Jump between the indentation column (first non-whitespace character) and
 the beginning of the line."
-  (interactive "^d")
-  (if (and (eq major-mode 'org-mode)      ; org-mode
-           (or (not (org-in-src-block-p)) ; not in src-block
-               (org-at-heading-p)         ; at heading
-               (save-excursion            ; at heading check 2
-                 (org-beginning-of-line)
-                 (org-at-heading-p))))
-      (call-interactively #'org-beginning-of-line)
-  (let ((pt (or point (point))))
-    (cl-destructuring-bind (bol bot _eot _eol)
-        (doom--bol-bot-eot-eol pt)
-      (cond ((> pt bot)
-             (goto-char bot))
-            ((= pt bol)
-             (or (and doom--last-backward-pt
-                      (= (line-number-at-pos doom--last-backward-pt)
-                         (line-number-at-pos pt)))
+    (interactive "^d")
+    (if (and (eq major-mode 'org-mode)         ; org-mode
+             (or (not (or (org-in-src-block-p) ; outside src-block and item descriptions
+                          (and (org-in-item-p) (not (org-at-item-p)))))
+                 (org-at-heading-or-item-p) ; at heading or item
+                 (save-excursion ; at heading or item check 2 (when cursor is beyond `org-ellipsis')
+                   (org-beginning-of-line)
+                   (org-at-heading-or-item-p))))
+        (call-interactively #'org-beginning-of-line)
+      (let ((pt (or point (point))))
+        (cl-destructuring-bind (bol bot _eot _eol)
+            (doom--bol-bot-eot-eol pt)
+          (cond ((> pt bot)
+                 (goto-char bot))
+                ((= pt bol)
+                 (or (and doom--last-backward-pt
+                          (= (line-number-at-pos doom--last-backward-pt)
+                             (line-number-at-pos pt)))
+                     (setq doom--last-backward-pt nil))
+                 (goto-char (or doom--last-backward-pt bot))
                  (setq doom--last-backward-pt nil))
-             (goto-char (or doom--last-backward-pt bot))
-             (setq doom--last-backward-pt nil))
-            ((<= pt bot)
-             (setq doom--last-backward-pt pt)
-             (goto-char bol)))))))
+                ((<= pt bot)
+                 (setq doom--last-backward-pt pt)
+                 (goto-char bol))))))))
 
 (defun my/eww-to-org (&optional dest)
   "Render the current eww buffer using org markup.
