@@ -480,6 +480,7 @@ See minad/consult#770."
        (when (byte-code-function-p bytecode)
          (funcall bytecode))))
    (apply old-fn args)))
+
 (advice-add (if (progn (require 'json)
                        (fboundp 'json-parse-buffer))
                 'json-parse-buffer
@@ -1488,7 +1489,7 @@ Try, in order:
     "Jump between the indentation column (first non-whitespace character) and
 the beginning of the line."
     (interactive "^d")
-    (if (and (eq major-mode 'org-mode)         ; org-mode
+    (if (and (derived-mode-p 'org-mode) ; org-mode
              (or (not (or (org-in-src-block-p) ; outside src-block and item descriptions
                           (and (org-in-item-p) (not (org-at-item-p)))))
                  (org-at-heading-or-item-p) ; at heading or item
