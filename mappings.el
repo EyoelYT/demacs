@@ -298,7 +298,7 @@
 
   (map! :map magit-section-mode-map
         :n "C-<tab>" #'evil-switch-to-windows-last-buffer
-        :n "S-<iso-lefttab>" #'magit-section-cycle
+        "<backtab>" #'magit-section-cycle
         :n "C-S-<iso-lefttab>" #'magit-section-cycle-global
         :map magit-status-mode-map
         :n "M-RET"   #'magit-diff-visit-worktree-file-other-window
