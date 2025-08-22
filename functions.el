@@ -93,10 +93,6 @@ just a number, like 1"
             (user-error "Couldn't copy workspace name")))
       (error "Couldn't find workspace name"))))
 
-(defun ey/disable-which-key ()
-  (which-key-mode -1) ; Use `(kbd "C-h")' instead (`embark-prefix-help-command')
-  (setq echo-keystrokes 0)) ; echoing keybinds in minibuffer area
-
 (defun ey/region-active-p ()
   "Return non-nil if selection or evil visual region is active"
   (or (and (fboundp 'evil-visual-state-p)

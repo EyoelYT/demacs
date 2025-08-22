@@ -58,6 +58,15 @@
       blink-cursor-interval 0.5) ; my default 0.7
 (setq rainbow-delimiters-max-face-count 4)
 
+(setq which-key-allow-imprecise-window-fit nil ; Ensures that which-key suggestions are fully visible
+      which-key-side-window-max-height 0.99 ; Maximizes the height of the which-key window to 99%
+      which-key-sort-order #'which-key-key-order-alpha
+      which-key-sort-uppercase-first nil
+      which-key-add-column-padding 1
+      which-key-max-display-columns nil
+      which-key-min-display-lines 6
+      which-key-side-window-slot -10)
+
 ;; (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
 
 ;; (setq python-shell-interpreter "ipython"
@@ -212,7 +221,6 @@
 ;;; Global HOOKS!
 ;; Turn off highlighting the whole line the cursor is at
 (remove-hook 'doom-first-buffer-hook #'global-hl-line-mode)
-(add-hook 'doom-first-file-hook #'ey/disable-which-key)
 (add-hook 'doom-first-file-hook #'ey/toggle-mark-all-buffers-as-real)
 (add-hook! 'doom-first-file-hook
   (defun ey/disable-global-flycheck-mode ()

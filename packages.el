@@ -261,6 +261,7 @@
 ;; (package! pulsar)
 ;; (package! embrace)
 (package! evil-escape :disable t)
+(package! which-key :disable t)
 ;; (package! proof-general :recipe (:host github :repo "ProofGeneral/PG"))
 (package! spacious-padding)
 (package! bluetooth)
