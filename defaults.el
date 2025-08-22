@@ -148,7 +148,7 @@
 (ey/add-stuff-to-default-buffer-alist)
 
 ;; Read and translate Terminal Sequences
-(defun ey/set-input-decoder-mappings ()
+(defun ey/set-input-decoder-mappings (&rest frame)
   "Set my bindings for Emacs in Terminal"
   ;; (define-key input-decode-map "SPC-`"     (kbd "C-`"  ))
   (define-key input-decode-map "\e[105;5u" (kbd "<C-i>"))
@@ -173,7 +173,7 @@
 
 (if (daemonp)
     (progn
-      (add-hook 'after-make-frame-functions #'ey/set-input-decoder-mappings)
+      (add-hook 'server-after-make-frame-hook #'ey/set-input-decoder-mappings)
       ;;       (add-hook 'before-make-frame-hook #'ey/add-stuff-to-default-buffer-alist)
       )
   (ey/set-input-decoder-mappings)
