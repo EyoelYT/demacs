@@ -1107,8 +1107,10 @@ the PARAMS alist."
           (apply orig-fun args)))
     (apply orig-fun args)))
 
+
+
 ;;; Remove workspace names when switching workspaces (Override some doom code)
-(defun ey/+workspace/switch-to (index)
+(defun ey/+workspace/switch-to-a (index)
   "Switch to a workspace at a given INDEX. A negative number will start from the
 end of the workspace list."
   (interactive
@@ -1130,14 +1132,58 @@ end of the workspace list."
               (t
                (error "Not a valid index: %s" index))))))
 
+(defvar ey/+workspace-last-in-focus nil
+  "Track the last persp switched to when using `ey/+workspace/switch-to-a',
+with my binding \\[+workspace/switch-to]")
+
+(defun ey/+workspace-switch-a (name &optional auto-create-p)
+  "Switch to another workspace named NAME (a string).
+
+If AUTO-CREATE-P is non-nil, create the workspace if it doesn't exist, otherwise
+throws an error.
+
+This function differs from the original in that it shows different
+messages or non at all based on certain conditions"
+  (unless (+workspace-exists-p name)
+    (if auto-create-p
+        (+workspace-new name)
+      (error "%s is not an available workspace" name)))
+  (let ((old-name (+workspace-current-name)))
+    (unless (equal old-name name)
+      (setq +workspace--last
+            (or (and (not (+workspace--protected-p old-name))
+                     old-name)
+                +workspaces-main))
+      (persp-frame-switch name))
+    (if auto-create-p (setq ey/+workspace-last-in-focus name))
+    (equal (+workspace-current-name) name)))
+
+(defun ey/+workspace/switch-to-last-focus ()
+  "Switch to `ey/+workspace-last-in-focus' persp"
+  (interactive)
+  (let* ((focus ey/+workspace-last-in-focus)
+         (string-p (stringp ey/+workspace-last-in-focus))
+         (exists-p (+workspace-exists-p ey/+workspace-last-in-focus)))
+    (if (and focus string-p exists-p)
+        (+workspace-switch ey/+workspace-last-in-focus)
+      (if (not focus)
+          (message "Last focus workspace not set yet")
+        (message (concat "Last Focus workspace "
+                         (propertize (format "%s" focus) 'face 'error)
+                         " was deleted"))))))
+
 ;;; Override `+workspace/new-named' function to enter selection
-(defun ey/+workspace/new-named (name)
-  "Create a new workspace with a given NAME."
+(defun ey/+workspace/new-named-a (name)
+  "Create a new workspace with a given NAME. Purpose of this function is to
+input the current active selection into the prompt for workspace name.
+Makes it easy when creating a new workspace for a task in agenda"
   (interactive
    (let ((selected-text (if (ey/region-active-p)
                             (buffer-substring-no-properties (ey/region-beginning) (ey/region-end)))))
      (list (read-string "Workspace Name: " selected-text))))
   (+workspace/new name))
+
+
 
 (defun ey/start-tide-mode-interactively ()
   "Enable `tide-mode' for TS/JS"
