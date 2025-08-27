@@ -236,8 +236,10 @@
                 (:map evil-multiedit-mode-map
                  :nvi "M-d"   #'evil-multiedit-match-and-next
                  :nvi "M-D"   #'evil-multiedit-match-and-prev
-                 [return]       nil   ; we want "RET on insert" to input a newline
-                 :nv [return] #'evil-multiedit-toggle-or-restrict-region))))
+                 :i [return]    nil ; we want "return on insert" to input a newline
+                 :i "RET"       nil ; we want "RET on insert" to input a newline
+                 :nv [return] #'evil-multiedit-toggle-or-restrict-region
+                 :nv "RET" #'evil-multiedit-toggle-or-restrict-region))))
 
 (map! :gvimer "C-q" #'ey/google-search)
 
