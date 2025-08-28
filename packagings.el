@@ -60,7 +60,7 @@
         evil-want-C-u-delete nil
         evil-want-minibuffer t
         evil-ex-substitute-global t
-        evil-respect-visual-line-mode nil ; I handle this myself
+        evil-respect-visual-line-mode t
         evil-echo-state nil ; Disable the evil-mode line indicator in the ex section
         evil-kill-on-visual-paste nil
         evil-move-cursor-back t
@@ -68,6 +68,7 @@
   :config
   (setq evil-insert-state-cursor '(box)
         evil-motion-state-cursor '(box)
+        evil-visual-state-cursor '(box)
         evil-split-window-below t
         evil-vsplit-window-right t)
   (evil-set-initial-state 'shell-command-mode 'normal) ; for `async-shell-command'
