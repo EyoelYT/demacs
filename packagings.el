@@ -318,7 +318,6 @@
                                       ;; (todo urgency-down priority-down time-down)
                                       (search category-keep)))
 
-  (setq +org-capture-todo-file "org/agenda2.org")
   (setq org-capture-templates
         '(("t" "Add TODO" entry
            (file+headline +org-capture-todo-file "Incoming")
