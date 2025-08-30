@@ -786,6 +786,7 @@
   (setq vertico-count 10
         ;; (setq vertico-count 17 ; doom default
         vertico-flat-max-lines 3
+        vertico-flat-annotate nil
         vertico-multiform-commands
         `((execute-extended-command
            (+vertico-transform-functions . +vertico-highlight-enabled-mode)
@@ -799,23 +800,17 @@
           ;; (consult-outline buffer)
           ;; (consult-eglot-symbols buffer)
           ;; (consult-line buffer)
-          ;; (find-file posframe
-          ;;            (+vertico-transform-functions . +vertico-highlight-enabled-mode)
+          ;; (find-file posframe ; `find-file' to use postframes
           ;;            (vertico-posframe-poshandler . posframe-poshandler-frame-bottom-center)
           ;;            (vertico-posframe-min-width . ,(- (frame-pixel-width) 1000))
-          ;;            (vertico-posframe-border-width . 0))
+          ;;            (vertico-posframe-border-width . 1))
           ;; (+default/search-buffer buffer)
-          ;; (+default/search-buffer-other-window buffer)
-          ;; (+vertico/switch-workspace-buffer flat)
+          ;; (+default/search-other-window buffer)
           ;; (consult-buffer buffer)
-          )
+          (+vertico/switch-workspace-buffer flat))
         vertico-multiform-categories
-        '(
-          ;; (posframe
-          ;;  (poshandler . posframe-poshandler-frame-bottom-center)
-          ;;  (border-width . 100)
-          ;;  )
-          (file (+vertico-transform-functions . +vertico-highlight-directory)))))
+        '((file (+vertico-transform-functions . +vertico-highlight-directory))
+          (jinx buffer))))
 
 
 
@@ -1197,3 +1192,10 @@ server an expensive restart when its buffer is reverted."
       (c-toggle-comment-style -1))))
 
 
+
+(use-package! jinx
+  :defer t
+  :config
+  (setq jinx-languages "en_US")
+  (setq jinx-camel-modes '(prog-mode)))
+

@@ -232,15 +232,14 @@
 
 ;;; Turn off automatic spell checker
 (remove-hook 'text-mode-hook #'spell-fu-mode)
-(remove-hook 'text-mode-hook 'visual-line-mode) ; still has `+word-wrap-mode' in there
-
-(remove-hook! '(org-mode-hook
-                markdown-mode-hook
-                TeX-mode-hook
-                rst-mode-hook
-                mu4e-compose-mode-hook
-                message-mode-hook
-                git-commit-mode-hook) #'flyspell-mode)
+(after! flyspell
+  (remove-hook! '(org-mode-hook
+                  markdown-mode-hook
+                  TeX-mode-hook
+                  rst-mode-hook
+                  mu4e-compose-mode-hook
+                  message-mode-hook
+                  git-commit-mode-hook) #'flyspell-mode))
 
 ;; eshell married with `compilation-shell-minor-mode'
 (add-hook 'eshell-mode-hook #'compilation-shell-minor-mode)
