@@ -512,13 +512,13 @@
 
 
 
+(setq +workspaces-on-switch-project-behavior nil)
 ;; Persp mode
 (after! persp-mode
   (setq persp-auto-save-opt 0      ; 0 means no save, 1 means save on Emacs kill
         persp-autokill-buffer-on-remove 'kill-weak
         persp-auto-save-num-of-backups 7)
-  (setq +workspaces-on-switch-project-behavior nil)
-  (setq projectile-switch-project-action #'projectile-find-file)
+  ;; (setq +workspaces-on-switch-project-behavior nil)
   ;; (setq projectile-switch-project-action #'+workspaces-switch-to-project-h)
 
   ;; add to files
@@ -527,17 +527,18 @@
   ;;             (when (get-current-persp)
   ;;               (set-persp-parameter 'tab-bar-tabs (frameset-filter-tabs (tab-bar-tabs) nil nil t)))))
 
-  ;; REVIEW: these functions help with compatibility between `persp-mode' and `tab-bar-mode'
-  (add-hook 'persp-before-deactivate-functions
-            (defun +workspaces-save-tab-bar-data-h (_)
-              (when (get-current-persp)
-                (set-persp-parameter
-                 'tab-bar-tabs (tab-bar-tabs)))))
-
-  (add-hook 'persp-activated-functions
-            (defun +workspaces-load-tab-bar-data-h (_)
-              (tab-bar-tabs-set (persp-parameter 'tab-bar-tabs))
-              (tab-bar--update-tab-bar-lines t))))
+  ;; FIXME: these functions are supposed to help with compatibility between `persp-mode' and `tab-bar-mode'
+  ;; (add-hook 'persp-before-deactivate-functions
+  ;;           (defun +workspaces-save-tab-bar-data-h (&rest _)
+  ;;             (when (get-current-persp)
+  ;;               (set-persp-parameter
+  ;;                'tab-bar-tabs (tab-bar-tabs)))))
+  ;;
+  ;; (add-hook 'persp-activated-functions
+  ;;           (defun +workspaces-load-tab-bar-data-h (&rest _)
+  ;;             (tab-bar-tabs-set (persp-parameter 'tab-bar-tabs))
+  ;;             (tab-bar--update-tab-bar-lines t)))
+  (setq projectile-switch-project-action #'projectile-find-file))
 
 
 
