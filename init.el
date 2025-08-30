@@ -103,10 +103,9 @@
         +childframe
         ;;+icons
         )
-       (spell            ; tasing you for misspelling mispelling
-        +aspell
-        +flyspell
-        )
+       ;;(spell            ; tasing you for misspelling mispelling
+       ;; +hunspell
+       ;; +flyspell)
        ;;grammar           ; tasing grammar mistake every you make
 
        :tools
