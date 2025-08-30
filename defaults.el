@@ -127,6 +127,14 @@
       doom-font-increment 1
       text-scale-mode-step 1.04) ; try `global-text-scale-adjust--default-height'??
 
+(unless (modulep! :ui popup)
+  (add-to-list 'display-buffer-alist
+               '("\\*Process List\\*"
+                 (display-buffer-reuse-mode-window display-buffer-at-bottom)
+                 (window-height . 0.3)
+                 (dedicated . t)
+                 (preserve-size . (t . t)))))
+
 ;;; FRAME DEFAULTS
 (defun ey/add-stuff-to-default-buffer-alist ()
   "Add values to `default-frame-alist'"
