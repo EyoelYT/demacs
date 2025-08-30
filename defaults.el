@@ -293,8 +293,9 @@
 
 ;;; ADVICES!
 ;; Workspace functions overrides
-(advice-add '+workspace/switch-to :override #'ey/+workspace/switch-to)
-(advice-add '+workspace/new-named :override #'ey/+workspace/new-named)
+(advice-add '+workspace/switch-to :override #'ey/+workspace/switch-to-a)
+(advice-add '+workspace/new-named :override #'ey/+workspace/new-named-a)
+(advice-add '+workspace-switch    :override #'ey/+workspace-switch-a)
 (advice-add 'doom/backward-to-bol-or-indent :override #'ey/backward-to-bol-or-indent)
 
 ;; Fixes Bug where `doom-theme' doesn't get updated after interactively changing themes
