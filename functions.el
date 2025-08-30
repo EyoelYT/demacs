@@ -1379,7 +1379,7 @@ use in `isearch-mode-end-hook'."
 
 
 
-(defun +default/search-buffer-other-window ()
+(defun +default/search-other-window ()
   (interactive)
   (let (start end multiline-p string-in-region vterm-here-or-other-window-p)
     (save-restriction
