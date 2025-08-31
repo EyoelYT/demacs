@@ -51,8 +51,8 @@
       "<M-left>"               #'drag-stuff-left
       "<M-right>"              #'drag-stuff-right
 
-      "]X"                     #'highlight-changes-next-change
-      "[X"                     #'highlight-changes-previous-change
+      :m "]X"                  #'highlight-changes-next-change
+      :m "[X"                  #'highlight-changes-previous-change
 
       [remap describe-symbol]  #'helpful-symbol
 
@@ -217,7 +217,8 @@
        :map transient-map
        "<escape>"              #'transient-quit-one)
 
-      (:map magit-section-mode-map
+      (:after magit
+       :map magit-section-mode-map
        :ng "C-<tab>"           #'evil-switch-to-windows-last-buffer
        :ng "<backtab>"         #'magit-section-cycle
        :ng "C-S-<iso-lefttab>" #'magit-section-cycle-global
