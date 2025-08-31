@@ -82,6 +82,9 @@
       select-enable-clipboard t
       select-enable-primary nil)
 
+(setq treesit-font-lock-level 4)
+(setq-default forward-sexp-function 'forward-sexp-default-function) ; tres annoying, needs more configuration
+
 (add-to-list 'auto-mode-alist '("\\.jai\\'" . jai-mode))
 (add-to-list 'auto-mode-alist '("\\.xaml\\'" . nxml-mode))
 
@@ -180,13 +183,8 @@
   (define-key input-decode-map "\e[142;5u" (kbd "S-<return>")))
 
 (if (daemonp)
-    (progn
       (add-hook 'server-after-make-frame-hook #'ey/set-input-decoder-mappings)
-      ;;       (add-hook 'before-make-frame-hook #'ey/add-stuff-to-default-buffer-alist)
-      )
-  (ey/set-input-decoder-mappings)
-  ;;   (ey/add-stuff-to-default-buffer-alist)
-  )
+  (ey/set-input-decoder-mappings))
 
 
 

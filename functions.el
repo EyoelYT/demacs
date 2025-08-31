@@ -1963,3 +1963,18 @@ increment."
       (cancel-timer doom-session-autosave--timer-obj)
       (doom-session-autosave--clean-idle-timers doom-session-autosave-function))
     (setq doom-session-autosave--timer-obj nil)))
+
+
+
+(define-minor-mode +treesit-better-colors-mode
+  "Remap the face variables so they are not too shiny (especially when
+`treesit-font-lock-level' is 4)."
+  :local t
+  :init-value nil
+  (if +treesit-better-colors-mode
+      (setq font-lock-variable-name-face-cookie
+            (face-remap-add-relative 'font-lock-variable-name-face 'default))
+    (face-remap-remove-relative font-lock-variable-name-face-cookie)))
+
+(add-hook 'c-ts-mode-hook #'+treesit-better-colors-mode)
+(add-hook 'python-ts-mode-hook #'+treesit-better-colors-mode)
