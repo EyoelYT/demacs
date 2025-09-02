@@ -65,6 +65,7 @@
       "<f6>"                   #'recompile
       "C-M-<return>"           #'recompile
 
+      :m "<escape>"                   #'doom/escape
 
       (:after evil
        "<backspace>"           #'evil-delete-backward-char-and-join
@@ -80,7 +81,7 @@
        :i "C-u"                #'evil-scroll-up
        :i "C-d"                #'evil-scroll-down
 
-       :nvi "C-<tab>"           #'evil-switch-to-windows-last-buffer ; overwrite aya mappings
+       :nvim "C-<tab>"         #'evil-switch-to-windows-last-buffer ; overwrite aya mappings
 
        :gmi "C-q"              #'ey/google-search)
 
@@ -134,7 +135,10 @@
        :ni "S-<left>"          #'org-calendar-backward-day
        :ni "S-<right>"         #'org-calendar-forward-day
        :ni "S-<up>"            #'org-calendar-backward-week
-       :ni "S-<down>"          #'org-calendar-forward-week)
+       :ni "S-<down>"          #'org-calendar-forward-week
+       :map org-mode-map
+       :i  "S-<left>"          #'org-shiftleft
+       :i  "S-<right>"         #'org-shiftright)
 
       (:map resize-window-repeat-map
             "V"                #'shrink-window)
