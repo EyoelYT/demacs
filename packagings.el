@@ -482,13 +482,6 @@
 
 
 
-;;; Which-key configuration
-(after! which-key
-  (setq which-key-allow-imprecise-window-fit nil ; Ensures that which-key suggestions are fully visible
-        which-key-side-window-max-height 0.99)) ; Maximizes the height of the which-key window to 99%
-
-
-
 (after! gcmh
   ;; 32mb, or 64mb, or *maybe* 128mb, BUT NOT 512mb (the default value = 33554432)
   ;; (setq gcmh-high-cons-threshold  (* 64 1024 1024)))
