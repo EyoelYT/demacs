@@ -39,10 +39,8 @@
   :hook (emacs-lisp-mode . page-break-lines-mode)
   :hook (emacs-news-mode . page-break-lines-mode)
   :hook (c-mode . page-break-lines-mode)
-  :config
-  (add-to-list 'page-break-lines-modes 'emacs-news-mode)
-  (add-to-list 'page-break-lines-modes 'c-mode)
-  (global-page-break-lines-mode 1))
+  :hook (gfm-mode . page-break-lines-mode)
+  :hook (markdown-mode . page-break-lines-mode))
 
 
 
