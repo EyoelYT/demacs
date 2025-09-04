@@ -1978,3 +1978,10 @@ increment."
 
 (add-hook 'c-ts-mode-hook #'+treesit-better-colors-mode)
 (add-hook 'python-ts-mode-hook #'+treesit-better-colors-mode)
+
+
+
+(defun +vterm-send-C-delete () ; TODO: Fix behavior in normal mode
+ "Send `C-<delete>' to the libvterm."
+  (interactive)
+  (vterm-send-key "<delete>" nil nil t))

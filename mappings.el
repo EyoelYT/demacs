@@ -175,6 +175,9 @@
        :i "M-8"                #'+workspace/switch-to-7
        :i "M-9"                #'+workspace/switch-to-8
        :i "M-0"                #'+workspace/switch-to-final
+       "C-<delete>"            #'+vterm-send-C-delete
+       "C-S-<delete>"          #'+vterm-send-C-delete
+       "C-S-<backspace>"       #'+vterm-send-C-delete
        :m "C-a"                #'doom/backward-to-bol-or-indent
        :m "C-<up>"             #'backward-paragraph
        :m "C-<down>"           #'forward-paragraph
