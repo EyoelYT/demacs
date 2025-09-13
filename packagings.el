@@ -1182,6 +1182,39 @@ server an expensive restart when its buffer is reverted."
       "Use block comments instead of line comments"
       (c-toggle-comment-style -1))))
 
+(after! c-ts-mode
+  (setq c-ts-mode--feature-list
+        '((comment definition) (keyword preprocessor string type)
+          (assignment constant function escape-sequence label literal)
+          (bracket delimiter error operator property variable))
+        c-ts-mode-indent-offset 4
+        c-ts-mode--thing-settings
+        `(;; It's more useful to include semicolons as sexp so
+          ;; that users can move to the end of a statement.
+          ;; (sexp (not ,(rx (or "{" "}" "[" "]" "(" ")" ",")))) ; I prefer the regular sexp function
+          ;; compound_statement makes us jump over too big units
+          ;; of code, so skip that one, and include the other
+          ;; statements.
+          (sentence
+           ,(regexp-opt '("preproc"
+                          "declaration"
+                          "specifier"
+                          "attributed_statement"
+                          "labeled_statement"
+                          "expression_statement"
+                          "if_statement"
+                          "switch_statement"
+                          "do_statement"
+                          "while_statement"
+                          "for_statement"
+                          "return_statement"
+                          "break_statement"
+                          "continue_statement"
+                          "goto_statement"
+                          "case_statement")))
+          (text ,(regexp-opt '("comment"
+                               "raw_string_literal"))))))
+
 
 
 (use-package! jinx
