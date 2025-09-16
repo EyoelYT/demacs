@@ -206,11 +206,11 @@
   ;; '(bold nil) ; Enable bold (when inherited)
   ;; BLEND THE DOOM MODELINE BAR WITH THE BACKGROUND
   `(doom-modeline-bar
-    :foreground ,(face-attribute 'mode-line :background nil nil)
-    :background ,(face-attribute 'mode-line :background nil nil))
+    :foreground ,(face-attribute 'mode-line :background)
+    :background ,(face-attribute 'mode-line :background))
   `(doom-modeline-bar-inactive
-    :foreground ,(face-attribute 'mode-line-inactive :background nil nil)
-    :background ,(face-attribute 'mode-line-inactive :background nil nil))
+    :foreground ,(face-attribute 'mode-line-inactive :background)
+    :background ,(face-attribute 'mode-line-inactive :background))
   '(mode-line-active :inherit (mode-line)) ; turn off the wierd box when in sp-padding mode
   '(mode-line-inactive :inherit (mode-line)) ; turn off the wierd box when in sp-padding mode
   ;; '(hl-line :background unspecified)
@@ -219,10 +219,24 @@
   ;; '(font-lock-variable-name-face :foreground nil :inherit default)
   ;; '(font-lock-variable-name-face nil)
   `(header-line
-    :background ,(face-attribute 'mode-line :background nil nil)
-    :overline   ,(face-attribute 'mode-line :overline nil nil)
-    :foreground ,(face-attribute 'mode-line :foreground nil nil)
-    :box        ,(face-attribute 'mode-line :box nil nil)))
+    :background ,(face-attribute 'mode-line :background)
+    :overline   ,(face-attribute 'mode-line :overline)
+    :foreground ,(face-attribute 'mode-line :foreground)
+    :box        ,(face-attribute 'mode-line :box)))
+
+(defun ey/set-custom-faces (&optional theme) ; called on theme change
+  "Add this as advice to `consult-theme', and any other functions that
+change themes"
+  (if (bound-and-true-p spacious-padding-mode)
+      (spacious-padding-set-faces)) ; fix window-divider color
+  (if (bound-and-true-p global-hide-mode-line-mode) ; refresh
+      (global-hide-mode-line-mode 1))
+  (after! org-faces
+    (set-face-attribute 'org-ellipsis nil :underline 'unspecified))
+  (after! hl-line
+    (set-face-attribute 'hl-line nil :background 'unspecified)) ; works in disabling the bg of the current line-number
+  (after! faces
+    (set-face-attribute 'line-number-current-line nil :background 'unspecified)))
 
 ;;; Global HOOKS!
 ;; Turn off highlighting the whole line the cursor is at

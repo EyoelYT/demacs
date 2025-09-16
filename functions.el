@@ -529,27 +529,6 @@ See minad/consult#770."
       (setq doom-theme theme)
     (setq doom-theme nil)))
 
-(defun ey/set-custom-faces (&optional theme) ; called on theme change
-  (if (bound-and-true-p spacious-padding-mode)
-      (spacious-padding-set-faces)) ; fix window-divider color
-  (if (bound-and-true-p global-hide-mode-line-mode)
-      (global-hide-mode-line-mode 1))
-  ;; ;; fix mode-line being visible again
-  ;; (set-face-attribute 'cursor nil :background "#FFFF00")
-  ;; (after! solaire-mode
-  ;;   (set-face-attribute 'solaire-default-face nil :background 'unspecified))
-  ;; (after! org-faces
-  ;;   (set-face-attribute 'org-block nil :foreground (face-attribute 'default :foreground))
-  ;;   (set-face-attribute 'org-ellipsis nil :underline 'unspecified))
-  (set-face-attribute 'org-ellipsis nil :underline 'unspecified)
-  (after! hl-line
-    (set-face-attribute 'hl-line nil :background 'unspecified)) ; works in disabling the bg of the current line-number
-  (after! faces
-    ;; (set-face-attribute 'line-number-current-line nil :inherit nil) ; FIXME: This doesn't evaluate automatically. I have to evaluate it
-    ;; (set-face-attribute 'bold nil :weight 'normal)
-    ;; ;; for package ef-themes:
-    (set-face-attribute 'line-number-current-line nil :background 'unspecified))) ; FIXME: This doesn't evaluate automatically. I have to evaluate it
-
 (defun ey/reload-theme (&optional _theme)
   "Reload the current Emacs theme."
   (unless doom-theme
