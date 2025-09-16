@@ -93,27 +93,23 @@ just a number, like 1"
             (user-error "Couldn't copy workspace name")))
       (error "Couldn't find workspace name"))))
 
-(defun ey/region-active-p ()
-  "Return non-nil if selection or evil visual region is active"
-  (or (and (fboundp 'evil-visual-state-p)
-           (evil-visual-state-p))
-      (use-region-p)))
+
 
-(defun ey/region-beginning ()
+(defun +evil-region-beginning-a (orig-fn)
   "Return beginning position of selection or evil visual region"
   (or (and (fboundp 'evil-visual-state-p)
            (evil-visual-state-p)
            (markerp evil-visual-beginning)
            (marker-position evil-visual-beginning))
-      (region-beginning)))
+      (funcall orig-fn)))
 
-(defun ey/region-end ()
+(defun +evil-region-end-a (orig-fn)
   "Return beginning position of selection or evil visual region"
   (or (and (fboundp 'evil-visual-state-p)
            (evil-visual-state-p)
            (markerp evil-visual-end)
            (marker-position evil-visual-end))
-      (region-end)))
+      (funcall orig-fn)))
 
 
 
@@ -223,16 +219,16 @@ the process"
   (interactive)
   ;; if region is not active, change previous state either to normal/motion
   ;; state (not insert to prevent deleting text)
-  (unless (ey/region-active-p)
+  (unless (region-active-p)
     (let ((evil-move-cursor-back nil))
       (if (memq (evil-initial-state major-mode) '(normal motion))
           (evil-change-to-initial-state)
         (evil-normal-state 1))
-      ;; (evil-visual-char) ; old behavior where visual gradually incrses
+      ;; (evil-visual-char) ; behavior where evil backward char moves backwards once more
       ))
-  (evil-visual-char)
+  (evil-visual-char)  ; behavior where visual gradually incrses
   (doom/forward-to-last-non-comment-or-eol)
-  (if (or (looking-at "[ \t\n]") (eobp))
+  (if (or (looking-at "[ \t\n]") (bolp) (eolp))
       (evil-backward-char)))
 
 ;; we want to go back 1
@@ -243,7 +239,7 @@ the process"
   (let ((visual-start (or (mark) (point)))  ; Get the current visual start (or point if not in visual mode)
         (current-point (point)))
     ;; Ensure we're in visual mode
-    (unless (ey/region-active-p)
+    (unless (region-active-p)
       (let ((evil-move-cursor-back nil))
         (if (memq (evil-initial-state major-mode) '(normal motion))
             (evil-change-to-initial-state)
@@ -276,8 +272,8 @@ the process"
 (defun ey/google-search (query)
   "Search Google for the QUERY. Use selected text as the default input if available."
   (interactive
-   (let ((selected-text (if (use-region-p)
-                            (buffer-substring-no-properties (ey/region-beginning) (ey/region-end)))))
+   (let ((selected-text (if (region-active-p)
+                            (buffer-substring-no-properties (region-beginning) (region-end)))))
      (list (read-string "gsearch: " selected-text))))
   (cond
    ((string-match-p "^https?://" query)
@@ -387,8 +383,8 @@ file link into the current line."
   "Open `find-file` with the current selection (if any) as the default filename."
   (interactive)
   (let* ((selection
-          (if (ey/region-active-p)
-              (buffer-substring-no-properties (ey/region-beginning) (ey/region-end))
+          (if (region-active-p)
+              (buffer-substring-no-properties (region-beginning) (region-end))
             nil))
          (insert-default-directory (not selection))
          (file-location (minibuffer-with-setup-hook
@@ -442,8 +438,8 @@ After search term is found, jump back"
   "Runs consult-fd if fd version > 8.6.0 exists, consult-find otherwise.
 See minad/consult#770."
   (interactive "P")
-  (let* ((selection (if (use-region-p)
-                        (buffer-substring-no-properties (ey/region-beginning) (ey/region-end))
+  (let* ((selection (if (region-active-p)
+                        (buffer-substring-no-properties (region-beginning) (region-end))
                       nil))
          (initial-input (cond
                          (selection selection)
@@ -507,8 +503,8 @@ See minad/consult#770."
   "Search using consult-ripgrep with live preview."
   (interactive)
   ;; Run consult-ripgrep with my customized flags
-  (let* ((selected-text (when (use-region-p)
-                          (buffer-substring-no-properties (ey/region-beginning) (ey/region-end))))
+  (let* ((selected-text (when (region-active-p)
+                          (buffer-substring-no-properties (region-beginning) (region-end))))
          (consult-ripgrep-args
           "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /\
    --smart-case --no-heading --with-filename --line-number --search-zip --hidden --no-ignore-vcs \
@@ -1157,8 +1153,8 @@ messages or non at all based on certain conditions"
 input the current active selection into the prompt for workspace name.
 Makes it easy when creating a new workspace for a task in agenda"
   (interactive
-   (let ((selected-text (if (ey/region-active-p)
-                            (buffer-substring-no-properties (ey/region-beginning) (ey/region-end)))))
+   (let ((selected-text (if (region-active-p)
+                            (buffer-substring-no-properties (region-beginning) (region-end)))))
      (list (read-string "Workspace Name: " selected-text))))
   (+workspace/new name))
 
@@ -1362,9 +1358,9 @@ use in `isearch-mode-end-hook'."
   (interactive)
   (let (start end multiline-p string-in-region vterm-here-or-other-window-p)
     (save-restriction
-      (when (ey/region-active-p)
-        (setq start (ey/region-beginning)
-              end   (ey/region-end)
+      (when (region-active-p)
+        (setq start (region-beginning)
+              end   (region-end)
               vterm-here-or-other-window-p (+vterm-here-or-other-window-p)
               multiline-p (/= (line-number-at-pos start)
                               (line-number-at-pos end))))
@@ -1539,8 +1535,8 @@ behavior as well"
   (interactive)
   (unless (org-region-active-p)
     (let ((shr-width 80)) (eww-readable)))
-  (let* ((start (if (org-region-active-p) (ey/region-beginning) (point-min)))
-         (end (if (org-region-active-p) (ey/region-end) (point-max)))
+  (let* ((start (if (org-region-active-p) (region-beginning) (point-min)))
+         (end (if (org-region-active-p) (region-end) (point-max)))
          (buff (or dest (generate-new-buffer "*eww-to-org*")))
          (link (eww-current-url))
          (title (or (plist-get eww-data :title) "")))
@@ -1673,11 +1669,11 @@ If `eval-expression-debug-on-error' is non-nil, which is the default,
 this command arranges for all errors to enter the debugger."
   (interactive
    (let ((selection
-          (if (ey/region-active-p)
-              (buffer-substring-no-properties (ey/region-beginning) (ey/region-end))
+          (if (region-active-p)
+              (buffer-substring-no-properties (region-beginning) (region-end))
             nil)))
-   (cons (read--expression "Eval: " selection)
-         (eval-expression-get-print-arguments current-prefix-arg))))
+     (cons (read--expression "Eval: " selection)
+           (eval-expression-get-print-arguments current-prefix-arg))))
 
   (let* (result
          (runfun
@@ -1708,8 +1704,8 @@ this command arranges for all errors to enter the debugger."
 Also add the value to the front of the list in the variable `values'."
   (interactive
    (let ((selection
-          (if (ey/region-active-p)
-              (buffer-substring-no-properties (ey/region-beginning) (ey/region-end))
+          (if (region-active-p)
+              (buffer-substring-no-properties (region-beginning) (region-end))
             nil)))
      (list (read--expression "Eval: " selection))))
   (message "Evaluating...")
