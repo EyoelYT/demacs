@@ -403,7 +403,7 @@ file link into the current line."
   (let ((consult--buffer-display #'switch-to-buffer-other-window))
     (+vertico/switch-workspace-buffer)))
 
-(defun ey/open-duplicate-window-and-search ()
+(defun ey/duplicate-window-and-search-buffer ()
   "Open a new window with the same buffer and prompt for search term
 After search term is found, jump back"
   (interactive)
@@ -413,12 +413,12 @@ After search term is found, jump back"
           (if (> (frame-pixel-width) (/ (display-pixel-width) 2))
               (split-window-right)
             (split-window-below))
-          (call-interactively #'+default/search-buffer-other-window))
+          (call-interactively #'+default/search-other-window))
       (progn
         (save-selected-window
           (other-window 1)
           (switch-to-buffer this-buffer))
-        (call-interactively #'+default/search-buffer-other-window)))))
+        (call-interactively #'+default/search-other-window)))))
 
 (defun ey/find-files-recursively ()
   "List all files under the current directory and its subdirs."
