@@ -89,7 +89,7 @@
 (package! nubox)
 (package! obsidian-theme)
 (package! rebecca-theme)
-(package! remember-last-theme)
+;; (package! remember-last-theme) ; Disappeared from github
 (package! reykjavik-theme)
 (package! soft-morning-theme)
 (package! spacemacs-theme)
@@ -100,7 +100,7 @@
 (package! subatomic256-theme)
 (package! sweet-theme)
 ;; (package! vscode-dark-plus-theme) ; Error: Invalid face box
-(package! white-theme)
+;; (package! white-theme) ; Error: it just disappeared from github
 (package! xresources-theme)
 (package! yabaki-theme)
 (package! silkworm-theme)
@@ -108,7 +108,7 @@
 (package! soft-stone-theme)
 (package! spacemacs-theme)
 (package! subatomic-theme)
-(package! moe-theme)
+;; (package! moe-theme) ; Errors out "%s is not a valid theme"
 (package! kaolin-themes)
 (package! gotham-theme)
 (package! stimmung-themes)
@@ -116,7 +116,7 @@
 (package! grey-paper-theme)
 (package! jazz-theme)
 (package! kuronami-theme)
-(package! apropospriate-theme)
+;; (package! apropospriate-theme) ; Errors out "%s is not a valid theme"
 ;; (package! danneskjold-theme) ; org mode looks bad atm
 (package! codex-theme)
 (package! helix-theme)
@@ -138,6 +138,7 @@
 (package! hima-theme)
 (package! simplicity-theme)
 (package! tangonov-theme)
+(package! iodine-theme)
 (package! doom-two-tone-themes
   :recipe (:host github
            :repo "eliraz-refael/doom-two-tone-themes"
@@ -146,6 +147,9 @@
   :recipe (:host github
            :repo "SophieBosio/south"
            :files ("south-theme.el")))
+(package! everforest
+  :recipe (:host github
+           :repo "Theory-of-Everything/everforest-emacs"))
 
 ;;                NOT INSTALLED
 ;; /////////////////////////////////////////////////////
@@ -195,6 +199,8 @@
 (package! writegood-mode)
 (package! keycast)
 (package! minions)
+(package! jinx)
+(package! yeetube :recipe (:host codeberg :repo "ThanosApollo/emacs-yeetube"))
 
 (package! code-cells)
 (package! tab-jump-out)
@@ -207,6 +213,7 @@
 (package! page-break-lines)
 (package! eat)
 (package! tldr)
+(package! devdocs)
 
 ;;; Lang-Syntax-Hl
 (package! vimscript-ts-mode)
@@ -218,25 +225,31 @@
 (package! docker-compose-mode)
 (package! julia-vterm)
 (package! ob-julia-vterm)
+(package! hyprlang-ts-mode)
+(package! typst-ts-mode :recipe (:host sourcehut :repo "meow_king/typst-ts-mode"))
+(package! odin-mode :recipe (:host sourcehut :repo "mgmarlow/odin-mode"))
 
-;; (package! gptel :recipe (:nonrecursive t)) ; integrated into doom now
-(package! gptel
-  :recipe (:host github :repo "EyoelYT/gptel" :branch "fix-support-evil-regions" :nonrecursive t))
-(unpin! gptel)
+(package! gptel :pin nil :recipe (:nonrecursive t)) ; unpin!
 (package! chatgpt-shell)
 (package! hackernews)
+(package! hnreader)
+(package! reddigg)
 (package! leetcode)
 (package! fzf)
 (package! exec-path-from-shell)
 (package! stillness-mode :recipe (:host github :repo "neeasade/stillness-mode.el" :branch "main"))
 (package! rainbow-delimiters)
 (package! highlight-numbers)
+(package! highlight-operators)
+(package! highlight-escape-sequences)
 
 ;; //////////////////////////////////////////////////
 
 ;;; LSPS
 ;; (package! lsp-intellij)
 (package! lsp-java)
+(package! lsp-dart)
+(package! lsp-haskell)
 ;; (package! lsp-jedi)
 (package! lsp-pyright)
 
@@ -306,3 +319,5 @@
   )
 (package! vdiff)
 (package! vdiff-magit)
+(package! uniline)
+(package! consult-gh)
