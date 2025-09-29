@@ -3,8 +3,9 @@
 
 
 (after! doom-themes
-  (setq doom-themes-enable-bold t   ; if nil, bold is universally disabled
-        doom-themes-enable-italic t)) ; if nil, italics is universally disabled
+  (setq doom-themes-enable-bold nil    ; if nil, bold is universally disabled
+        doom-themes-enable-italic nil  ; if nil, italics is universally disabled
+        doom-gruvbox-dark-variant "hard"))
 
 
 
@@ -393,7 +394,7 @@
 ;;   (setq org-cycle-emulate-tab nil))
 
 (use-package! org-appear ; better markup edit
-  :hook (org-mode . org-appear-mode)
+  :defer t
   :config
   (setq org-appear-autoemphasis t
         org-appear-autoentities t
@@ -401,6 +402,9 @@
         org-appear-inside-latex t
         org-appear-autolinks t
         org-appear-autosubmarkers t))
+
+(after! org-noter
+  (setq org-noter-always-create-frame nil))
 
 
 
@@ -444,6 +448,11 @@
 (use-package! dap-java ; TODO: do I even need this??
   ;; :when (modulep! :tools debugger +lsp)
   :commands dap-java-run-test-class dap-java-debug-test-class)
+
+(after! dap-mode
+  (delete 'tooltip dap-auto-configure-features)) ; auto tooltip destroys corfu
+                                                 ; popups in lsp buffers when
+                                                 ; mouse is moved
 
 (after! lsp-ui
   (setq lsp-ui-sideline-enable nil             ; no more useful than flycheck
@@ -679,11 +688,15 @@
 (use-package! vdiff
   :defer t
   :config
-  (setq vdiff-auto-refine nil)
+  (setq vdiff-auto-refine t)
   (setq vdiff-disable-folding t))
 
-(use-package! vdiff-magit
+(use-package! vdiff-magit ; funny thing, this snippet means nil
   :defer t)
+
+(after! magit
+  (transient-append-suffix 'magit-dispatch "Q"
+    '(transient-suffix :key "v" :description "vdiff" :command vdiff-magit)))
 
 (after! code-review (setq code-review-auth-login-marker 'forge))
 
@@ -740,7 +753,7 @@
 (after! consult
   (consult-customize ey/consult-ripgrep-custom ; Performance!!
                      +vertico/switch-workspace-buffer
-                     consult-buffer
+                     +default/search-project
                      :preview-key "C-SPC"))
 
 
@@ -751,6 +764,9 @@
   (elfeed-org)
   (setq rmh-elfeed-org-files
         (list (concat org-directory "org/elfeed.org"))))
+
+(setq elfeed-goodies/feed-source-column-width 22)
+(setq elfeed-goodies/tag-column-width 30)
 
 
 
@@ -798,7 +814,8 @@
           ;; (+default/search-buffer buffer)
           ;; (+default/search-other-window buffer)
           ;; (consult-buffer buffer)
-          (+vertico/switch-workspace-buffer flat))
+          ;; (+vertico/switch-workspace-buffer flat)
+          (consult-bookmark buffer))
         vertico-multiform-categories
         '((file (+vertico-transform-functions . +vertico-highlight-directory))
           (jinx buffer))))
@@ -974,7 +991,7 @@ Return nil if topspace should not exist in the buffer."
   :defer t
   ;; :hook (after-init . global-blamer-mode)
   :config
-  (setq blamer-idle-time 5.0
+  (setq blamer-idle-time 1.0
         blamer-commit-formatter "• %s"
         blamer-prettify-time-p t
         blamer-smart-background-p t
@@ -1071,7 +1088,11 @@ Return nil if topspace should not exist in the buffer."
         gptel-org-convert-response t
         gptel-expert-commands t))
 
-(use-package! chatgpt-shell :defer t)
+(use-package! chatgpt-shell
+  :defer t
+  :config
+  (after! gptel
+    (setq chatgpt-shell-openai-key #'gptel-api-key-from-auth-source)))
 
 
 
