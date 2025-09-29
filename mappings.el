@@ -220,11 +220,12 @@
        :map vdiff-3way-mode-map
        "C-c" vdiff-mode-prefix-map)
 
-      (:after trasient
-       :map transient-map
-       "<escape>"              #'transient-quit-one)
+      (:map transient-map
+            [escape]                #'transient-quit-one)
 
       (:after magit
+       :map magit-status-mode-map
+       "C-c C-p"               #'magit-section-up
        :map magit-section-mode-map
        :ng "C-<tab>"           #'evil-switch-to-windows-last-buffer
        :ng "<backtab>"         #'magit-section-cycle
@@ -260,9 +261,9 @@
        :map org-columns-map
        "g" nil
        "r" nil
-       "g r"                   #'org-columns-redo
-       "S-<left>"              #'ey/evil-scroll-left
-       "S-<right>"             #'ey/evil-scroll-right)
+       :n "g r"                   #'org-columns-redo
+       :m "S-<left>"              #'ey/evil-scroll-left
+       :m "S-<right>"             #'ey/evil-scroll-right)
 
       (:map isearch-mode-map
             "<tab>"            #'isearch-repeat-forward
@@ -340,7 +341,7 @@
        "b Q"                   #'doom/kill-all-buffers
 
        "w t"                   #'transpose-frame
-       "w C-h"         nil
+       "w C-h"                   nil
        "w S-<up>"              #'+evil/window-move-up
        "w S-<down>"            #'+evil/window-move-down
        "w S-<left>"            #'+evil/window-move-left
@@ -362,6 +363,8 @@
 
        "o x"                   #'devdocs-lookup
        "o X"                   #'devdocs-lookup-all
+
+       "s E"                   #'ediff-current-file
 
        "v v"                   #'+tab-bar-show-tabs
        "v N"                   #'+tab-bar-new-named-tab
