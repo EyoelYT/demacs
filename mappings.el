@@ -402,5 +402,5 @@
 
 ;; TODO: try out something like this using `:prefix'
 ;; (map! :map universal-argument-map
-;;         :prefix doom-leader-key     "u" #'universal-argument-more
-;;         :prefix doom-leader-alt-key "u" #'universal-argument-more)
+;;       :prefix doom-leader-key     "u" #'universal-argument-more
+;;       :prefix doom-leader-alt-key "u" #'universal-argument-more)

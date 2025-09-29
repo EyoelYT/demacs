@@ -164,7 +164,7 @@
        ;;lean                  ; for folks with too much to prove
        ;;ledger                ; be audit you can be
        (lua +tree-sitter)    ; one-based indices? one-based indices
-       (markdown +tree-sitter) ; writing docs for people to ignore
+       markdown              ; writing docs for people to ignore
        ;;nim                   ; python + lisp at the speed of c
        ;;nix                   ; I hereby declare "nix geht mehr!"
        ;;ocaml                 ; an objective camel
@@ -178,7 +178,7 @@
         +noter
         +pandoc
         +present
-        +roam2)
+        +roam)
        ;;php                   ; perl's insecure younger brother
        ;;plantuml              ; diagrams for confusing people more
        ;;graphviz              ; diagrams for confusing yourself even more
