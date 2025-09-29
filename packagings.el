@@ -963,20 +963,25 @@ If RETURN-P, return the message as a string instead of displaying it."
       dape-info-scope-mode dape-info-stack-mode dape-info-breakpoints-mode
       dape-repl-mode dape-info-watch-mode dape-info-modules-mode
       dape-info-sources-mode package-menu-mode pdf-view-mode inferior-emacs-lisp-mode
-      Man-mode special-mode occur-mode vdiff-mode vdiff-3way-mode-map)  ; special mode: e.g. *Warnings* buffer
+      ;; special mode: e.g. *Warnings* buffer
+      Man-mode special-mode occur-mode vdiff-3way-mode-map magit-revision-mode
+      shell-command-mode compilation-mode eww-mode devdocs-mode chatgpt-shell-mode
+      elfeed-search-mode
+      ;; Minor modes
+       vdiff-mode)
     "major modes to leave out of topspace") ; REVIEW: PR this??
 
   (defun +topspace--active-outside-modes-list ()
     "Default function that `topspace-active' is set to.
 Return nil if topspace should not exist in the buffer."
-    (and (or                            ; child frames should return nil
-          (not (fboundp 'frame-parent))
-          (not (frame-parent)))
-         (and (not (memq major-mode +topspace-ignore-modes-list))
-              (not
-               (cl-some (lambda (mode)
-                          (memq mode local-minor-modes))
-                        +topspace-ignore-modes-list)))))
+    (require 'cl-lib)
+    (and (or (not (fboundp 'frame-parent)) ; child frames should return nil
+             (not (frame-parent)))
+         (and (not (memq major-mode +topspace-ignore-modes-list)) ; check if current `major-mode' is in the ignore list
+              (not (provided-mode-derived-p major-mode +topspace-ignore-modes-list)) ; check if a parent mode of `major-mode' is in the ignore list
+              (not (cl-some (lambda (mode) ; check if any active local-minor-mode is in the ignore list
+                              (member mode local-minor-modes))
+                            +topspace-ignore-modes-list)))))
 
   (setq topspace-active #'+topspace--active-outside-modes-list)) ; major modes to leave out of topspace
 
