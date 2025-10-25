@@ -19,6 +19,9 @@
 (setq display-line-numbers-type nil)
 (setq display-time-day-and-date t)
 (setq garbage-collection-messages nil)
+(setq frame-title-format "") ; no title bar icons and strings
+(setq mac-command-modifier 'meta)
+
 (setq echo-keystrokes 0)
 (with-eval-after-load 'server
   (sleep-for 1) ; TODO: check if this is necessary
@@ -145,20 +148,24 @@
 ;;; FRAME DEFAULTS
 (defun ey/add-stuff-to-default-buffer-alist ()
   "Add values to `default-frame-alist'"
-  (if (getenv "WSLENV")
-      (progn
-        (add-to-list 'default-frame-alist `(width . (text-pixels . 2300))) ; 2145
-        (if (string-match-p (regexp-quote "LUCID") system-configuration-features)
-            (add-to-list 'default-frame-alist `(height . (text-pixels . 1480)))
-          (add-to-list 'default-frame-alist `(height . (text-pixels . 1490))))
-        (add-to-list 'default-frame-alist '(top . 15))
-        (add-to-list 'default-frame-alist '(left . 15))
-        (add-to-list 'default-frame-alist '(internal-border-width . 20))
-        (add-to-list 'default-frame-alist '(undecorated . t))
-        (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-        (add-to-list 'default-frame-alist '(alpha . 90)))
+  (when (getenv "WSLENV")
+    (add-to-list 'default-frame-alist `(width . (text-pixels . 2300))) ; 2145
+    (if (string-match-p (regexp-quote "LUCID") system-configuration-features)
+        (add-to-list 'default-frame-alist `(height . (text-pixels . 1480)))
+      (add-to-list 'default-frame-alist `(height . (text-pixels . 1490))))
+    (add-to-list 'default-frame-alist '(top . 15))
+    (add-to-list 'default-frame-alist '(left . 15))
+    (add-to-list 'default-frame-alist '(internal-border-width . 20))
     (add-to-list 'default-frame-alist '(undecorated . t))
-    (add-to-list 'default-frame-alist '(alpha . 90))))
+    (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
+    (add-to-list 'default-frame-alist '(alpha-background . 90)))
+  (when (eq system-type 'darwin)
+    (add-to-list 'default-frame-alist '(top . 50))
+    (add-to-list 'default-frame-alist '(left . 120))
+    (add-to-list 'default-frame-alist '(height . 60))
+    (add-to-list 'default-frame-alist '(width . 170))
+    (add-to-list 'default-frame-alist '(undecorated . nil))
+    (add-to-list 'default-frame-alist '(alpha-background . 100))))
 
 (ey/add-stuff-to-default-buffer-alist)
 
