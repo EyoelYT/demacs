@@ -62,7 +62,7 @@
 (package! avk-emacs-themes)
 (package! anti-zenburn-theme)
 (package! catppuccin-theme)
-(package! tao-theme)
+;; (package! tao-theme) ; Error "%s is not a color"
 (package! inkpot-theme)
 (package! idea-darkula-theme)
 (package! atom-one-dark-theme)
