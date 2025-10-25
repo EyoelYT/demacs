@@ -23,10 +23,7 @@
 (setq mac-command-modifier 'meta)
 
 (setq echo-keystrokes 0)
-(with-eval-after-load 'server
-  (sleep-for 1) ; TODO: check if this is necessary
-  (when (not (server-running-p))
-    (setq epa-file-cache-passphrase-for-symmetric-encryption t)))
+(setq epa-file-cache-passphrase-for-symmetric-encryption t)
 (setq-default display-line-numbers-width 4)  ; min default width
 (setq display-line-numbers-width-start nil)  ; automatically calculate the `display-line-numbers-width' on buffer start
                                         ; width (empty space) grows to the left of the numbers
