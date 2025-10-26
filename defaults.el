@@ -109,26 +109,28 @@
 (auto-save-visited-mode 1)
 
 ;;; FONTS
-(setq doom-theme 'tangonov
-      doom-font (font-spec
-                 :family (if (getenv "WSLENV")
-                             "FantasqueSansM Nerd Font"
-                           "Iosevka Nerd Font")
-                 :size (if (getenv "WSLENV") 22 14)
-                 :weight 'regular)
+(setq doom-theme 'tangonov)
 
-      doom-variable-pitch-font (font-spec
-                                :family (font-get doom-font :family)
-                                :size (font-get doom-font :size)
-                                :weight (font-get doom-font :weight))
+(unless (eq system-type 'darwin)
+  (setq doom-font (font-spec
+                   :family (if (getenv "WSLENV")
+                               "FantasqueSansM Nerd Font"
+                             "Iosevka Nerd Font")
+                   :size (if (getenv "WSLENV") 22 14)
+                   :weight 'regular)
 
-      ;; sans-serif font to use wherever the `fixed-pitch-serif' face is used
-      doom-serif-font (font-spec
-                       :family (font-get doom-variable-pitch-font :family)
-                       :size (font-get doom-variable-pitch-font :size)
-                       :weight (font-get doom-variable-pitch-font :weight))
+        doom-variable-pitch-font (font-spec
+                                  :family (font-get doom-font :family)
+                                  :size (font-get doom-font :size)
+                                  :weight (font-get doom-font :weight))
 
-      nerd-icons-font-names '("NFM.ttf")) ; "Symbols Nerd Font Mono.ttf"
+        ;; sans-serif font to use wherever the `fixed-pitch-serif' face is used
+        doom-serif-font (font-spec
+                         :family (font-get doom-variable-pitch-font :family)
+                         :size (font-get doom-variable-pitch-font :size)
+                         :weight (font-get doom-variable-pitch-font :weight))
+
+        nerd-icons-font-names '("NFM.ttf")))
 
 (setq global-text-scale-adjust--increment-factor 1 ; default = 5
       doom-font-increment 1
