@@ -157,6 +157,7 @@
 
 
 (after! org
+  (setq org-clock-clocktable-default-properties (list :maxlevel 5))
   (setq org-agenda-custom-commands
         '(("A" "show only" todo "ACTV" nil nil)
           ("Z" "All Tags"
@@ -253,10 +254,9 @@
                         (org-agenda-span 7)
                         (org-agenda-show-current-time-in-grid t)
                         (org-agenda-timegrid-use-ampm t)
-                        (org-agenda-include-inactive-timestamps t)
+                        (org-agenda-include-inactive-timestamps nil)
                         (org-agenda-start-with-log-mode '(closed clock state))
-                        (org-agenda-show-log t)
-                        ))
+                        (org-agenda-show-log t)))
             (tags-todo "EVERYDAY"))
            nil)
           ("u" "Untagged"
