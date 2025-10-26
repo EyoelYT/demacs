@@ -355,6 +355,6 @@ change themes"
 
 (advice-add #'+default/search-buffer :around #'doom-set-jump-a)
 
-(advice-add 'region-beginning :around #'+evil-region-beginning-a)
-(advice-add 'region-end :around #'+evil-region-end-a)
+;; (advice-add 'region-beginning :around #'+evil-region-beginning-a) ; TODO: Causing problems with mark-sexp related commands
+;; (advice-add 'region-end :around #'+evil-region-end-a)
 
