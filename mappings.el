@@ -199,7 +199,7 @@
         :n "M-S-<down>"        #'evil-mc-make-cursor-move-next-line
         :n "gz <up>"           #'evil-mc-make-cursor-move-prev-line
         :n "gz <down>"         #'evil-mc-make-cursor-move-next-line
-        :n "gz"                #'evil-mc-make-and-goto-prev-match
+        :n "gz#"               #'evil-mc-make-and-goto-prev-match
         :n "gz*"               #'evil-mc-make-and-goto-next-match
         :n "M-S-<left>"        #'evil-mc-make-and-goto-prev-match
         :n "M-S-<right>"       #'evil-mc-make-and-goto-next-match
