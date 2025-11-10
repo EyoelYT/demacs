@@ -386,7 +386,7 @@
 (after! org-journal
   (setq org-journal-date-prefix "* "
         org-journal-time-prefix "** "
-        org-journal-file-format "%Y.org"
+        org-journal-file-format "%Y.org.gpg"
         org-journal-file-type 'yearly
         org-journal-created-property-timestamp-format "%Y%m%d"))
 
