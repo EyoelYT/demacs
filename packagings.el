@@ -157,7 +157,7 @@
 
 
 (after! org
-  (setq org-clock-clocktable-default-properties (list :maxlevel 5))
+  (setq org-clock-clocktable-default-properties (list :maxlevel 6))
   (setq org-agenda-custom-commands
         '(("A" "show only" todo "ACTV" nil nil)
           ("Z" "All Tags"
