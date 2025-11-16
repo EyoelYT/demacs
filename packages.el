@@ -139,6 +139,7 @@
 (package! simplicity-theme)
 (package! tangonov-theme)
 (package! iodine-theme)
+(package! sublime-themes)
 (package! doom-two-tone-themes
   :recipe (:host github
            :repo "eliraz-refael/doom-two-tone-themes"
@@ -185,7 +186,6 @@
 ;; (package! emacs-color-theme-autumn-light)
 ;; (package! emacs-constant-theme)
 ;; (package! emacs-reformatter)
-;; (package! emacs-color-themes)
 ;; /////////////////////////////////////////////////////
 
 ;;               INSTALLED (How tho??)
