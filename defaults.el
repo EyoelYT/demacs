@@ -14,6 +14,8 @@
 (setq history-delete-duplicates t)
 (setq bookmark-save-flag 1)
 (setq make-pointer-invisible t)
+(setq mouse-wheel-flip-direction t)
+(setq mouse-wheel-tilt-scroll t)
 (setq line-spacing nil)
 (setq read-process-output-max (* 1024 1024)) ; 1mb
 (setq display-line-numbers-type nil)
