@@ -265,7 +265,8 @@
 
   (setq org-agenda-prefix-format
 
-        ;; What works = (%) + (s/T/t/b) (scheduled/deadline string | TAGS | time | title of higher level)
+        ;; What works:
+        ;; (%) + (s/T/t/b) = (scheduled or deadline string | TAGS | time | title of higher level)
         ;; (%) + (c/e/l/i) = (category from file name | effort required | level of item | icon )
 
         '((agenda . "        %s ")
@@ -1091,6 +1092,7 @@ Return nil if topspace should not exist in the buffer."
           (text-mode . "### "))
         gptel-default-mode 'org-mode
         gptel-use-header-line nil
+        gptel-track-media t
         gptel-org-convert-response t
         gptel-expert-commands t))
 
