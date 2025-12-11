@@ -23,6 +23,8 @@
 (setq garbage-collection-messages nil)
 (setq frame-title-format "") ; no title bar icons and strings
 (setq mac-command-modifier 'meta)
+;; (setq browse-url-browser-function 'ey/manual-open-url)
+(setq browse-url-browser-function 'browse-url-default-browser) ; e.g. when pressing RET
 
 (setq echo-keystrokes 0)
 (setq epa-file-cache-passphrase-for-symmetric-encryption t)
@@ -59,6 +61,7 @@
 (setq doom-leader-alt-key-states '(normal visual motion insert emacs)) ; want to use M-SPC everywhere
 (setq tab-first-completion nil)
 (setq dabbrev-case-replace nil)
+(setq manual-browser-path "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome") ; E.g. "/mnt/c/Users/{USER}/AppData/Local/min/min.exe" when in WSL
 (setq blink-cursor-blinks 10 ; my default -1
       blink-cursor-delay 0.5 ; my default 0.2
       blink-cursor-interval 0.5) ; my default 0.7

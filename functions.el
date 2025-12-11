@@ -160,16 +160,6 @@ This gets tacked on the end of the generated expressions.")
 
 
 
-(defun ey/open-url-in-min-browser (url &rest _args)
-  "Open URL in min-browser using xdg-open while temporarily unsetting DISPLAY."
-  (let ((min-browser-path "/mnt/c/Users/Eyu/AppData/Local/min/min.exe")
-        (process-environment (copy-sequence process-environment))) ; Create a copy of the environment
-    (setenv "DISPLAY" nil) ; Temporarily unset DISPLAY
-    (start-process "xdg-open" nil "xdg-open" url)))
-
-;; (setq browse-url-browser-function 'ey/open-url-in-min-browser)
-(setq browse-url-browser-function 'browse-url-default-browser)
-
 (defun ey/evil-do-normal-state-w/o-cursor-jumpback (&rest _)
   (let ((evil-move-cursor-back nil))
     (if (not (evil-visual-state-p))
@@ -268,6 +258,16 @@ the process"
                         compilation-auto-jump-to-first-error t)
                 (message "Compilation-mode auto-jump to first error")))))
 
+(defun ey/manual-open-url (url &rest _args)
+  "Open URL in browser specified using xdg-open while temporarily unsetting
+DISPLAY. If `manual-browser-path' is nil, use open or xdg-open to use
+the default browser"
+  (let ((process-environment (copy-sequence process-environment))) ; Create a copy of the environment
+    (setenv "DISPLAY" nil) ; Temporarily unset DISPLAY
+    (if (eq system-type 'darwin)
+        (start-process "browse" nil (or manual-browser-path "open") url)
+      (start-process "browse" nil (or manual-browser-path "xdg-open") url))))
+
 ;; Enhanced web-search
 (defun ey/google-search (query)
   "Search Google for the QUERY. Use selected text as the default input if available."
@@ -277,12 +277,11 @@ the process"
      (list (read-string "gsearch: " selected-text))))
   (cond
    ((string-match-p "^https?://" query)
-    (ey/open-url-in-min-browser query))
+    (ey/manual-open-url query))
    ((equal query "")
-    (ey/open-url-in-min-browser query))
+    (ey/manual-open-url query))
    (t
-    (ey/open-url-in-min-browser
-     (concat "https://www.google.com/search?q=" (url-hexify-string query))))))
+    (ey/manual-open-url (concat "https://www.google.com/search?q=" (url-hexify-string query))))))
 
 ;; Org-download clipboard for wsl2
 (defun ey/yank-image-from-win-clipboard-through-powershell ()
