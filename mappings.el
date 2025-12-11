@@ -117,6 +117,10 @@
        :gm "g <left>"          #'dirvish-subtree-up
        :n  "z" nil)
 
+      (:after dired
+       :map dired-mode-map
+       :ng "A"                 #'dired-create-empty-file)
+
       (:after cc-mode
        :map java-mode-map ; where `java-mode' is defined
        :localleader
@@ -262,8 +266,8 @@
        "g" nil
        "r" nil
        :n "g r"                   #'org-columns-redo
-       :m "S-<left>"              #'ey/evil-scroll-left
-       :m "S-<right>"             #'ey/evil-scroll-right)
+       :mg "S-<left>"             #'ey/evil-scroll-left
+       :mg "S-<right>"            #'ey/evil-scroll-right)
 
       (:map isearch-mode-map
             "<tab>"            #'isearch-repeat-forward
