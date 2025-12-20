@@ -151,6 +151,9 @@
 (package! everforest
   :recipe (:host github
            :repo "Theory-of-Everything/everforest-emacs"))
+(package! temple-os-emacs-theme
+  :recipe (:host github
+           :repo "Senka07/temple-os-emacs-theme"))
 
 ;;                NOT INSTALLED
 ;; /////////////////////////////////////////////////////
@@ -246,6 +249,7 @@
 ;; //////////////////////////////////////////////////
 
 ;;; LSPS
+(package! mason) ; Use `(mason-ensure)' to activate
 ;; (package! lsp-intellij)
 (package! lsp-java)
 (package! lsp-dart)
@@ -314,9 +318,7 @@
 ;;   :recipe (:host github :repo "chenyanming/calibredb.el")
 ;;   :pin "a3b04c0c37b1e8ceff2472e21a3579e64e944528")
 
-(package! magit-todos
-  ;; :pin "bd27c57eada0fda1cc0a813db04731a9bcc51b7b"
-  )
+(package! magit-todos)
 (package! vdiff)
 (package! vdiff-magit)
 (package! uniline)

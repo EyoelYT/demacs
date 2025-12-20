@@ -129,7 +129,7 @@
 
        :lang
        ;;agda                  ; types of types of types of types...
-       ;;beancount             ; mind the GAAP
+       beancount             ; mind the GAAP
        (cc +tree-sitter)     ; C > C++ == 1
        ;;clojure               ; java with a lisp
        common-lisp           ; if you've seen one lisp, you've seen them all
@@ -179,7 +179,7 @@
         +pandoc
         +present
         +roam)
-       ;;php                   ; perl's insecure younger brother
+       php                   ; perl's insecure younger brother
        ;;plantuml              ; diagrams for confusing people more
        ;;graphviz              ; diagrams for confusing yourself even more
        ;;purescript            ; javascript, but functional
