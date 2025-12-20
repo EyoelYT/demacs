@@ -283,37 +283,82 @@ the default browser"
    (t
     (ey/manual-open-url (concat "https://www.google.com/search?q=" (url-hexify-string query))))))
 
-;; Org-download clipboard for wsl2
-(defun ey/yank-image-from-win-clipboard-through-powershell ()
-  "Yank an image from the Windows clipboard through PowerShell and insert
+;; Org-download clipboard function
+(cond                                   ; TODO: needs a function for windows-nt
+ ((getenv "WSLENV")
+  (defun ey/org-paste-clipboard-image ()
+    "Yank an image from the Windows clipboard through PowerShell and insert
 file link into the current line."
-  (interactive)
-  (let* ((powershell (cl-find-if #'file-exists-p '("/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
-                                                   "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe")))
-         (image-filename (format "%s_%s"
-                                 (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
-                                 (format-time-string "%Y%m%d_%H%M%S.png")))
-         (image-filepath-temporary (concat "C:/Users/Public/" image-filename))
-         (image-filepath-relative (concat "./images/" image-filename))
-         (image-filepath-absolute (concat (expand-file-name default-directory) "images/" image-filename)))
-    ;; The target directory should exist
-    (unless (file-exists-p "./images/")
-      (make-directory "./images/"))
-    ;; Save the image from the clipboard to the temporary directory
-    (shell-command (concat powershell " -command \"(Get-Clipboard -Format Image).Save('" image-filepath-temporary "')\""))
-    ;; Wait till the shell command finishes
-    (sit-for 1)
-    ;; Check if the file was created successfully
-    (let ((candidates `(,(concat "/mnt/c/Users/Public/" image-filename) ; check for wsl
-                        ,(concat "C:/Users/Public/" image-filename))))
-      (if-let (temp-file (cl-find-if #'file-exists-p candidates))
+    (interactive)
+    (let* ((powershell (cl-find-if #'file-exists-p '("/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
+                                                     "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe")))
+           (image-filename (format "%s_%s.png"
+                                   (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
+                                   (format-time-string "%Y%m%d_%H%M%S")))
+           (image-filepath-temporary (concat "C:/Users/Public/" image-filename))
+           (image-filepath-relative (concat "./images/" image-filename))
+           (image-filepath-absolute (concat (expand-file-name default-directory) "images/" image-filename)))
+      ;; The target directory should exist
+      (unless (file-exists-p "./images/")
+        (make-directory "./images/"))
+      ;; Save the image from the clipboard to the temporary directory
+      (shell-command (concat powershell " -command \"(Get-Clipboard -Format Image).Save('" image-filepath-temporary "')\""))
+      ;; Wait till the shell command finishes
+      (sit-for 1)
+      ;; Check if the file was created successfully
+      (let ((candidates `(,(concat "/mnt/c/Users/Public/" image-filename) ; check for wsl
+                          ,(concat "C:/Users/Public/" image-filename))))
+        (if-let (temp-file (cl-find-if #'file-exists-p candidates))
+            (progn
+              ;; Rename (move) the file to the current directory
+              (rename-file temp-file image-filepath-absolute)
+              ;; Insert the file link into the buffer
+              (insert (concat "[[file:" image-filepath-relative "]]"))
+              (message "Image inserted successfully."))
+          (error "The image file was not created by PowerShell."))))))
+ ((eq system-type 'darwin)
+  (defun ey/org-paste-clipboard-image ()
+    "Yank an image from the macOS clipboard using pngpaste and insert a file link."
+    (interactive)
+    (unless (executable-find "pngpaste")
+      (user-error "pngpaste not found. Install it, for example, with: brew install pngpaste"))
+    (let* ((image-filename
+            (format "%s_%s.png"
+                    (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
+                    (format-time-string "%Y%m%d_%H%M%S")))
+           (images-dir (expand-file-name "images/" default-directory))
+           (image-filepath-absolute (expand-file-name image-filename images-dir))
+           (image-filepath-relative (concat "./images/" image-filename)))
+      ;; Ensure target directory exists
+      (unless (file-directory-p images-dir)
+        (make-directory images-dir t))
+      ;; Call pngpaste to save clipboard to file
+      (if (zerop (call-process "pngpaste" nil nil nil image-filepath-absolute))
           (progn
-            ;; Rename (move) the file to the current directory
-            (rename-file temp-file image-filepath-absolute)
-            ;; Insert the file link into the buffer
             (insert (concat "[[file:" image-filepath-relative "]]"))
-            (message "Image inserted successfully."))
-        (error "The image file was not created by PowerShell.")))))
+            (message "Image inserted: %s" image-filepath-relative))
+        (error "pngpaste was unable to extract an image from the clipboard.")))))
+ ((eq system-type 'gnu/linux)
+  (defun ey/org-paste-clipboard-image () ; TODO: needs testing
+    "Capture an image from the Linux clipboard (via xclip) and insert a file link."
+    (interactive)
+    (unless (executable-find "xclip")
+      (user-error "xclip not found. Install it, e.g. 'sudo apt-get install xclip'"))
+    (let* ((image-filename (format "%s_%s.png"
+                                   (file-name-sans-extension (file-name-nondirectory (buffer-file-name)))
+                                   (format-time-string "%Y%m%d_%H%M%S")))
+           (images-dir (expand-file-name "images/" default-directory))
+           (image-filepath-absolute (expand-file-name image-filename images-dir))
+           (image-filepath-relative (concat "./images/" image-filename)))
+      (unless (file-directory-p images-dir)
+        (make-directory images-dir t))
+      ;; Call xclip to save the clipboard's PNG data to file
+      (if (zerop (call-process "xclip" nil (list image-filepath-absolute t) nil
+                               "-selection" "clipboard" "-t" "image/png" "-o"))
+          (progn
+            (insert (concat "[[file:" image-filepath-relative "]]"))
+            (message "Image inserted: %s" image-filepath-relative))
+        (error "xclip did not provide valid PNG data"))))))
 
 
 

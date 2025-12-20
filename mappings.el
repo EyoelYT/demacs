@@ -328,7 +328,7 @@
 
        "'"                     #'vertico-repeat-select
        "i n"                   #'nerd-icons-insert
-       "i i"                   #'ey/yank-image-from-win-clipboard-through-powershell
+       "i i"                   #'ey/org-paste-clipboard-image
 
        "p t"                   #'magit-todos-list
        "t d"                   #'global-diff-hl-mode
