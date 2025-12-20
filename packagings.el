@@ -158,6 +158,7 @@
 
 (after! org
   (setq org-clock-clocktable-default-properties (list :maxlevel 6)
+        org-preview-latex-default-process 'dvisvgm ; better resolution
         org-duration-format (quote h:mm)
         org-agenda-custom-commands
         '(("A" "show only" todo "ACTV" nil nil)
@@ -756,7 +757,9 @@
   (consult-customize ey/consult-ripgrep-custom ; Performance!!
                      +vertico/switch-workspace-buffer
                      +default/search-project
-                     :preview-key "C-SPC"))
+                     :preview-key "C-SPC")
+  (when (eq system-type 'darwin)
+      (setq consult-locate-args "mdfind")))
 
 
 
@@ -893,9 +896,9 @@ If RETURN-P, return the message as a string instead of displaying it."
           :mode-line-width 6
           :right-divider-width 30
           :fringe-width 10))
-  ;; (setq spacious-padding-subtle-mode-line
-  ;;       '(:mode-line-active shadow :mode-line-inactive shadow))
-  (setq spacious-padding-subtle-mode-line nil)
+  (setq spacious-padding-subtle-mode-line
+        '(:mode-line-active shadow :mode-line-inactive shadow))
+  ;; (setq spacious-padding-subtle-mode-line nil)
   (spacious-padding-mode 1))
 
 
