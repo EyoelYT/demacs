@@ -1998,6 +1998,46 @@ increment."
                  (diff-hl-update)))))
 
 
+
+(defun +treesit-set-font-lock-feature-list-js ()
+  (setq-local treesit-font-lock-level 4)
+  (setq-local treesit-font-lock-feature-list
+              '(( comment document definition)
+                ( keyword string)
+                ( assignment constant escape-sequence jsx number
+                             pattern string-interpolation function)
+                ( bracket delimiter operator property)))
+  (treesit-font-lock-recompute-features))
+
+(defun +treesit-set-font-lock-feature-list-c++ ()
+  (setq-local treesit-font-lock-feature-list
+              '(( comment definition)
+                ( keyword preprocessor string type)
+                ( assignment constant escape-sequence label literal function)
+                ( bracket delimiter error operator property variable)))
+  (treesit-font-lock-recompute-features))
+
+(defun +treesit-set-font-lock-feature-list-c ()
+  (setq-local c-ts-mode--feature-list
+        '(( comment definition)
+          ( keyword preprocessor string type)
+          ( assignment constant escape-sequence label literal function)
+          ( bracket delimiter error operator property variable)))
+  (treesit-font-lock-recompute-features))
+
+(defun +treesit-set-font-lock-feature-list-csharp ()
+  (setq-local treesit-font-lock-feature-list
+              '(( comment definition)
+                ( keyword string type directives)
+                ( constant escape-sequence expression literal property function)
+                ( bracket delimiter error)))
+  (treesit-font-lock-recompute-features))
+
+;; (add-hook 'js-ts-mode-hook #'+treesit-set-font-lock-feature-list-js)
+;; (add-hook 'c-ts-mode-hook #'+treesit-set-font-lock-feature-list-c)
+;; (add-hook 'c++-ts-mode-hook #'+treesit-set-font-lock-feature-list-c++)
+;; (add-hook 'csharp-ts-mode-hook #'+treesit-set-font-lock-feature-list-csharp)
+
 (define-minor-mode +treesit-better-colors-mode
   "Remap the face variables so they are not too shiny (especially when
 `treesit-font-lock-level' is 4)."
