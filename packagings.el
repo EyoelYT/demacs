@@ -983,6 +983,8 @@ Return nil if topspace should not exist in the buffer."
     (and (or (not (fboundp 'frame-parent)) ; child frames should return nil
              (not (frame-parent)))
          (and (not (memq major-mode +topspace-ignore-modes-list)) ; check if current `major-mode' is in the ignore list
+              ;; (not (let ((parent-modes (parent-mode-list major-mode))) ; check if a parent mode of `major-mode' is in the ignore list
+              ;;        (cl-some (lambda (mode) (member mode +topspace-ignore-modes-list)) parent-modes)))
               (not (provided-mode-derived-p major-mode +topspace-ignore-modes-list)) ; check if a parent mode of `major-mode' is in the ignore list
               (not (cl-some (lambda (mode) ; check if any active local-minor-mode is in the ignore list
                               (member mode local-minor-modes))

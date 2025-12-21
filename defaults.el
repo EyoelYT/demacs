@@ -33,7 +33,7 @@
                                         ; width (empty space) grows to the left of the numbers
 (setq split-width-threshold 160)
 (setq-default cursor-in-non-selected-windows nil)
-(setq-default left-margin-width 1)
+(setq-default left-margin-width 2)      ; for eglot's left fringe/margin markers
 (setq-default right-margin-width 0)
 (setq-default fringes-outside-margins t)
 (setq insert-default-directory t)
@@ -62,6 +62,9 @@
 (setq tab-first-completion nil)
 (setq dabbrev-case-replace nil)
 (setq manual-browser-path "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome") ; E.g. "/mnt/c/Users/{USER}/AppData/Local/min/min.exe" when in WSL
+(setq-default whitespace-style
+              '(face trailing tabs tab-mark spaces space-mark
+                missing-newline-at-eof indentation trailing))
 (setq blink-cursor-blinks 10 ; my default -1
       blink-cursor-delay 0.5 ; my default 0.2
       blink-cursor-interval 0.5) ; my default 0.7
@@ -142,6 +145,14 @@
       text-scale-mode-step 1.04) ; try `global-text-scale-adjust--default-height'??
 
 (unless (modulep! :ui popup)
+  ;; (add-to-list 'display-buffer-alist
+  ;;              '("\\*Embark Actions\\*"
+  ;;                (display-buffer-reuse-mode-window display-buffer-at-bottom)
+  ;;                (window-height . fit-window-to-buffer)
+  ;;                (dedicated . t)
+  ;;                (window-parameters . ((no-other-window . t)
+  ;;                                      (mode-line-format . none)))))
+  ;; bottom buffer (NOT side window)
   (add-to-list 'display-buffer-alist
                '("\\*Process List\\*"
                  (display-buffer-reuse-mode-window display-buffer-at-bottom)
@@ -162,7 +173,7 @@
     (add-to-list 'default-frame-alist '(internal-border-width . 20))
     (add-to-list 'default-frame-alist '(undecorated . t))
     (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-    (add-to-list 'default-frame-alist '(alpha-background . 90)))
+    (add-to-list 'default-frame-alist '(alpha-background . 100)))
   (when (eq system-type 'darwin)
     (add-to-list 'default-frame-alist '(top . 50))
     (add-to-list 'default-frame-alist '(left . 120))
@@ -251,6 +262,7 @@ change themes"
   (after! hl-line
     (set-face-attribute 'hl-line nil :background 'unspecified)) ; works in disabling the bg of the current line-number
   (after! faces
+    (set-face-attribute 'region nil :extend t) ; REVIEW: try this out for the time being
     (set-face-attribute 'line-number-current-line nil :background 'unspecified)))
 
 ;;; Global HOOKS!
@@ -262,8 +274,14 @@ change themes"
     (global-flycheck-mode -1)))
 
 ;;; Rainbow delimiters mode (colored brackets) and Highlighted numbers
-(add-hook! '(prog-mode-hook conf-mode-hook) #'rainbow-delimiters-mode)
-(add-hook! '(prog-mode-hook conf-mode-hook) #'highlight-numbers-mode)
+;; (add-hook! '(prog-mode-hook conf-mode-hook) #'rainbow-delimiters-mode)
+(add-hook! '(emacs-lisp-mode-hook) #'rainbow-delimiters-mode)
+;; (add-hook! '(prog-mode-hook conf-mode-hook) #'highlight-numbers-mode)
+
+;;; Highlight Operators Hook
+(add-hook! '(c-mode) #'highlight-operators-mode) ; incompatible with `emacs-lisp-mode'
+
+(remove-hook 'text-mode-hook 'visual-line-mode) ; still has `+word-wrap-mode' in there
 
 ;;; Turn off automatic spell checker
 (remove-hook 'text-mode-hook #'spell-fu-mode)
@@ -277,6 +295,7 @@ change themes"
 
 ;; eshell married with `compilation-shell-minor-mode'
 (add-hook 'eshell-mode-hook #'compilation-shell-minor-mode)
+(remove-hook 'eshell-mode-hook 'eshell-syntax-highlighting-mode) ; Perf!
 
 ;;; Remove opening automatic tide server when opening rjsx/tsx/web-mode files
 (remove-hook! '(typescript-mode-local-vars-hook
@@ -365,3 +384,15 @@ change themes"
 ;; (advice-add 'region-beginning :around #'+evil-region-beginning-a) ; TODO: Causing problems with mark-sexp related commands
 ;; (advice-add 'region-end :around #'+evil-region-end-a)
 
+(advice-add #'message :after
+            (defun me/message-tail (&rest _)
+              "Automatically scroll the message buffer to the bottom on new messages.
+The behavior is ignored when the message buffer is active."
+              (let* ((name "*Messages*")
+                     (windows (get-buffer-window-list name nil t)))
+                (dolist (window windows)
+                  (unless (or (string-equal name (buffer-name))
+                              ;; (window-parameter window 'visible)
+                              )
+                    (with-selected-window window
+                      (goto-char (point-max))))))))

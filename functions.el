@@ -799,6 +799,7 @@ and display them in a unique interactive buffer."
   "Revert `doom-log-level' to zero: No logging at all"
   (interactive)
   (setq doom-log-level 0
+        magit-refresh-verbose nil
         doom-inhibit-log t))
 
 ;;; TODO: Assign a keybind to this
@@ -1608,7 +1609,7 @@ behavior as well"
                 (let ((tt (replace-regexp-in-string "\n\\([^$]\\)" " \\1" txt)))
                   (org-link-make-string url tt)))
                (`(outline-level ,n)
-                (concat (make-string (- (* 2 n) 1) ?*) " " txt "\n"))
+                (concat (make-string (- (* 2 n) 1) ?*) " " txt))
                ('(face italic) (format "/%s/ " (string-trim txt)))
                ('(face bold) (format "*%s* " (string-trim txt)))
                (_ txt))))
@@ -1654,7 +1655,8 @@ behavior as well"
   (let ((buf (or (buffer-file-name (buffer-base-buffer)) "")))
     (if (and (string-match-p "gpt"   buf)
              (string-match-p "chats" buf))
-        (gptel-mode 1))))
+        (progn (ws-butler-mode -1) ; ws butler would introduce some "gptel out of range" errors
+               (gptel-mode 1)))))
 
 (defun sudo-shell-command (command)
   (interactive "MShell command (root): ")
@@ -1788,7 +1790,7 @@ Also add the value to the front of the list in the variable `values'."
         (advice-add 'evil-window-down  :after 'win/auto-resize)
         (advice-add 'evil-window-right :after 'win/auto-resize)
         (advice-add 'evil-window-left  :after 'win/auto-resize)
-        (advice-add 'select-window    'win/auto-resize))
+        (advice-add 'select-window     :after 'win/auto-resize))
     (advice-remove 'evil-window-up    'win/auto-resize)
     (advice-remove 'evil-window-down  'win/auto-resize)
     (advice-remove 'evil-window-right 'win/auto-resize)
@@ -1870,7 +1872,7 @@ applied to future frames.
 (after! face-remap
   ;; Patch this function to cover more fonts
   (defun global-text-scale-adjust (increment)
-  "Change (a.k.a. \"adjust\") the font size of all faces by INCREMENT.
+    "Change (a.k.a. \"adjust\") the font size of all faces by INCREMENT.
 
 Interactively, INCREMENT is the prefix numeric argument, and defaults
 to 1.  Positive values of INCREMENT increase the font size, negative
@@ -1898,51 +1900,52 @@ See also the related command `text-scale-adjust'.  Unlike that
 command, which scales the font size with a factor,
 `global-text-scale-adjust' scales the font size with an
 increment."
-  (interactive "p")
-  (when (display-graphic-p)
-    (unless global-text-scale-adjust--default-height
-      (setq global-text-scale-adjust--default-height
-            (face-attribute 'default :height)))
-    (let* ((key (event-basic-type last-command-event))
-           (echo-keystrokes nil)
-           (cur-def (face-attribute 'default :height))
-           (inc
-            (pcase key
-              (?- (* (- increment)
-                     global-text-scale-adjust--increment-factor))
-              (?0 (- global-text-scale-adjust--default-height cur-def))
-              (_ (* increment
-                    global-text-scale-adjust--increment-factor))))
-           (new (+ cur-def inc)))
-      (when (< (car global-text-scale-adjust-limits)
-               new
-               (cdr global-text-scale-adjust-limits))
-        (let ((frame-inhibit-implied-resize
-               (not global-text-scale-adjust-resizes-frames)))
-          (set-face-attribute 'default nil :height new)
-          (set-face-attribute 'variable-pitch nil :height new)
-          (set-face-attribute 'fixed-pitch nil :height new)
-          (set-face-attribute 'fixed-pitch-serif nil :height new)
-          (redisplay 'force)
-          (when (and (not (and (characterp key) (= key ?0)))
-                     (= cur-def (face-attribute 'default :height)))
-            (setq global-text-scale-adjust--increment-factor
-                  (1+ global-text-scale-adjust--increment-factor))
-            (global-text-scale-adjust increment))))
-      (when (characterp key)
-        (set-transient-map
-         (let ((map (make-sparse-keymap)))
-           (dolist (mod '(() (control meta)))
-             (dolist (key '(?+ ?= ?- ?0))
-               (define-key map (vector (append mod (list key)))
-                 'global-text-scale-adjust)))
-           map)
-       nil nil
-       "Use %k for further adjustment"))))))
+    (interactive "p")
+    (when (display-graphic-p)
+      (unless global-text-scale-adjust--default-height
+        (setq global-text-scale-adjust--default-height
+              (face-attribute 'default :height)))
+      (let* ((key (event-basic-type last-command-event))
+             (echo-keystrokes nil)
+             (cur-def (face-attribute 'default :height))
+             (inc
+              (pcase key
+                (?- (* (- increment)
+                       global-text-scale-adjust--increment-factor))
+                (?0 (- global-text-scale-adjust--default-height cur-def))
+                (_ (* increment
+                      global-text-scale-adjust--increment-factor))))
+             (new (+ cur-def inc)))
+        (when (< (car global-text-scale-adjust-limits)
+                 new
+                 (cdr global-text-scale-adjust-limits))
+          (let ((frame-inhibit-implied-resize
+                 (not global-text-scale-adjust-resizes-frames)))
+            (set-face-attribute 'default nil :height new)
+            (set-face-attribute 'variable-pitch nil :height new)
+            (set-face-attribute 'fixed-pitch nil :height new)
+            (set-face-attribute 'fixed-pitch-serif nil :height new)
+            (redisplay 'force)
+            (when (and (not (and (characterp key) (= key ?0)))
+                       (= cur-def (face-attribute 'default :height)))
+              (setq global-text-scale-adjust--increment-factor
+                    (1+ global-text-scale-adjust--increment-factor))
+              (global-text-scale-adjust increment))))
+        (when (characterp key)
+          (set-transient-map
+           (let ((map (make-sparse-keymap)))
+             (dolist (mod '(() (control meta)))
+               (dolist (key '(?+ ?= ?- ?0))
+                 (define-key map (vector (append mod (list key)))
+                             'global-text-scale-adjust)))
+             map)
+           nil nil
+           "Use %k for further adjustment"))))))
+
 
 
 
-(defcustom doom-session-autosave-interval 60
+(defcustom doom-session-autosave-interval 180 ; 3 minutes
   "Interval in seconds to save the current doom session. Define this before
 `doom-session-autosave-minor-mode' is initialized"
   :type 'integer
@@ -1955,7 +1958,7 @@ increment."
   "Function to automatically run to save the current session" ; TODO: define the type
   :group 'doom)
 
-(defun doom-session-autosave--clean-idle-timers (fn-to-clean)
+(defun doom-session-autosave--clean-idle-timers (fn-to-clean) ; obsolete
   "TODO"
   (dolist (timer-vec-obj timer-idle-list)
     (let* ((timer-list-obj (append timer-vec-obj nil))
@@ -1975,16 +1978,26 @@ increment."
   :global t
   :init-value nil
   (if doom-session-autosave-minor-mode
+      ;; (doom-session-autosave--clean-idle-timers doom-session-autosave-function)
       (setq doom-session-autosave--timer-obj
             (run-with-idle-timer doom-session-autosave-interval t
                                  doom-session-autosave-function))
     (when (timerp doom-session-autosave--timer-obj)
       (cancel-timer doom-session-autosave--timer-obj)
-      (doom-session-autosave--clean-idle-timers doom-session-autosave-function))
+      (cancel-function-timers doom-session-autosave-function))
     (setq doom-session-autosave--timer-obj nil)))
 
 
 
+(after! diff-hl
+  (defun +vc-gutter-update-h (&rest _) ; This is a temporary fix for diff-hl updates
+    "Return nil to prevent shadowing other `doom-escape-hook' hooks."
+    (ignore (and (or (bound-and-true-p diff-hl-mode)
+                     (bound-and-true-p diff-hl-dir-mode))
+                 ;; (diff-hl-update-once) ; TODO: change this in the internals of doom to `diff-hl-update'
+                 (diff-hl-update)))))
+
+
 (define-minor-mode +treesit-better-colors-mode
   "Remap the face variables so they are not too shiny (especially when
 `treesit-font-lock-level' is 4)."

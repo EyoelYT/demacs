@@ -2,6 +2,7 @@
 
 
 
+;; Commands that move point should be set in `evil-motion-state-map'
 (map! "C-S-s"                  #'evil-avy-goto-char-timer
       "C-S-d"                  #'duplicate-dwim
       "C-S-h"                  #'hrm-help-transient
