@@ -464,6 +464,25 @@
         ;; lsp-signature-auto-activate
         lsp-signature-render-documentation t)) ; default: t
 
+(use-package! lsp-dart
+  :when (modulep! :lang dart)
+  :defer t
+  :config
+  (map! :map dart-mode-map
+        (:localleader
+         (:prefix ("t" . "test")
+          "t" #'lsp-dart-run-test-at-point
+          "a" #'lsp-dart-run-all-tests
+          "f" #'lsp-dart-run-test-file
+          "l" #'lsp-dart-run-last-test
+          "v" #'lsp-dart-visit-last-test))))
+
+(use-package! lsp-haskell
+  :defer t
+  :config
+  ;; Does some strange indentation if it pastes in the snippet
+  (setq-hook! 'haskell-mode-hook yas-indent-line 'fixed))
+
 
 
 ;;; Make company mode completion faster
@@ -1257,3 +1276,33 @@ server an expensive restart when its buffer is reverted."
   (setq jinx-languages "en_US")
   (setq jinx-camel-modes '(prog-mode)))
 
+
+
+(use-package! yeetube
+  :defer t
+  :config
+  (setf yeetube-enable-tor t
+        yeetube-display-thumbnails-p nil
+        yeetube-default-sort-ascending t
+        yeetube-results-limit 100
+        yeetube-mpv-enable-torsocks t))
+
+
+
+(after! devdocs
+  (setq devdocs-window-select t))
+
+
+
+(use-package! uniline
+  :commands uniline-mode)
+
+
+
+(use-package! typst-ts-mode
+  :mode "\\.typ\\'")
+
+
+
+(after! nerd-icons-completion
+  (setopt nerd-icons-completion-category-icons nil))
