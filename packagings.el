@@ -423,7 +423,9 @@
         ;; lsp-enable-suggest-server-download t
         lsp-eldoc-enable-hover nil ; Performance!
         lsp-modeline-diagnostics-scope :file
-        lsp-signature-render-documentation nil ; don't show verbose documentation in eldoc
+        lsp-signature-auto-activate nil ; don't show function signature in minibuffer area
+        lsp-signature-render-documentation nil ; don't show verbose documentation in minibuffer area
+        lsp-modeline-code-action-fallback-icon "!"
         lsp-use-plists t))
 
 (use-package! lsp-pyright ; TODO: Test if working
@@ -460,9 +462,9 @@
 (after! lsp-ui
   (setq lsp-ui-sideline-enable nil             ; no more useful than flycheck
         lsp-ui-doc-enable nil                  ; redundant with K
-        lsp-ui-sideline-show-code-actions t    ; default: nil
-        ;; lsp-signature-auto-activate
-        lsp-signature-render-documentation t)) ; default: t
+        lsp-ui-doc-max-width 72
+        lsp-ui-doc-max-height 50
+        lsp-ui-sideline-show-code-actions t))  ; default: nil
 
 (use-package! lsp-dart
   :when (modulep! :lang dart)
@@ -1132,17 +1134,21 @@ Return nil if topspace should not exist in the buffer."
 (use-package! eglot
   :commands eglot eglot-ensure
   :hook (eglot-managed-mode . +lsp-optimization-mode)
+  :hook (eglot-managed-mode . +eglot-custom-hook)
   :init
   (setq eglot-sync-connect 1
         eglot-autoshutdown t
         eglot-ignored-server-capabilities '(:documentHighlightProvider)
+        eglot-code-action-indicator "!"
+        eglot-stay-out-of '(eldoc) ; eldoc irritates me
         eglot-extend-to-xref nil ; my minimal is t
         ;; NOTE: We disable eglot-auto-display-help-buffer because :select t in
         ;;   its popup rule causes eglot to steal focus too often.
         eglot-auto-display-help-buffer nil)
   (when (modulep! :checkers syntax -flymake)
     (setq eglot-stay-out-of '(flymake)))
-
+  (defun +eglot-custom-hook ()
+    (eglot-inlay-hints-mode -1))
   :config
   (set-popup-rule! "^\\*eglot-help" :size 0.15 :quit t :select t)
   (set-lookup-handlers! 'eglot--managed-mode
@@ -1151,6 +1157,26 @@ Return nil if topspace should not exist in the buffer."
     :implementations #'eglot-find-implementation
     :type-definition #'eglot-find-typeDefinition
     :documentation   #'+eglot-lookup-documentation)
+  (setq +eglot--help-buffer nil)
+  (defun +eglot-lookup-documentation (_identifier)
+    "Request documentation for the thing at point."
+    (eglot--dbind ((Hover) contents range)
+        (jsonrpc-request (eglot--current-server-or-lose) :textDocument/hover
+                         (eglot--TextDocumentPositionParams))
+      (let ((blurb (and (not (seq-empty-p contents))
+                        (eglot--hover-info contents range)))
+            (hint (thing-at-point 'symbol)))
+        (if blurb
+            (with-current-buffer
+                (or (and (buffer-live-p +eglot--help-buffer)
+                         +eglot--help-buffer)
+                    (setq +eglot--help-buffer (generate-new-buffer "*eglot-help*")))
+              (with-help-window (current-buffer)
+                (rename-buffer (format "*eglot-help for %s*" hint))
+                (with-current-buffer standard-output (insert blurb))
+                (setq-local nobreak-char-display nil)))
+          (display-local-help))))
+    'deferred)
 
   ;; Leave management of flymake to the :checkers syntax module.
   (when (modulep! :checkers syntax -flymake)
