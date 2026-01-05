@@ -321,9 +321,38 @@
                                       (search category-keep)))
 
   (setq org-capture-templates
-        '(("t" "Add TODO" entry
+        `(("t" "Add TODO to agenda2" entry
            (file+headline +org-capture-todo-file "Incoming")
-           "*** TODO %?: " :prepend t)))
+           ,(concat "\n* TODO %?: \n"
+                    "%i\n"
+                    "%U\n")
+           :empty-lines-after 1
+           :prepend t)
+          ("d" "Add Daily tasks to plan-free, 2nd method" plain
+           (file+olp+datetree +org-capture-journal-file)
+           ,(concat
+             "The Three Most Important Tasks\n"
+             "Other things from agenda\n"
+             "Other things that come to mind not from agenda (random reminders)\n")
+           :unnarrowed t
+           :empty-lines-after 1
+           :jump-to-captured t
+           :time-prompt t)
+
+          ;; Will use {project-root}/{todo,notes,changelog}.org, unless a
+          ;; {todo,notes,changelog}.org file is found in a parent directory.
+          ;; Uses the basename from `+org-capture-todo-file',
+          ;; `+org-capture-changelog-file' and `+org-capture-notes-file'.
+          ("p" "Templates for projects")
+          ("pt" "Project-local todo" entry  ; {project-root}/todo.org
+           (file+headline +org-capture-project-todo-file "Inbox")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("pn" "Project-local notes" entry  ; {project-root}/notes.org
+           (file+headline +org-capture-project-notes-file "Inbox")
+           "* %U %?\n%i\n%a" :prepend t)
+          ("pc" "Project-local changelog" entry  ; {project-root}/changelog.org
+           (file+headline +org-capture-project-changelog-file "Unreleased")
+           "* %U %?\n%i\n%a" :prepend t)))
 
   (setq org-src-preserve-indentation nil)
   (setq org-edit-src-content-indentation 0)

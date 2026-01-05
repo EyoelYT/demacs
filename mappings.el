@@ -136,14 +136,14 @@
        ;; Use `doom/backward-to-bol-or-indent' in org-mode (unmap doom's remap
        ;; to `org-beginning-of-line')
        [remap doom/backward-to-bol-or-indent] nil
+       :i  "S-<left>"          #'org-shiftleft
+       :i  "S-<right>"         #'org-shiftright
+       (:localleader  "l Y"    #'ey/org-id-yank-link-to-heading)
        :map org-read-date-minibuffer-local-map
        :ni "S-<left>"          #'org-calendar-backward-day
        :ni "S-<right>"         #'org-calendar-forward-day
        :ni "S-<up>"            #'org-calendar-backward-week
-       :ni "S-<down>"          #'org-calendar-forward-week
-       :map org-mode-map
-       :i  "S-<left>"          #'org-shiftleft
-       :i  "S-<right>"         #'org-shiftright)
+       :ni "S-<down>"          #'org-calendar-forward-week)
 
       (:map resize-window-repeat-map
             "V"                #'shrink-window)
@@ -248,7 +248,8 @@
 
       (:after org-agenda
        :map org-agenda-keymap
-       :m "C-<return>"         #'ey/org-agenda-goto-narrowed-subtree)
+       :m "C-<return>"         #'ey/org-agenda-goto-narrowed-subtree
+       :localleader "l Y"      #'ey/org-id-yank-link-to-heading)
 
       (:after vertico
        :map vertico-map

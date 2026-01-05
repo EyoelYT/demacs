@@ -4,7 +4,8 @@
 ;;   (setq org-directory nil)
 ;;   (setq org-id-locations-file nil)
 ;;   (setq org-agenda-files nil)
-;;   (setq +org-capture-todo-file nil))
+;;   (setq +org-capture-todo-file nil)
+;;   (setq +org-capture-journal-file nil))
 ;; (after! org-roam
 ;;   (setq org-roam-directory nil))
 ;;

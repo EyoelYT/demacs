@@ -2057,3 +2057,23 @@ increment."
  "Send `C-<delete>' to the libvterm."
   (interactive)
   (vterm-send-key "<delete>" nil nil t))
+
+
+
+(defun ey/org-id-yank-link-to-heading ()
+  "Copy an ID link with the headline to killring, if no ID is there then
+create a new unique ID. This function works only in org-mode.
+
+The purpose of this function is to easily construct id:-links to
+org-mode items. If its assigned to a key it saves you marking the text
+and copying to the killring."
+  (interactive)
+  (save-window-excursion
+    (when (eq major-mode 'org-agenda-mode)
+      (org-agenda-switch-to))
+    (when (eq major-mode 'org-mode)
+      (let* ((heading (nth 4 (org-heading-components)))
+             (id (org-id-get-create))
+             (link (format "[[id:%s][%s]]" id heading)))
+        (kill-new link)
+        (message "Copied heading link to kill-ring")))))
