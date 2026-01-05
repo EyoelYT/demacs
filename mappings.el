@@ -138,7 +138,8 @@
        [remap doom/backward-to-bol-or-indent] nil
        :i  "S-<left>"          #'org-shiftleft
        :i  "S-<right>"         #'org-shiftright
-       (:localleader  "l Y"    #'ey/org-id-yank-link-to-heading)
+       (:localleader  "l Y"    #'ey/org-id-yank-link-to-heading
+                      "l o"    #'ey/org-open-at-point-other-window)
        :map org-read-date-minibuffer-local-map
        :ni "S-<left>"          #'org-calendar-backward-day
        :ni "S-<right>"         #'org-calendar-forward-day

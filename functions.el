@@ -2077,3 +2077,20 @@ and copying to the killring."
              (link (format "[[id:%s][%s]]" id heading)))
         (kill-new link)
         (message "Copied heading link to kill-ring")))))
+
+(defun ey/org-open-at-point-other-window ()
+  "Open a new window with the same buffer and prompt for search term
+After search term is found, jump back"
+  (interactive)
+  (let ((this-buffer (buffer-name)))
+    (if (< (count-windows) 2)
+        (progn ; split and search
+          (if (> (frame-pixel-width) (/ (display-pixel-width) 2))
+              (split-window-right)
+            (split-window-below))
+          (call-interactively #'org-open-at-point))
+      (let ((point (point)))
+        (other-window 1)
+        (switch-to-buffer this-buffer)
+        (goto-char point)
+        (call-interactively #'org-open-at-point)))))
