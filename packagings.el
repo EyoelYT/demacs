@@ -133,6 +133,9 @@
         dired-du-bind-mode nil
         dired-du-bind-count-sizes nil)
   :config
+  (when (and (executable-find "duc")
+             (not (string-match-p "Error" (shell-command-to-string "duc info"))))
+    (setq dired-du-used-space-program '("duc" "ls -bD")))
   ;; (add-hook 'dired-mode-hook #'dired-du-mode))
   (setq dired-du-size-format t))
 
