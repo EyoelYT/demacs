@@ -359,7 +359,9 @@ change themes"
                                         ; variable into official evil repo?
 
 (advice-add 'ey/window-search :after #'ey/evil-do-normal-state-w/o-cursor-jumpback)
-(advice-add '+org--insert-item :override #'ey/+org--insert-item)
+(advice-add '+org-capture-project-todo-file :override #'ey/+org-capture-project-todo-file)
+(advice-add '+org-capture-project-notes-file :override #'ey/+org-capture-project-notes-file)
+(advice-add '+org-capture-project-changelog-file :override #'ey/+org-capture-project-changelog-file)
 
 ;; On using `consult-line', set copy-mode to on -> search thing -> set copy-mode
 ;; off with no cursor movement
