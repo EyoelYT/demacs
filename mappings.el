@@ -236,6 +236,7 @@
        :ng "C-<tab>"           #'evil-switch-to-windows-last-buffer
        :ng "<backtab>"         #'magit-section-cycle
        :ng "C-S-<iso-lefttab>" #'magit-section-cycle-global
+       :ng "C-S-<tab>"         #'magit-section-cycle-global
        :ng "C-S-<down>"        #'magit-section-forward
        :ng "C-S-<up>"          #'magit-section-backward
        :ng "M-RET"             #'magit-diff-visit-worktree-file-other-window

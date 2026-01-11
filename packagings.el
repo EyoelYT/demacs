@@ -161,7 +161,7 @@
 
 (after! org
   (setq org-clock-clocktable-default-properties (list :maxlevel 6)
-        org-preview-latex-default-process 'dvisvgm ; better resolution
+        org-preview-latex-default-process 'dvisvgm ; better resolution inline latex images
         org-duration-format (quote h:mm)
         org-agenda-custom-commands
         '(("A" "show only" todo "ACTV" nil nil)
