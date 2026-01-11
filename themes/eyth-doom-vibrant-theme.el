@@ -81,6 +81,7 @@ Can be an integer to determine the exact padding."
    (dark-blue  '("#1f5582" "#2257A0"    "blue"            ))
    (magenta    '("#C57BDB" "#c678dd"    "brightmagenta"   ))
    (violet     '("#a991f1" "#a9a1e1"    "magenta"         )) ;a9a1e1
+   (dviolet     '("#4c006e" "#5e0087"   "dviolet"         ))
    (cyan       '("#5cEfFF" "#46D9FF"    "brightcyan"      ))
    (dark-cyan  '("#6A8FBF" "#5699AF"    "cyan"            ))
 
@@ -195,7 +196,7 @@ Can be an integer to determine the exact padding."
    (whitespace-space   :foreground base3)
    (whitespace-newline :foreground bg)
    ;;;; corfu
-   (corfu-current :background dark-cyan)
+   (corfu-current :background dviolet)
    ;;;; eldoc
    (eldoc-highlight-function-argument :foreground fg :bold bold)
    ;;;; ediff
