@@ -1326,6 +1326,9 @@ server an expensive restart when its buffer is reverted."
           (text ,(regexp-opt '("comment"
                                "raw_string_literal"))))))
 
+(after! typescript-ts-mode
+  (setq typescript-ts-mode-indent-offset 4))
+
 
 
 (use-package! jinx
@@ -1364,3 +1367,15 @@ server an expensive restart when its buffer is reverted."
 
 (after! nerd-icons-completion
   (setopt nerd-icons-completion-category-icons nil))
+
+
+(use-package! eat
+  :defer t
+  :init
+  (add-hook 'eshell-load-hook #'eat-eshell-mode)
+  (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+  :custom
+  (eat-term-name "xterm-256color")
+  :config
+  (eat-eshell-mode)
+  (eat-eshell-visual-command-mode))
