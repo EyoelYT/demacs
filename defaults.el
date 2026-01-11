@@ -241,6 +241,8 @@
   '(mode-line-inactive :inherit (mode-line)) ; turn off the wierd box when in sp-padding mode
   ;; '(hl-line :background unspecified)
   '(diff-added :extent nil)
+  '(flycheck-error :underline (:color "#FF7B85"))
+  '(flycheck-warning :underline (:color "#F0C674"))
   '(blamer-face :foreground "#7a88cf" :slant unspecified)
   ;; '(font-lock-variable-name-face :foreground nil :inherit default)
   ;; '(font-lock-variable-name-face nil)
