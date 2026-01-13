@@ -258,15 +258,16 @@ the process"
                         compilation-auto-jump-to-first-error t)
                 (message "Compilation-mode auto-jump to first error")))))
 
-(defun ey/manual-open-url (url &rest _args)
+(defun ey/manual-open-url (url &rest args)
   "Open URL in browser specified using xdg-open while temporarily unsetting
 DISPLAY. If `manual-browser-path' is nil, use open or xdg-open to use
 the default browser"
-  (let ((process-environment (copy-sequence process-environment))) ; Create a copy of the environment
+  (let ((process-environment (copy-sequence process-environment)) ; Create a copy of the environment
+        (fullarg (if args (apply #'concat url args) url)))
     (setenv "DISPLAY" nil) ; Temporarily unset DISPLAY
     (if (eq system-type 'darwin)
-        (start-process "browse" nil (or manual-browser-path "open") url)
-      (start-process "browse" nil (or manual-browser-path "xdg-open") url))))
+        (start-process "browse" nil (or manual-browser-path "open") fullarg)
+      (start-process "browse" nil (or manual-browser-path "xdg-open") fullarg))))
 
 ;; Enhanced web-search
 (defun ey/google-search (query)
