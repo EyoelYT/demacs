@@ -277,7 +277,8 @@
             "<tab>"            #'isearch-repeat-forward
             "TAB"              #'isearch-repeat-forward ; needed when in terminal
             "<escape>"         #'isearch-cancel
-            "<backtab>"        #'isearch-repeat-backward)
+            "<backtab>"        #'isearch-repeat-backward
+            "S-<tab>"          #'isearch-repeat-backward)
 
       (:after gptel
        :map gptel-mode-map ; I don't want to accidentally send stuff!!
