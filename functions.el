@@ -522,13 +522,6 @@ See minad/consult#770."
          (funcall bytecode))))
    (apply old-fn args)))
 
-(advice-add (if (progn (require 'json)
-                       (fboundp 'json-parse-buffer))
-                'json-parse-buffer
-              'json-read)
-            :around
-            #'lsp-booster--advice-json-parse)
-
 (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
   "Prepend emacs-lsp-booster command to lsp CMD."
   (let ((orig-result (funcall old-fn cmd test?)))
@@ -544,7 +537,27 @@ See minad/consult#770."
           (cons "emacs-lsp-booster" orig-result))
       orig-result)))
 
-(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+(define-minor-mode emacs-lsp-booster-minor-mode
+  "Toggle lsp-booster"
+  :global t
+  :init-value nil
+  :lighter " lsp-booster"
+  (if emacs-lsp-booster-minor-mode
+      (progn
+        (advice-add (if (progn (require 'json)
+                               (fboundp 'json-parse-buffer))
+                        'json-parse-buffer
+                      'json-read)
+                    :around #'lsp-booster--advice-json-parse)
+        (advice-add 'lsp-resolve-final-command
+                    :around #'lsp-booster--advice-final-command))
+    (advice-remove (if (progn (require 'json)
+                              (fboundp 'json-parse-buffer))
+                       'json-parse-buffer
+                     'json-read)
+                   #'lsp-booster--advice-json-parse)
+    (advice-remove 'lsp-resolve-final-command
+                   #'lsp-booster--advice-final-command)))
 
 
 
