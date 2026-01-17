@@ -600,6 +600,14 @@ See minad/consult#770."
   (org-agenda-goto)
   (org-narrow-to-subtree))
 
+(defun ey/org-cycle-subtree-recursively ()
+  "Old non-doom `org-cycle' TAB behavior"
+  (interactive)
+  (let ((org-cycle-tab-first-hook '(org-babel-hide-result-toggle-maybe org-babel-header-arg-expand)))
+    (org-cycle)))
+
+
+
 (after! consult
   ;; Started with a small function, accidentally ballooned it in the end. In any
   ;; case, use `M-x ey/toggle-positional-consult-imenu` to toggle between the

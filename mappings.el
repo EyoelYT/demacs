@@ -136,8 +136,12 @@
        ;; Use `doom/backward-to-bol-or-indent' in org-mode (unmap doom's remap
        ;; to `org-beginning-of-line')
        [remap doom/backward-to-bol-or-indent] nil
-       :i  "S-<left>"          #'org-shiftleft
-       :i  "S-<right>"         #'org-shiftright
+       :i "S-<left>"           #'org-shiftleft
+       :i "S-<right>"          #'org-shiftright
+       :n "S-<tab>"            #'ey/org-cycle-subtree-recursively
+       "S-TAB"                 #'ey/org-cycle-subtree-recursively
+       "<backtab>"             #'ey/org-cycle-subtree-recursively
+       :ng "C-S-<tab>"         #'org-shifttab
        (:localleader  "l Y"    #'ey/org-id-yank-link-to-heading
                       "l o"    #'ey/org-open-at-point-other-window)
        :map org-read-date-minibuffer-local-map
