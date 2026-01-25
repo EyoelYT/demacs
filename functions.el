@@ -26,6 +26,12 @@
 ;;         `(metadata (display-sort-function . ,#'identity))
 ;;       (complete-with-action action completions string pred))))
 
+(defun ey/eshell-ignore-text-wrapping-a ()
+  (let ((inhibit-message t))
+    (message "eshell: Ignoring text wraps")))
+
+(advice-add '+eshell-enable-text-wrapping-h :override #'ey/eshell-ignore-text-wrapping-a)
+
 (after! persp-mode
   (defun +workspace/swap-this-and-other (other-persp)
     "Swap the current workspace with the Nth workspace. OTHER-PERSP could be
