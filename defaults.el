@@ -163,6 +163,9 @@
 ;;; FRAME DEFAULTS
 (defun ey/add-stuff-to-default-buffer-alist ()
   "Add values to `default-frame-alist'"
+  (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
+  (add-to-list 'default-frame-alist '(menu-bar-lines . 0))
+  (add-to-list 'default-frame-alist '(alpha-background . 100))
   (when (getenv "WSLENV")
     (add-to-list 'default-frame-alist `(width . (text-pixels . 2300))) ; 2145
     (if (string-match-p (regexp-quote "LUCID") system-configuration-features)
@@ -171,16 +174,13 @@
     (add-to-list 'default-frame-alist '(top . 15))
     (add-to-list 'default-frame-alist '(left . 15))
     (add-to-list 'default-frame-alist '(internal-border-width . 20))
-    (add-to-list 'default-frame-alist '(undecorated . t))
-    (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-    (add-to-list 'default-frame-alist '(alpha-background . 100)))
+    (add-to-list 'default-frame-alist '(undecorated . t)))
   (when (eq system-type 'darwin)
     (add-to-list 'default-frame-alist '(top . 50))
     (add-to-list 'default-frame-alist '(left . 120))
     (add-to-list 'default-frame-alist '(height . 60))
     (add-to-list 'default-frame-alist '(width . 170))
-    (add-to-list 'default-frame-alist '(undecorated . nil))
-    (add-to-list 'default-frame-alist '(alpha-background . 100))))
+    (add-to-list 'default-frame-alist '(undecorated . nil))))
 
 (ey/add-stuff-to-default-buffer-alist)
 
