@@ -181,15 +181,13 @@ This gets tacked on the end of the generated expressions.")
 
 (after! evil
   (defun ey/scroll-line-and-window-up ()
-    "TODO: description"
+    "Scroll text of selected window downward one line"
     (interactive)
-    (evil-scroll-line-up 1)
-    (evil-previous-visual-line 1))
+    (scroll-down 1))
   (defun ey/scroll-line-and-window-down ()
-    "TODO: description"
+    "Scroll text of selected window upward one line"
     (interactive)
-    (evil-scroll-line-down 1)
-    (evil-next-visual-line 1))
+    (scroll-up 1))
   (evil-define-command ey/evil-scroll-left (count)
     "Scroll the window COUNT one-tenth-screenwidths to the left."
     :repeat nil
