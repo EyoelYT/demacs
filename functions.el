@@ -2147,3 +2147,42 @@ opens a blank one at the project root. Throws an error if not in a project."
 otherwise, opens a blank one at the project root. Throws an error if not in a
 project."
   (+org--capture-local-root "changelog.org"))
+
+
+
+(defun +diff-hl-redefine-broken-bitmaps ()
+  "Use this to redefine thin bitmaps when they are broken due to text
+scaling"
+  (interactive)
+  (let* ((scale (if (and (boundp 'text-scale-mode-amount)
+                         (numberp text-scale-mode-amount))
+                    (expt text-scale-mode-step text-scale-mode-amount)
+                  1))
+         (spacing (or (and (display-graphic-p) (default-value 'line-spacing)) 0))
+         (h (+ (ceiling (* (frame-char-height) scale))
+               (if (floatp spacing)
+                   (truncate (* (frame-char-height) spacing))
+                 spacing)))
+         (w (min (frame-parameter nil (intern (format "%s-fringe" diff-hl-side)))
+                 diff-hl-bmp-max-width))
+         (_ (if (zerop w) (setq w diff-hl-bmp-max-width))))
+    (define-fringe-bitmap 'diff-hl-bmp-middle
+      (make-vector
+       h (string-to-number (let ((half-w (1- (/ w 2))))
+                             (concat (make-string half-w ?1)
+                                     (make-string (- w half-w) ?0)))
+                           2))
+      nil nil 'center)))
+
+
+
+(defun toggle-let* ()
+  "Make the closest enclosing let or let* form a let* or let form, respectively,
+then reindent that form's bindings. "
+  (interactive)
+  (save-excursion
+    (while (progn
+             (condition-case nil (backward-up-list nil t) (scan-error (error "Not within a let form")))
+             (not (search-forward-regexp (rx point "(" (* space) "let" (? "*") symbol-end) nil t))))
+    (if (= ?* (char-before)) (backward-delete-char 1) (insert "*"))
+    (indent-region (point) (progn (forward-sexp) (point)))))
