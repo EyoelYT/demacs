@@ -501,8 +501,7 @@ See minad/consult#770."
          (consult-fd-args '((if (executable-find "fdfind" 'remote) "fdfind" "fd") "--color=never"
                             "--full-path --absolute-path" "--hidden --exclude .git" "--no-ignore"
                             (if (featurep :system 'windows) "--path-separator=/"))))
-    (if
-        (when-let* ((bin (if (ignore-errors (file-remote-p default-directory nil t))
+    (if (when-let* ((bin (if (ignore-errors (file-remote-p default-directory nil t))
                              (cl-find-if (doom-rpartial #'executable-find t)
                                          (list "fdfind" "fd"))
                            doom-fd-executable))
@@ -1304,10 +1303,10 @@ Makes it easy when creating a new workspace for a task in agenda"
     (+workspace/switch-to-0)))
 
 ;;; Doom specific REAL-BUFFERS
-(defvar all-buffers-be-real nil
+(defvar +doom-all-buffers-be-real nil
   "Whether all buffers are marked as real (for +workspaces)")
 
-(defun +any-buffer-xcept-doom-fallback-p (&optional buf)
+(defun +doom-any-buf-xcept-fallback-buf-p (&optional buf)
   "If BUF is has '*doom*' in it, return nil, else return t"
   (if (string-match-p "^\\*doom\\*" (buffer-name buf)) nil t))
 
@@ -1316,14 +1315,18 @@ Makes it easy when creating a new workspace for a task in agenda"
 with doom's workspaces)"
   (interactive)
   ;; All major modes should return true
-  (if all-buffers-be-real
+  (if +doom-all-buffers-be-real
       (progn
-        (setq all-buffers-be-real nil)
-        (remove-hook 'doom-real-buffer-functions #'+any-buffer-xcept-doom-fallback-p)
+        (setq +doom-all-buffers-be-real nil)
+        (remove-hook 'doom-real-buffer-functions #'+doom-any-buf-xcept-fallback-buf-p)
+        (remove-hook 'doom-unreal-buffer-functions #'doom-special-buffer-p)
+        (remove-hook 'doom-unreal-buffer-functions #'doom-non-file-visiting-buffer-p)
         (message "All buffers real marking Disabled"))
     (progn
-      (setq all-buffers-be-real t)
-      (add-hook 'doom-real-buffer-functions #'+any-buffer-xcept-doom-fallback-p)
+      (setq +doom-all-buffers-be-real t)
+      (add-hook 'doom-real-buffer-functions #'+doom-any-buf-xcept-fallback-buf-p)
+      (add-hook 'doom-unreal-buffer-functions #'doom-special-buffer-p)
+      (add-hook 'doom-unreal-buffer-functions #'doom-non-file-visiting-buffer-p)
       (message "All buffers marked real"))))
 
 (after! doom-keybinds
