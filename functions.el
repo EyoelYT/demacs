@@ -2186,3 +2186,57 @@ then reindent that form's bindings. "
              (not (search-forward-regexp (rx point "(" (* space) "let" (? "*") symbol-end) nil t))))
     (if (= ?* (char-before)) (backward-delete-char 1) (insert "*"))
     (indent-region (point) (progn (forward-sexp) (point)))))
+
+
+
+(defcustom evil-ex-search-persistent-direction t
+  "If non-nil, \\[evil-ex-search-next] always searches forward and \
+\\[evil-ex-search-previous] always searches backward.
+If nil, the direction of \\[evil-ex-search-next] and \
+\\[evil-ex-search-previous] depends on original search direction."
+  :type  'boolean
+  :group 'evil)
+
+(defun +evil-ex-search (&optional count)
+  "Search forward or backward COUNT times for the current Ex search pattern.
+The search pattern is determined by `evil-ex-search-pattern', and the
+direction by `evil-ex-search-direction'."
+  (setq evil-ex-search-start-point (point)
+        evil-ex-last-was-search t
+        count (or count 1))
+  (let ((orig (point))
+        (evil-ex-search-direction
+         (if evil-ex-search-persistent-direction ; probably cannot PR this b/c
+                                                 ; it is interacting with
+                                                 ; `evil-ex-search-next', which
+                                                 ; is a function defined by
+                                                 ; `evil-define-motion'
+             (if (eq this-command #'evil-ex-search-next)
+                 'forward
+               'backward)
+           evil-ex-search-direction))
+        wrapped)
+    (dotimes (_ (or count 1))
+      (when (and (eq evil-ex-search-direction 'forward) (not (eobp)))
+        (forward-char)
+        ;; maybe skip end-of-line
+        (and (not evil-move-beyond-eol) (eolp) (not (eobp))
+             (forward-char)))
+      (let ((res (evil-ex-find-next nil nil (not evil-search-wrap))))
+        (cond
+         ((not res)
+          (goto-char orig)
+          (signal 'search-failed
+                  (list (evil-ex-pattern-regex evil-ex-search-pattern))))
+         ((eq res 'wrapped) (setq wrapped t)))))
+    (if wrapped
+        (let (message-log-max)
+          (when evil-search-wrap-ring-bell (ding))
+          (message "Search wrapped")))
+    (goto-char (match-beginning 0))
+    (setq evil-ex-search-match-beg (match-beginning 0)
+          evil-ex-search-match-end (match-end 0))
+    (evil-ex-search-goto-offset evil-ex-search-offset)
+    (evil-ex-search-activate-highlight evil-ex-search-pattern)))
+
+(advice-add 'evil-ex-search :override #'+evil-ex-search)
