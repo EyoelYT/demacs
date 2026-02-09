@@ -618,6 +618,9 @@
                        :side 'bottom
                        :modeline t)))
 
+(after! eshell
+  (setq eshell-hist-ignoredups 'erase))
+
 
 
 (after! compile
@@ -1149,11 +1152,16 @@ Return nil if topspace should not exist in the buffer."
         '((markdown-mode . "### ")
           (org-mode . "*** ")
           (text-mode . "### "))
+        gptel-log-level 'info
         gptel-default-mode 'org-mode
         gptel-use-header-line nil
         gptel-track-media t
         gptel-org-convert-response t
-        gptel-expert-commands t))
+        gptel-expert-commands t)
+
+  (gptel-make-anthropic "Claude"
+    :stream t
+    :key (gptel-api-key-from-auth-source "api.anthropic.com")))
 
 (use-package! chatgpt-shell
   :defer t
