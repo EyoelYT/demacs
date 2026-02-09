@@ -71,7 +71,8 @@
         evil-split-window-below t
         evil-vsplit-window-right t)
   (evil-set-initial-state 'shell-command-mode 'normal) ; for `async-shell-command'
-  (evil-set-initial-state 'comint-mode 'normal))
+  (evil-set-initial-state 'comint-mode 'normal)
+  (evil-set-initial-state 'minibuffer-mode 'insert))
 
 (after! evil-integration
   (setq avy-all-windows t))
