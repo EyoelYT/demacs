@@ -32,6 +32,9 @@
 
 (advice-add '+eshell-enable-text-wrapping-h :override #'ey/eshell-ignore-text-wrapping-a)
 
+(defun +eshell-remove-string-syntax ()
+  (modify-syntax-entry ?\" "_" eshell-mode-syntax-table))
+
 (after! persp-mode
   (defun +workspace/swap-this-and-other (other-persp)
     "Swap the current workspace with the Nth workspace. OTHER-PERSP could be
