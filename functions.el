@@ -2035,6 +2035,9 @@ increment."
 
 
 
+;; These are found out by checking :feature in function
+;; `treesit-font-lock-rules' in the major mode files
+
 (defun +treesit-set-font-lock-feature-list-js ()
   (setq-local treesit-font-lock-level 4)
   (setq-local treesit-font-lock-feature-list
@@ -2054,11 +2057,12 @@ increment."
   (treesit-font-lock-recompute-features))
 
 (defun +treesit-set-font-lock-feature-list-c ()
-  (setq-local c-ts-mode--feature-list
+  (setq-local treesit-font-lock-feature-list
         '(( comment definition)
           ( keyword preprocessor string type)
-          ( assignment constant escape-sequence label literal function)
-          ( bracket delimiter error operator property variable)))
+          ( constant escape-sequence label literal)
+          ( bracket delimiter error operator property variable function
+                    assignment)))
   (treesit-font-lock-recompute-features))
 
 (defun +treesit-set-font-lock-feature-list-csharp ()
@@ -2069,10 +2073,24 @@ increment."
                 ( bracket delimiter error)))
   (treesit-font-lock-recompute-features))
 
-;; (add-hook 'js-ts-mode-hook #'+treesit-set-font-lock-feature-list-js)
-;; (add-hook 'c-ts-mode-hook #'+treesit-set-font-lock-feature-list-c)
-;; (add-hook 'c++-ts-mode-hook #'+treesit-set-font-lock-feature-list-c++)
-;; (add-hook 'csharp-ts-mode-hook #'+treesit-set-font-lock-feature-list-csharp)
+(defun +treesit-set-font-lock-feature-list-typescript ()
+  (setq-local treesit-font-lock-feature-list
+              '(( comment declaration)
+                ( keyword string escape-sequence)
+                ( constant operator delimiter number pattern expression
+                           identifier)
+                ( property function bracket)))
+  (treesit-font-lock-recompute-features))
+
+(add-hook 'js-ts-mode-hook #'+treesit-set-font-lock-feature-list-js)
+(add-hook 'c-ts-mode-hook #'+treesit-set-font-lock-feature-list-c)
+(add-hook 'c++-ts-mode-hook #'+treesit-set-font-lock-feature-list-c++)
+(add-hook 'csharp-ts-mode-hook #'+treesit-set-font-lock-feature-list-csharp)
+(add-hook 'typescript-ts-mode-hook #'+treesit-set-font-lock-feature-list-typescript)
+
+(add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+(add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
+(add-to-list 'major-mode-remap-alist '(typescript-mode . typescript-ts-mode))
 
 (define-minor-mode +treesit-better-colors-mode
   "Remap the face variables so they are not too shiny (especially when
@@ -2083,9 +2101,6 @@ increment."
       (setq font-lock-variable-name-face-cookie
             (face-remap-add-relative 'font-lock-variable-name-face 'default))
     (face-remap-remove-relative font-lock-variable-name-face-cookie)))
-
-(add-hook 'c-ts-mode-hook #'+treesit-better-colors-mode)
-(add-hook 'python-ts-mode-hook #'+treesit-better-colors-mode)
 
 
 
