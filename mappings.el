@@ -186,6 +186,9 @@
        "C-<delete>"            #'+vterm-send-C-delete
        "C-S-<delete>"          #'+vterm-send-C-delete
        "C-S-<backspace>"       #'+vterm-send-C-delete
+       :m "] e"                #'+vterm-next-error
+       :m "[ e"                #'+vterm-previous-error
+       [remap compile-goto-error] #'+vterm-compile-goto-error
        :m "C-a"                #'doom/backward-to-bol-or-indent
        :m "C-<up>"             #'backward-paragraph
        :m "C-<down>"           #'forward-paragraph

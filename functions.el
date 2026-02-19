@@ -2109,6 +2109,39 @@ increment."
   (interactive)
   (vterm-send-key "<delete>" nil nil t))
 
+(defun +vterm-next-error (&optional reset)
+  "Go to the next vterm-reported error.
+This is a thin wrapper around `vterm-next-error-function' that requests
+the next error. The optional RESET argument is used to reset the search
+state."
+  (interactive "p")
+  (vterm-next-error-function 1 reset))
+
+(defun +vterm-previous-error (&optional reset)
+  "Go to the previous vterm-reported error.
+This is a thin wrapper around `vterm-next-error-function' that requests
+the previous error. The optional RESET argument is used to reset the
+search state."
+  (interactive "p")
+  (vterm-next-error-function -1 reset))
+
+(defun +vterm-compile-goto-error (&optional event)
+  "Invoke `compile-goto-error' but resolve files relative to vterm's PWD.
+Temporarily sets `default-directory' to the directory returned by
+`vterm--get-pwd' (if any) so `compile-goto-error' opens files as if run
+from the vterm buffer's current working directory. The current point and
+original `default-directory' are preserved.
+
+EVENT, when provided, is passed through to `compile-goto-error'."
+  (interactive (list last-input-event))
+  (let* ((pt (point))
+         (default-directory default-directory)
+         (pwd (vterm--get-pwd)))
+    (when pwd
+      (setq default-directory pwd))
+    (goto-char pt)
+    (compile-goto-error event)))
+
 
 
 (defun ey/org-id-yank-link-to-heading ()
