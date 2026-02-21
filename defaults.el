@@ -240,7 +240,7 @@
   '(mode-line-active :inherit (mode-line)) ; turn off the wierd box when in sp-padding mode
   '(mode-line-inactive :inherit (mode-line)) ; turn off the wierd box when in sp-padding mode
   ;; '(hl-line :background unspecified)
-  '(diff-added :extent nil)
+  '(diff-added :extend nil)
   '(flycheck-error :underline (:color "#FF7B85"))
   '(flycheck-warning :underline (:color "#F0C674"))
   '(blamer-face :foreground "#7a88cf" :slant unspecified)
