@@ -816,6 +816,7 @@
   (consult-customize ey/consult-ripgrep-custom ; Performance!!
                      +vertico/switch-workspace-buffer
                      +default/search-project
+                     consult-lsp-symbols
                      :preview-key "C-SPC")
   (when (eq system-type 'darwin)
       (setq consult-locate-args "mdfind")))
