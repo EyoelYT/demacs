@@ -8,7 +8,7 @@
 
 (defun ey/+vertico--add-recent-files-source-a (orig-fn &rest args)
   "Add recent files to workspace sources."
-  (append (apply orig-fn args) '(consult--source-recent-file)))
+  (append (apply orig-fn args) '(consult-source-recent-file)))
 
 (defun doom/delete-forward-word (arg)
   "Like `kill-word', but doesn't affect the kill-ring."
