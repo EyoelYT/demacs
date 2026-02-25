@@ -798,6 +798,9 @@
 (after! go-mode
   (remove-hook!  'go-mode-hook #'go-eldoc-setup))
 
+(after! lua-ts-mode
+  (setq lua-ts-indent-offset 2))
+
 
 
 ;; Safe local variables
