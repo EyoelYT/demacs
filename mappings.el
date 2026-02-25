@@ -55,6 +55,9 @@
       :m "]X"                  #'highlight-changes-next-change
       :m "[X"                  #'highlight-changes-previous-change
 
+      :m "]E"                  #'flycheck-next-error
+      :m "[E"                  #'flycheck-previous-error
+
       [remap describe-symbol]  #'helpful-symbol
 
       "C-,"                    #'+default/search-buffer
@@ -331,6 +334,7 @@
        "t C"                   #'ey/toggle-center-buffer-content
        "l t"                   #'ey/toggle-sane-line-numbers
        "l T"                   #'global-display-line-numbers-mode
+       "t b"                   #'blamer-mode
        "t B"                   #'global-blamer-mode
        "t H"                   #'highlight-changes-mode
        "t s"                   #'jinx-mode

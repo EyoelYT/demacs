@@ -25,6 +25,7 @@
 (setq mac-command-modifier 'meta)
 ;; (setq browse-url-browser-function 'ey/manual-open-url)
 (setq browse-url-browser-function 'browse-url-default-browser) ; e.g. when pressing RET
+(setq mac-right-option-modifier 'super)
 
 (setq echo-keystrokes 0)
 (setq epa-file-cache-passphrase-for-symmetric-encryption t)
@@ -32,12 +33,16 @@
 (setq display-line-numbers-width-start nil)  ; automatically calculate the `display-line-numbers-width' on buffer start
                                         ; width (empty space) grows to the left of the numbers
 (setq split-width-threshold 160)
+(setq split-window-preferred-direction 'horizontal)
 (setq-default cursor-in-non-selected-windows nil)
 (setq-default left-margin-width 2)      ; for eglot's left fringe/margin markers
 (setq-default right-margin-width 0)
 (setq-default fringes-outside-margins t)
 (setq insert-default-directory t)
 (setq auth-sources '("~/.authinfo.gpg" "~/.authinfo" "~/.netrc"))
+(setq Buffer-menu-human-readable-sizes t)
+(setq ibuffer-human-readable-size t)
+(setq mode-line-collapse-minor-modes t)
 (setq comment-empty-lines t)
 (setq-default truncate-lines t)
 
@@ -94,7 +99,7 @@
       select-enable-clipboard t
       select-enable-primary nil)
 
-(setq treesit-font-lock-level 4)
+(setq treesit-font-lock-level 3)
 (setq-default forward-sexp-function 'forward-sexp-default-function) ; tres annoying, needs more configuration
 
 (add-to-list 'auto-mode-alist '("\\.jai\\'" . jai-mode))
@@ -112,7 +117,7 @@
 (global-subword-mode 1)
 (global-display-line-numbers-mode -1)
 (repeat-mode 1)
-(blink-cursor-mode 1)
+(blink-cursor-mode -1)
 (global-eldoc-mode -1)
 (auto-save-visited-mode 1)
 

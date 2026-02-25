@@ -729,7 +729,8 @@
 
 (after! treemacs
   ;; (setq treemacs-persist-file nil) ; FIXME: this (when commented) may cause some issues. I want it as nil
-  (setq treemacs-is-never-other-window (modulep! :ui popup)))
+  (setq treemacs-is-never-other-window (modulep! :ui popup)
+        lsp-treemacs-error-list-expand-depth 4))
 
 (use-package! drag-stuff
   :defer t)
