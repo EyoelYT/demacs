@@ -620,7 +620,9 @@
                        :modeline t)))
 
 (after! eshell
-  (setq eshell-hist-ignoredups 'erase)
+  (setq eshell-history-size 10000
+        eshell-history-append t
+        eshell-hist-ignoredups 'erase)
   (add-hook 'eshell-mode-hook '+eshell-remove-string-syntax)) ; quotations should not modify colors
 
 
