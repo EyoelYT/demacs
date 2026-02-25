@@ -2052,8 +2052,9 @@ increment."
   (setq-local treesit-font-lock-feature-list
               '(( comment definition)
                 ( keyword preprocessor string type)
-                ( assignment constant escape-sequence label literal function)
-                ( bracket delimiter error operator property variable)))
+                ( constant escape-sequence label literal)
+                ( bracket delimiter error operator property variable function
+                          assignment)))
   (treesit-font-lock-recompute-features))
 
 (defun +treesit-set-font-lock-feature-list-c ()
