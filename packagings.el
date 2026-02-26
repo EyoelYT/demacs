@@ -453,6 +453,7 @@
 
 (after! lsp-mode
   (setq lsp-enable-symbol-highlighting nil
+        lsp-enable-imenu nil
         ;; lsp-enable-suggest-server-download t
         lsp-eldoc-enable-hover nil ; Performance!
         lsp-modeline-diagnostics-scope :file
