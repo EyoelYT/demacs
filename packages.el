@@ -232,7 +232,7 @@
 (package! typst-ts-mode :recipe (:host sourcehut :repo "meow_king/typst-ts-mode"))
 (package! odin-mode :recipe (:host sourcehut :repo "mgmarlow/odin-mode"))
 
-(package! gptel :pin nil) ; unpin!
+(package! gptel :pin nil :recipe (:nonrecursive t)) ; unpin!
 (package! chatgpt-shell)
 (package! hackernews)
 (package! hnreader)

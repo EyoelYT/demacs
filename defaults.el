@@ -13,6 +13,8 @@
 (setq bookmark-fringe-mark nil)
 (setq history-delete-duplicates t)
 (setq bookmark-save-flag 1)
+(setq mode-require-final-newline nil)
+(setq require-final-newline nil)
 (setq make-pointer-invisible t)
 (setq mouse-wheel-flip-direction t)
 (setq mouse-wheel-tilt-scroll t)

@@ -864,7 +864,7 @@
   ;; (setq vertico-count 4
   (setq vertico-count 10
         ;; (setq vertico-count 17 ; doom default
-        vertico-flat-max-lines 3
+        vertico-flat-max-lines 5
         vertico-flat-annotate nil
         vertico-multiform-commands
         `((execute-extended-command
@@ -1168,6 +1168,8 @@ Return nil if topspace should not exist in the buffer."
         gptel-track-media t
         gptel-org-convert-response t
         gptel-expert-commands t)
+
+  (setopt gptel-model 'gpt-5-mini)
 
   (gptel-make-anthropic "Claude"
     :stream t
