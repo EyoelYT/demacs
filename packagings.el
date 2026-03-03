@@ -1400,3 +1400,8 @@ server an expensive restart when its buffer is reverted."
   :config
   (eat-eshell-mode)
   (eat-eshell-visual-command-mode))
+
+
+
+(after! kkp
+  (setq kkp-super-modifier 'meta)) ; I don't use super
