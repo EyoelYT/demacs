@@ -240,6 +240,8 @@
       (:after magit
        :map magit-status-mode-map
        "C-c C-p"               #'magit-section-up
+       :map magit-diff-mode-map
+       "C-c C-p"               #'magit-section-up
        :map magit-section-mode-map
        :ng "C-<tab>"           #'evil-switch-to-windows-last-buffer
        :ng "<backtab>"         #'magit-section-cycle
