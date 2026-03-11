@@ -868,7 +868,7 @@
         vertico-flat-annotate nil
         vertico-multiform-commands
         `((execute-extended-command
-           (+vertico-transform-functions . +vertico-highlight-enabled-mode)
+           (+vertico-transform-functions . +vertico-highlight-enabled-mode-fn)
            ;; posframe
            ;; (vertico-posframe-poshandler . posframe-poshandler-frame-bottom-center)
            ;; (vertico-posframe-min-width . ,(frame-pixel-width))
@@ -889,7 +889,7 @@
           ;; (+vertico/switch-workspace-buffer flat)
           (consult-bookmark buffer))
         vertico-multiform-categories
-        '((file (+vertico-transform-functions . +vertico-highlight-directory))
+        '((file (+vertico-transform-functions . +vertico-highlight-directory-fn))
           (jinx buffer))))
 
 
