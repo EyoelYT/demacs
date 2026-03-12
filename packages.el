@@ -222,6 +222,7 @@
 (package! vimscript-ts-mode)
 (package! jai-mode :recipe (:host github :repo "elp-revive/jai-mode"))
 (package! wolfram-mode)
+(package! markdown-indent-mode :recipe (:host github :repo "whhone/markdown-indent-mode"))
 (package! wolfram)
 (package! gradle-mode)
 (package! elf-mode)

@@ -1386,6 +1386,11 @@ server an expensive restart when its buffer is reverted."
 
 
 
+(use-package! markdown-indent-mode
+  :hook (markdown-mode . markdown-indent-mode))
+
+
+
 (after! nerd-icons-completion
   (setopt nerd-icons-completion-category-icons nil))
 
