@@ -189,6 +189,7 @@
        "C-<delete>"            #'+vterm-send-C-delete
        "C-S-<delete>"          #'+vterm-send-C-delete
        "C-S-<backspace>"       #'+vterm-send-C-delete
+       "C-c C-k"               #'vterm-send-escape
        :m "] e"                #'+vterm-next-error
        :m "[ e"                #'+vterm-previous-error
        [remap compile-goto-error] #'+vterm-compile-goto-error
