@@ -319,6 +319,7 @@
 ;;   :recipe (:host github :repo "chenyanming/calibredb.el")
 ;;   :pin "a3b04c0c37b1e8ceff2472e21a3579e64e944528")
 
+(package! vterm-editor :recipe (:host nil :type git :repo "https://git.andros.dev/andros/vterm-editor.el"))
 (package! magit-todos)
 (package! vdiff)
 (package! vdiff-magit)

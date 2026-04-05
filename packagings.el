@@ -1040,7 +1040,7 @@ If RETURN-P, return the message as a string instead of displaying it."
       shell-command-mode compilation-mode eww-mode devdocs-mode chatgpt-shell-mode
       elfeed-search-mode
       ;; Minor modes
-       vdiff-mode)
+       vdiff-mode vterm-editor-mode)
     "major modes to leave out of topspace") ; REVIEW: PR this??
 
   (defun +topspace--active-outside-modes-list ()
@@ -1410,3 +1410,12 @@ server an expensive restart when its buffer is reverted."
 
 (after! kkp
   (setq kkp-super-modifier 'meta)) ; I don't use super
+
+
+
+(use-package! vterm-editor
+  :after vterm
+  :config
+  (after! evil
+    (add-hook 'vterm-editor-mode-hook #'evil-insert-state)
+    (evil-set-initial-state 'vterm-editor-mode 'insert)))
