@@ -1387,7 +1387,11 @@ server an expensive restart when its buffer is reverted."
 
 
 (use-package! markdown-indent-mode
-  :hook (markdown-mode . markdown-indent-mode))
+  :hook (markdown-mode . markdown-indent-mode)
+  :init
+  (when (modulep! :editor word-wrap)
+    (add-to-list '+word-wrap-visual-modes 'gfm-mode)
+    (add-to-list '+word-wrap-visual-modes 'markdown-mode)))
 
 
 
