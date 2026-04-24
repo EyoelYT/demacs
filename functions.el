@@ -627,6 +627,71 @@ See minad/consult#770."
 
 
 
+(defun markdown-toggle-fold ()
+  "Toggle folding of the current heading, preserving inner subtree fold state."
+  (interactive)
+  (when (save-excursion (beginning-of-line 1) (markdown-on-heading-p))
+    (markdown-back-to-heading)
+    (let (eoh eos eol)
+      (save-excursion
+        (markdown-back-to-heading)
+        (save-excursion
+          (beginning-of-line 2)
+          (while (and (not (eobp))
+                      (get-char-property (1- (point)) 'invisible))
+            (beginning-of-line 2))
+          (setq eol (point)))
+        (markdown-end-of-heading) (setq eoh (point))
+        (markdown-end-of-subtree t)
+        (skip-chars-forward " \t\n")
+        (beginning-of-line 1)
+        (setq eos (1- (point))))
+      (cond
+       ((= eos eoh)
+        (message "EMPTY ENTRY"))
+       ;; Hidden → reveal only this level (children headings + body text)
+       ((>= eol eos)
+        (markdown-show-entry)
+        (outline-show-children)
+        (message "UNFOLDED"))
+       ;; Visible → hide entire subtree
+       (t
+        (outline-hide-subtree)
+        (message "FOLDED"))))))
+
+(defun markdown-ctrl-shifttab ()
+  "Handle C-S-TAB keybinding based on context.
+When in a table, move backward one cell.
+Otherwise, cycle global heading visibility:
+CONTENTS -> OVERVIEW -> SHOW ALL."
+  (interactive)
+  (cond ((markdown-table-at-point-p)
+         (call-interactively #'markdown-table-backward-cell))
+        (t
+         (cond
+          ;; Move from contents to overview
+          ((and (eq last-command this-command)
+                (eq markdown-cycle-global-status 3))
+           (outline-show-all)
+           (outline-hide-body)
+           (message "OVERVIEW")
+           (setq markdown-cycle-global-status 2)
+           (markdown-outline-fix-visibility))
+          ;; Move from overview to show all
+          ((and (eq last-command this-command)
+                (eq markdown-cycle-global-status 2))
+           (outline-show-all)
+           (message "SHOW ALL")
+           (setq markdown-cycle-global-status 1))
+          ;; Default: contents
+          (t
+           (outline-hide-sublevels 1)
+           (message "CONTENTS")
+           (setq markdown-cycle-global-status 3)
+           (markdown-outline-fix-visibility))))))
+
+
+
 (after! consult
   ;; Started with a small function, accidentally ballooned it in the end. In any
   ;; case, use `M-x ey/toggle-positional-consult-imenu` to toggle between the

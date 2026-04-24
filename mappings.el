@@ -151,6 +151,20 @@
        :ni "S-<up>"            #'org-calendar-backward-week
        :ni "S-<down>"          #'org-calendar-forward-week)
 
+      (:after markdown-mode
+       :map markdown-mode-map
+       :n "<tab>"              #'markdown-toggle-fold
+       "TAB"                   #'markdown-toggle-fold
+       "<backtab>"             #'markdown-cycle
+       :n "S-<tab>"            #'markdown-cycle
+       :n "C-S-<tab>"          #'markdown-ctrl-shifttab)
+      (:after evil-markdown
+       :map evil-markdown-mode-map
+       :nv "<tab>"             #'markdown-toggle-fold
+       :n "TAB"                #'markdown-toggle-fold
+       :nv "S-<tab>"           #'markdown-cycle
+       :n "<backtab>"          #'markdown-cycle)
+
       (:map resize-window-repeat-map
             "V"                #'shrink-window)
 
