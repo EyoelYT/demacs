@@ -115,7 +115,6 @@
 
 ;;; Dired Customizations
 (after! dired
-  ;; (add-hook 'dired-mode-hook #'dired-hide-details-mode)
   (setq dired-free-space 'first)
   (setq dired-kill-when-opening-new-dired-buffer t)
   (dired-async-mode 1))
@@ -161,7 +160,7 @@
 
 
 (after! org
-  (setq org-clock-clocktable-default-properties (list :maxlevel 6)
+  (setq org-clock-clocktable-default-properties (list :maxlevel 6 :narrow nil)
         org-preview-latex-default-process 'dvisvgm ; better resolution inline latex images
         org-duration-format (quote h:mm)
         org-agenda-custom-commands
