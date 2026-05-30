@@ -823,6 +823,7 @@
                      +vertico/switch-workspace-buffer
                      +default/search-project
                      consult-lsp-symbols
+                     consult-buffer
                      :preview-key "C-SPC")
   (when (eq system-type 'darwin)
       (setq consult-locate-args "mdfind")))
