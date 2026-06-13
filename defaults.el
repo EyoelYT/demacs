@@ -106,6 +106,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.jai\\'" . jai-mode))
 (add-to-list 'auto-mode-alist '("\\.xaml\\'" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
 ;; (defun shut-up--advice (fn &rest args)
 ;;   (let ((inhibit-message t)
@@ -291,6 +292,8 @@ change themes"
 (add-hook! '(c-mode) #'highlight-operators-mode) ; incompatible with `emacs-lisp-mode'
 
 (remove-hook 'text-mode-hook 'visual-line-mode) ; still has `+word-wrap-mode' in there
+(remove-hook! '(prog-mode-hook conf-mode-hook) #'rainbow-delimiters-mode)
+(remove-hook! '(prog-mode-hook conf-mode-hook) #'highlight-numbers-mode)
 
 ;;; Turn off automatic spell checker
 (remove-hook 'text-mode-hook #'spell-fu-mode)
