@@ -276,7 +276,7 @@ change themes"
 
 ;;; Global HOOKS!
 ;; Turn off highlighting the whole line the cursor is at
-(remove-hook 'doom-first-buffer-hook #'global-hl-line-mode)
+(remove-hook 'doom-first-input-hook #'global-hl-line-mode)
 (add-hook 'doom-first-file-hook #'ey/toggle-mark-all-buffers-as-real)
 (add-hook! 'doom-first-file-hook
   (defun ey/disable-global-flycheck-mode ()
