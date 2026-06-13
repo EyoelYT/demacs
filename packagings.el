@@ -929,13 +929,12 @@
     (put-text-property
      (point)
      (dolist (line banner (point))
-       (insert (+doom-dashboard--center
-                +doom-dashboard--width
+       (insert (+dashboard-center
                 (concat
                  line (make-string (max 0 (- longest-line (length line)))
                                    32)))
                "\n"))
-     'face 'doom-dashboard-banner)))
+     'face '+dashboard-banner)))
 
 (defun doom-display-benchmark-h (&optional return-p)
   "Display a benchmark including number of packages and modules loaded.
@@ -947,12 +946,13 @@ If RETURN-P, return the message as a string instead of displaying it."
            (if doom-modules (hash-table-count doom-modules) -1)
            doom-init-time))
 
-(setq +doom-dashboard-ascii-banner-fn #'ey/doom-dashboard-draw-emacs-ascii-banner-fn)
+(setq +dashboard-ascii-banner-fn #'ey/doom-dashboard-draw-emacs-ascii-banner-fn)
+(setq +dashboard-width 80)
 
-(setq +doom-dashboard-functions
-      '(doom-dashboard-widget-banner
-        doom-dashboard-widget-loaded
-        doom-dashboard-widget-footer))
+(setq +dashboard-functions
+      '(+dashboard-widget-banner
+        +dashboard-widget-loaded
+        +dashboard-widget-footer))
 
 
 
