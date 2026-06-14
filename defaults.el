@@ -115,7 +115,6 @@
 ;; (advice-add #'repeat-mode :around #'shut-up--advice)
 
 ;; (display-time-mode 1)
-;; (global-hide-mode-line-mode 1)
 ;; (tab-jump-out-global-mode 1)
 (global-subword-mode 1)
 (global-display-line-numbers-mode -1)
@@ -265,8 +264,8 @@
 change themes"
   (if (bound-and-true-p spacious-padding-mode)
       (spacious-padding-set-faces)) ; fix window-divider color
-  (if (bound-and-true-p global-hide-mode-line-mode) ; refresh
-      (global-hide-mode-line-mode 1))
+  (if (bound-and-true-p global-mode-line-invisible-mode) ; refresh
+      (global-mode-line-invisible-mode 1))
   (after! org-faces
     (set-face-attribute 'org-ellipsis nil :underline 'unspecified))
   (after! hl-line

@@ -2357,3 +2357,19 @@ direction by `evil-ex-search-direction'."
     (evil-ex-search-activate-highlight evil-ex-search-pattern)))
 
 (advice-add 'evil-ex-search :override #'+evil-ex-search)
+
+
+
+(defvar mode-line-invisible-mode-excluded-modes '(fundamental-mode)
+  "List of major modes where `global-mode-line-invisible-mode' won't affect.")
+
+(defun mode-line-invisible-mode--turn-on ()
+  "Enable `mode-line-invisible-mode' in the current buffer."
+  (unless (or (minibufferp)
+              (memq major-mode mode-line-invisible-mode-excluded-modes))
+    (mode-line-invisible-mode 1)))
+
+(define-globalized-minor-mode global-mode-line-invisible-mode
+  mode-line-invisible-mode
+  mode-line-invisible-mode--turn-on
+  :group 'mode-line)

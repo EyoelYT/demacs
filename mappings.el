@@ -393,7 +393,7 @@
        "b o i"                 #'ibuffer-other-window
 
        "s m"                   #'ey/show-modeline-in-echo-area
-       "s M"                   #'global-hide-mode-line-mode
+       "s M"                   #'global-mode-line-invisible-mode
 
        ;; "o p"                #'treemacs
        ;; "o p"                #'+treemacs/toggle ; doom's better half!

@@ -602,7 +602,7 @@
 (setq vterm-always-compile-module t)
 ;; Open Vterm popups from the right
 (after! vterm
-  (remove-hook 'vterm-mode-hook #'hide-mode-line-mode)
+  (remove-hook 'vterm-mode-hook #'mode-line-invisible-mode)
   (add-hook    'vterm-mode-hook #'compilation-shell-minor-mode)
   ;; (setq vterm-buffer-name-string "vterm %s")
   ;; (evil-set-initial-state 'vterm-mode 'normal) ; `evil-state-properties'
