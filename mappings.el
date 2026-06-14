@@ -321,6 +321,12 @@
        :n "p"                  #'devdocs-peruse
        :n "U"                  #'devdocs-update-all)
 
+      (:after csv-mode
+       :localleader
+       :map csv-mode-map
+       "h" #'csv-header-line
+       "A" #'csv-align-mode)
+
       (:map tabulated-list-mode-map
        :n "gr"                 #'tabulated-list-revert) ; PR to `evil-collection'?
 
