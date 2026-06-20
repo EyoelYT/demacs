@@ -2232,18 +2232,12 @@ and copying to the killring."
   "Open a new window with the same buffer and prompt for search term
 After search term is found, jump back"
   (interactive)
-  (let ((this-buffer (buffer-name)))
-    (if (< (count-windows) 2)
-        (progn ; split and search
-          (if (> (frame-pixel-width) (/ (display-pixel-width) 2))
-              (split-window-right)
-            (split-window-below))
-          (call-interactively #'org-open-at-point))
-      (let ((point (point)))
-        (other-window 1)
-        (switch-to-buffer this-buffer)
-        (goto-char point)
-        (call-interactively #'org-open-at-point)))))
+  (let ((org-link-frame-setup '((vm . vm-visit-folder-other-frame)
+                                (vm-imap . vm-visit-imap-folder-other-frame)
+                                (gnus . org-gnus-no-new-news)
+                                (file . find-file-other-window)
+                                (wl . wl-other-frame))))
+    (call-interactively #'org-open-at-point)))
 
 
 
