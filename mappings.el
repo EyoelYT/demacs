@@ -290,6 +290,7 @@
        [remap right-char]       'right-char)
 
       (:after evil-maps
+       :n "C-S-p"              #'projectile-compile-project
        :n "C-p"                #'ey/compile) ; after `evil-paste-pop' or whatever was binded
 
       (:after org-colview
