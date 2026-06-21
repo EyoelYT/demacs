@@ -310,7 +310,8 @@
 
       (:after gptel
        :map gptel-mode-map ; I don't want to accidentally send stuff!!
-       :nv "RET"        nil
+       :nvi "RET"       nil
+       :nvi "<return>"  nil
        :nv "S-<return>" nil
        :nv "S-RET"      nil
        "C-c RET"        nil)
